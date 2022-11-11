@@ -1,4 +1,5 @@
 Priority
+- Get a google maps API key owned by PWILD, not whoever used to own PMAPS
 - Set database rules to allow edits past the 30 days
 - Data validation for new points added
 - Allow editing points previously made
