@@ -401,6 +401,8 @@
 		function saveData() { //What to do when the user hits the "submit" button on the user input form.
 			// Awkwardly pulls what the user wrote on the input form
 			var name = document.getElementById("name").value;
+			name = name.length == 0 ? "Unknown" : name;
+			console.log(name, name.length)
 			var description = document.getElementById("markerDescription").value;
 			var cat = document.getElementById("categories").value;
 
