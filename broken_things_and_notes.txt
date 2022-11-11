@@ -1,0 +1,91 @@
+NOTES from Adam Kosinski getting PMAPS back working in Nov 2022. These notes are outdated.
+
+
+General ---------------------------------------------------------------------------------------------
+
+Folder used to be called "tiling base map fusion" - artifact of downloading map tiles I expect
+
+PMAPS v6 used a Firebase database to automatically add points submitted. This database is now deleted. Backed up data by Jack is in the JSON file
+
+Google maps API docs: https://developers.google.com/maps/documentation/javascript/overview#Inline
+
+I manged to open v6 once and was able to switch between map types and open the single marker that had the input form attached
+Most of the times it breaks
+- THIS IS FIXED (by removing the "async" and "defer" attributes), it was because they were loading the google maps API async, so it wasn't always ready to use by the time they tried to. Occasionally it was ready, that's
+  why the behavior was unpredictable. This is one way of doing things according to google (the other way is using a callback parameter in the url)
+
+I copied the script tag for loading the maps API from v6 to the original (to add the API key), now they both have identical functionality where you can see all the map backgrounds
+
+I'm curious what this is used for (HTML line 24): <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+
+
+
+
+
+Useful tools for looking at data ---------------------------------------------------------------------------------------------
+
+The geojson files are vector data of trails (makes sense, they're in the trails folder). You can view them easily at geojson.io
+
+Mapping points with info from a spreadsheet:
+https://www.google.com/earth/outreach/learn/mapping-from-a-google-spreadsheet/
+
+
+
+
+
+Problems found ---------------------------------------------------------------------------------------------
+
+Seems like some of the NatGeo zoom level 13 maps are missing, and at least one level 12 one. Not a big issue though, mostly off to the side of the region
+
+Line 214 in PMAPS.html:
+OLD
+		var formURL = 'http://people.duke.edu/~abn7/PMAPS/tiling%20base%20map%20fusion/markerForm.html?lat='+coords.lat()+'&long='+coords.lng();	
+FIXED
+		var formURL = 'markerForm.html?lat='+coords.lat()+'&long='+coords.lng();	
+
+
+The spreadsheet referenced on line 214 is deleted, causing errors:
+https://docs.google.com/spreadsheets/u/0/d/1slWbiCv-R-BggDqlWn9HX6x3Lbm-UakmaaNs1CG2sPs/pub?output=html
+
+
+
+
+
+
+Browser console errors:
+
+Failed to load resource: the server responded with a status of 404 (Not Found)
+	arcgislink.js:1
+	- links here: http://google-maps-utility-library-v3.googlecode.com/svn/trunk/arcgislink/src/arcgislink.js
+	- this doesn't exist anymore it seems
+
+PMAPS.html:145 Uncaught ReferenceError: gmaps is not defined
+    at PMAPS.html:145:16
+
+maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true:1          Failed to load resource: the server responded with a status of 403 (Forbidden)
+
+js?sensor=false:66 The Fusion Tables service will be turned down in December 2019 (see https://support.google.com/fusiontables/answer/9185417). Maps API version 3.37 is the last version that will support FusionTablesLayer.
+_.me @ js?sensor=false:66
+js?sensor=false:254 google.maps.event.addDomListener() is deprecated, use the standard addEventListener() method instead: https://developer.mozilla.org/docs/Web/API/EventTarget/addEventListener
+The feature will continue to work and there is no plan to decommission it.
+_.K.addDomListener @ js?sensor=false:254
+PMAPS.html:1 Access to XMLHttpRequest at 'https://docs.google.com/spreadsheet/tq?key=0AmnNuHLeKI8TdHYtUWZyZkJMbFhwaXR0VFNCNF9sRWc&output=html&pub=1&tq=SELECT%20A%2CB%2CC%2CD%2CE%2CF%2CG&tqx=reqId%3A0' from origin 'null' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+docs.google.com/spreadsheet/tq?key=0AmnNuHLeKI8TdHYtUWZyZkJMbFhwaXR0VFNCNF9sRWc&output=html&pub=1&tq=SELECT%20A%2CB%2CC%2CD%2CE%2CF%2CG&tqx=reqId%3A0:1          Failed to load resource: net::ERR_FAILED
+jsapi_compiled_default_module.js:329 Uncaught Error: Error handling Query: XhrHttpError: Request Failed, status=0, url=https://docs.google.com/spreadsheet/tq?key=0AmnNuHLeKI8TdHYtUWZyZkJMbFhwaXR0VFNCNF9sRWc&output=html&pub=1&tq=SELECT%20A%2CB%2CC%2CD%2CE%2CF%2CG&tqx=reqId%3A0
+    at jsapi_compiled_default_module.js:449:266
+    at e.UD (jsapi_compiled_default_module.js:334:186)
+    at gvjs_nl (jsapi_compiled_default_module.js:337:276)
+    at gvjs_kl (jsapi_compiled_default_module.js:337:103)
+    at gvjs_al.Xna (jsapi_compiled_default_module.js:336:354)
+    at gvjs_9k (jsapi_compiled_default_module.js:331:95)
+util.js:248 Google Maps JavaScript API warning: NoApiKeys https://developers.google.com/maps/documentation/javascript/error-messages#no-api-keys
+jv.j @ util.js:248
+(anonymous) @ js?sensor=false:199
+Promise.then (async)
+(anonymous) @ js?sensor=false:199
+util.js:248 Google Maps JavaScript API warning: SensorNotRequired https://developers.google.com/maps/documentation/javascript/error-messages#sensor-not-required
+jv.j @ util.js:248
+(anonymous) @ js?sensor=false:199
+Promise.then (async)
+(anonymous) @ js?sensor=false:199

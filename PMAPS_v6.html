@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<title>PMAPS: PWILD Marking/Annotating Pisgah Systematically</title>
+<link rel="shortcut icon" href="favicon.ico"/>
+<style type="text/css">
+html { overflow: hidden; }
+body { overflow: hidden; padding: 0; margin: 0;
+width: 100%; height: 100%; font-family: Trebuchet MS, Trebuchet, Arial, sans-serif; }
+#map { position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; overflow: auto; }
+@media screen and (max-width: 600px) {
+  #map { top:0px; left:0px; width:100%; height:100%;}
+}
+body { background: #f4f4f4;}
+#header { background: #fff; box-shadow: 0 1px 3px #CCC; border: 1px solid #ccc; }
+#header h1 { padding:7px 10px; margin:0; font-size: 28px; }
+#map { border: 1px solid #ccc; box-shadow: 0 1px 3px #CCC; background-color: #DEDCD7;}
+#footer { text-align:center; font-size:9px; color:#606060; }
+</style>
+
+<script src="https://cdn.firebase.com/js/client/2.2.1/firebase.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ["map", "table"]});
+    </script>
+<script type="text/javascript">
+	var map;
+	var mapBounds = new google.maps.LatLngBounds(
+		new google.maps.LatLng(35, -84), //sw
+		new google.maps.LatLng(35.8, -82)); //ne
+	var mapBoundsUSGS2013 = new google.maps.LatLngBounds(
+		new google.maps.LatLng(35.25, -83),
+		new google.maps.LatLng(35.5, -82.625));
+	var mapBoundsUSGSTiff = new google.maps.LatLngBounds(
+		new google.maps.LatLng(35.10503944154214, -83.01039847222899),
+		new google.maps.LatLng(35.50779134029307, -82.61437567559813));
+	var mapBoundsUSGSStolen = new google.maps.LatLngBounds(
+		new google.maps.LatLng(34.88696759970738, -83.31711443749998),
+		new google.maps.LatLng(35.746423376157786, -82.2638002285156));
+	var mapBoundsNatGeo = new google.maps.LatLngBounds(
+		new google.maps.LatLng(35, -84),
+		new google.maps.LatLng(35.81772435462227, -81.97995814172361));
+	var usgs2013 = new google.maps.ImageMapType({
+		minZoom: 11,
+		maxZoom: 15,
+		getTileUrl: function(coord, zoom) { 
+			var proj = map.getProjection();
+			var z2 = Math.pow(2, zoom);
+			var tileXSize = 256 / z2;
+			var tileYSize = 256 / z2;
+			var tileBounds = new google.maps.LatLngBounds(
+				proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
+				proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
+			);
+			var y = coord.y;
+			if (mapBoundsUSGS2013.intersects(tileBounds) && (11 <= zoom) && (zoom <= 15))
+				return "usgs2013" + "/" + zoom + "/" + coord.x + "/" + y + ".png";
+			else
+				return "none.png";
+		},
+		tileSize: new google.maps.Size(256, 256),
+		isPng: true,
+		name: "USGS 2013",
+		alt: "USGS 2013"
+	});
+	var usgsStolen = new google.maps.ImageMapType({
+		minZoom: 10,
+		maxZoom: 16,
+		getTileUrl: function(coord, zoom) { 
+			var proj = map.getProjection();
+			var z2 = Math.pow(2, zoom);
+			var tileXSize = 256 / z2;
+			var tileYSize = 256 / z2;
+			var tileBounds = new google.maps.LatLngBounds(
+				proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
+				proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
+			);
+			var y = coord.y;
+			if (mapBoundsUSGSStolen.intersects(tileBounds) && (10 <= zoom) && (zoom <= 16))
+				return "usgsStolen" + "/" + zoom + "/" + coord.x + "/" + y + ".png";
+			else
+				return "none.png";
+		},
+		tileSize: new google.maps.Size(256, 256),
+		isPng: true,
+		name: "USGS",
+		alt: "USGS"
+	});
+	var usgsTiff = new google.maps.ImageMapType({
+		minZoom: 11,
+		maxZoom: 15,
+		getTileUrl: function(coord, zoom) { 
+			var proj = map.getProjection();
+			var z2 = Math.pow(2, zoom);
+			var tileXSize = 256 / z2;
+			var tileYSize = 256 / z2;
+			var tileBounds = new google.maps.LatLngBounds(
+				proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
+				proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
+			);
+			var y = coord.y;
+			if (mapBoundsUSGSTiff.intersects(tileBounds) && (11 <= zoom) && (zoom <= 15))
+				return "usgsTiff" + "/" + zoom + "/" + coord.x + "/" + y + ".png";
+			else
+				return "none.png";
+		},
+		tileSize: new google.maps.Size(256, 256),
+		isPng: true,
+		name: "USGS TIFF",
+		alt: "USGS TIFF"
+	});
+	var natGeo = new google.maps.ImageMapType({
+		minZoom: 12,
+		maxZoom: 14,
+		getTileUrl: function(coord, zoom) { 
+			var proj = map.getProjection();
+			var z2 = Math.pow(2, zoom);
+			var tileXSize = 256 / z2;
+			var tileYSize = 256 / z2;
+			var tileBounds = new google.maps.LatLngBounds(
+				proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
+				proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
+			);
+			var y = coord.y;
+			if (mapBoundsNatGeo.intersects(tileBounds) && (12 <= zoom) && (zoom <= 14))
+				return "natGeo" + "/" + zoom + "/" + coord.x + "/" + y + ".jpg";
+			else
+				return "none.png";
+		},
+		tileSize: new google.maps.Size(256, 256),
+		name: "Nat Geo",
+		alt: "Nat Geo",
+		isPng: true
+	});
+	var trailLayer;
+	var firebase = new Firebase("https://api-project-343670332138.firebaseio.com");
+	function init() {
+		var opts = {
+			streetViewControl: true,
+			mapTypeId: 'Nat Geo',
+			backgroundColor: "rgb(220,220,220)",
+			center: new google.maps.LatLng(35.292621, -82.833716),
+			zoom: 13,
+			mapTypeControlOptions: {
+				mapTypeIds: [
+					'USGS 2013', 'USGS TIFF', 'Nat Geo', 'USGS',
+					google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE,
+					google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN
+				]
+			},
+		}
+		map = new google.maps.Map(document.getElementById("map"), opts);
+		map.setTilt(45);
+		map.mapTypes.set('USGS 2013', usgs2013);
+		map.mapTypes.set('USGS TIFF', usgsTiff);
+		map.mapTypes.set('Nat Geo', natGeo);
+		map.mapTypes.set('USGS', usgsStolen);
+		
+// Things above this point deal with the maps. Things below this point deals with the data.
+		
+		/*var trailDataLayer = new google.maps.Data();
+		trailDataLayer.loadGeoJson('trails/srw_data.geojson');
+		trailDataLayer.loadGeoJson('trails/graveyard.geojson');
+		trailDataLayer.loadGeoJson('trails/davidson.geojson');
+		trailDataLayer.loadGeoJson('trails/blueRidge.geojson');
+		trailDataLayer.loadGeoJson('trails/blackBalsam.geojson');
+		trailDataLayer.loadGeoJson('trails/mills.geojson');
+		trailDataLayer.loadGeoJson('trails/farlow.geojson');
+		trailDataLayer.loadGeoJson('trails/mount2sea.geojson');
+		trailDataLayer.addListener('click', function(event) {
+			var content = "<div class='googft-info-window'>"+
+							"<h1>"+event.feature.getProperty('name')+"</h1>"+
+							"<i>"+event.feature.getProperty('segment')+"</i>"+
+							"</div>";
+			infowindow.setContent(content);
+			infowindow.setPosition(event.feature.getGeometry().get()); //This doesn't work. This would be right if it were points, not trails.
+			infowindow.open(map);
+		});
+		trailDataLayer.setMap(map);*/
+		
+		// A data layer to hold all the data people have added
+		var markerLayer = new google.maps.Data();
+		
+		// Add everything in the database to the data layer
+		firebase.on("child_added", function(snapshot, prevChildKey) {
+			var latwanted = snapshot.val().lat;
+			var lonwanted = snapshot.val().lon;
+			var geowanted = new google.maps.Data.Point({lat: latwanted, lng: lonwanted});
+			var propswanted = {name: snapshot.val().name, description: snapshot.val().description, category: snapshot.val().category, date: snapshot.val().date};
+			
+			markerLayer.add({geometry: geowanted, properties: propswanted});
+		});
+		
+		// Color the data layer based on the category of the data, and give each point roll over text
+		markerLayer.setStyle(function(feature) {
+			return ({icon: getDot(feature.getProperty('category')),
+					title: feature.getProperty('description')});
+		});
+		
+		// When the data layer is clicked on, display the appropriate data
+		var infowindow = new google.maps.InfoWindow();
+		markerLayer.addListener('click', function(event) {
+			var timeStamp = event.feature.getProperty('date');
+			var markerDescription = event.feature.getProperty('description');
+			var contributorName = event.feature.getProperty('name');
+		
+			var content = "<div class='googft-info-window'>"+
+						"<p style='font-size:14px'>"+markerDescription+"</p><br><br>"+
+						"<b>Contributed By:</b> "+contributorName+"<br>"+
+						"<i>"+timeStamp+"</i><br></div>";
+			
+			infowindow.setContent(content);
+			infowindow.setPosition(event.feature.getGeometry().get());
+			infowindow.open(map);
+		});
+		
+		// Put the data layer on the map
+		markerLayer.setMap(map);
+		
+		// Makes a big red pin
+		usersMarker = new google.maps.Marker({
+			position: map.getCenter(),
+			map: map,
+			title: 'Use me to mark places',
+			draggable: true,
+			animation: google.maps.Animation.DROP,
+			anchorPoint: new google.maps.Point(0,-30)
+		});
+		
+		infoWindow = new google.maps.InfoWindow(); // Makes an info window for showing the data input form.
+		
+		google.maps.event.addListener(usersMarker, 'click', showInputFormWindow); // When the user clicks on the big red pin, open up the form for data input.
+		
+		google.maps.event.addListener(usersMarker, 'position_changed', function() {infoWindow.close();}); // When the user moves the big red pin, close the data input form. They clearly don't need it. You know what? We don't need them either!
+		
+		// Trails Stuff
+		trailLayer = new google.maps.FusionTablesLayer({
+			  query: {
+				select: 'ns1:coordinates',
+				from: '1Rk-HToZ45a3mpLbWfBf9sY_5cmaVP0ibBFVk_GA',
+				where: 'id3 > 1'
+			  },
+			  map: null,
+			  suppressInfoWindows: true,
+			  styles: [{
+				polylineOptions:{
+					strokeWeight: 1
+				}
+			  }]
+			});
+			google.maps.event.addListener(trailLayer, 'click', function(e) {
+			  windowControlTrail(e, infoWindow, map);
+			});		
+		var trailControlDiv = document.createElement('div');
+		var trailControl = new TrailControl(trailControlDiv, map);
+		trailControlDiv.index = 1;
+		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(trailControlDiv);
+	}
+	function showInputFormWindow(event){
+		var contentString = "<table>" +
+				"<tr><td>Name:</td> <td><input type='text' id='name'/> </td> </tr>" +
+				"<tr><td>Marker Description:</td> <td><textarea id='markerDescription'></textarea></td> </tr>" +
+				"<tr><td>Category:</td> <td><input list='category' id='categories'>" +
+				"<datalist id='category'>" +
+				"<option value='VAM (View Appreciation Moment)'>" +
+				"<option value='Waterfall'>" +
+				"<option value='Water'>" +
+				"<option value='Safety'>" +
+				"<option value='Campsite'>" +
+				"<option value='Pro-Tip!'>" +
+				"<option value='Landmark'>" +
+				"<option value='Funny Story'>" +
+				"<option value='Solos'>" +
+				"</datalist></td></tr>" +
+                "<tr><td></td><td><input type='button' value='Save & Close' onclick='saveData()'/></td></tr>";
+		infoWindow.setContent(contentString);
+		infoWindow.open(map, usersMarker);
+	}
+	function saveData(){ //What to do when the user hits the "submit" button on the user input form.
+		// Awkwardly pulls what the user wrote on the input form
+		var name = document.getElementById("name").value;
+		var description = document.getElementById("markerDescription").value;
+		var cat = document.getElementById("categories").value;
+		
+		var pos = usersMarker.getPosition();
+		var d = new Date();
+		var dateString = (d.getMonth()+1)+"-"+d.getDate()+"-"+d.getFullYear();
+		
+		// Adds the data to the database
+		firebase.push({lat: pos.lat(),
+						lon: pos.lng(),
+						name: name,
+						description: description,
+						category: cat,
+						date: dateString});
+						
+		infoWindow.close(); // If we're saving data, we must be done with the input form, so let's close it.
+	}
+	function getDot(category) // Given the category of a data point, spits out the appropriate color of the data point
+	{
+		if(category == "Waterfall") //purple
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAi0lEQVR42mNgQIAoIF4NxGegdCCSHAMzEC+NMov6vzp99f8zVWfAdKBh4H+g+EyYorQ027T//2f+x8CxFrEghbEgRQcOFB/Aqmhv4V6Qor0gRQ8ftj/Equh2822QottEmxQLshubohCjEJCiEJjj54N8tzFrI9h36zLWwXw3jQENgMJpIzSc1iGHEwBt95qDejjnKAAAAABJRU5ErkJggg==";
+		else if(category == "Water") //blue
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAiklEQVR42mNgQIAoIF4NxGegdCCSHAMzEC81M4v6n56++n9V1RkwbWgY+B8oPhOmKM3WNu3/zJn/MbCFRSxIYSxI0YHi4gNYFRUW7gUp2gtS9LC9/SFWRc3Nt0GKbhNtUizIbmyKjIxCQIpCYI6fD/JdVtZGsO8yMtbBfDeNAQ2AwmkjNJzWIYcTAMk+i9OhipcQAAAAAElFTkSuQmCC";
+		else if(category == "Safety") //yellow
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAi0lEQVR42mNgQIAoIF4NxGegdCCSHAMzEC+NijL7v3p1+v8zZ6rAdGCg4X+g+EyYorS0NNv////PxMCxsRYghbEgRQcOHCjGqmjv3kKQor0gRQ8fPmzHquj27WaQottEmxQLshubopAQI5CiEJjj54N8t3FjFth369ZlwHw3jQENgMJpIzSc1iGHEwB8p5qDBbsHtAAAAABJRU5ErkJggg==";
+		else if(category == "Campsite")  //green
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAiElEQVR42mNgQIAoIF4NxGegdCCSHAMzEC81izL7n746/X/VmSowbRho+B8oPhOmKM02zfb/TCzQItYCpDAWpOhA8YFirIoK9xaCFO0FKXrY/rAdq6Lm280gRbeJNikWZDc2RUYhRiBFITDHzwf5LmtjFth3GesyYL6bxoAGQOG0ERpO65DDCQDX7ovT++K9KQAAAABJRU5ErkJggg==";
+		else if(category == "Pro-Tip!") //red
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAiklEQVR42mNgQIAoIF4NxGegdCCSHAMzEC+NUlH5v9rF5f+ZoCAwHaig8B8oPhOmKC1NU/P//7Q0DByrqgpSGAtSdOCAry9WRXt9fECK9oIUPXwYFYVV0e2ICJCi20SbFAuyG5uiECUlkKIQmOPng3y30d0d7Lt1bm4w301jQAOgcNoIDad1yOEEAFm9fSv/VqtJAAAAAElFTkSuQmCC";
+		else if(category == "Landmark") //darkgreen+
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAArUlEQVR42mNggAIBJYZCUU2Go8KqDLdBtKAKQyYDEmAW1WI4aBvM9d86meW/bSormLYO4vwvpsOwA6yCT56h2jGE+79lGtN/41QGOAbx7YAa+RUZShiE1Riu2KSwQCTTkDCQDxIXVme4yCCozPDKDmgFNkUgcSFlhmfEmQSyE2Q3NjfZBHP+B/oyG+x4MW2GPWDfpUB9lwL33XbkYACHk4gGw0lQOIloMhxHDicA77heAmO53v0AAAAASUVORK5CYII=";
+		else if(category == "Funny Story") //darkpurple+
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAq0lEQVR42mNggAIlBqVCTQbNo6oMqrdBtAqDSiYDEmDWYtA6mMQV/D+LJfl/LmsqmE7gDPqvw6CzA6xCnkG+Oo075H8WU9r/NIZUOAbxk4EaFRkUSxjUGNSu5LCkQCXTkHDq/2yguDqD+kUGZQblV3msqVgVgcSB8s+IMwlkJ8hubG5K4Az+D/RlNtjx2gzae0C+A+mE+C4F5rvtyMEADicNBo2T0HA6jhxOAIFkaCWva8LfAAAAAElFTkSuQmCC";
+		else if(category == "Solos")//brown+
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAiklEQVR42mNgQIAoIF4NxGegdCCSHAMzEC+NslL5v7rU+f+Z3iAwHWii8B8oPhOmKC3NSfP//01pGDjWRhWkMBak6MCBVl+sivY2+4AU7QUpevhwThRWRbdnRIAU3SbapFiQ3dgUhZgpgRSFwBw/H+S7jVVuYN+tq3CD+W4aAxoAhdNGaDitQw4nAFZ+h+ARB/VOAAAAAElFTkSuQmCC";
+		else if(category == "VAM (View Appreciation Moment)") //light blue
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAl0lEQVR42mNgQIAoIF4NxGegdCCSHAMzEC91sLH9H9c34X/hqjVg2tLM/D9QfCZMUZqni+v/+odP/2d/+QnHIL6TnT1IYSxI0YHM+YvAEmk//8ExiJ8xdwFI0V6Qooc1u/dhVVS5bSdI0W2iTYoF2Y3NTTYWliBFITDHzwf5LmnyVLDvEiZOhvluGgMaAIXTRmg4rUMOJwARmo9axahWIwAAAABJRU5ErkJggg==";
+		else //darkgrey+
+			return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAgElEQVR42mNggAJFRcUWdXX16yoqKs9AtJKSUh0DEmDW0NC44mhr+9/e3h6OHW1s/mtqap4Dq5CXl+91QlMAVwgUV1BQaGdQVVV9iE0BDKupqd1nUFZW/uCARxFQ/i1xJoHsdMTjJqAvG8COB/ruAg7fnUUOBlg43YSG0w3kcAIAxcVqHwlKq6YAAAAASUVORK5CYII=";
+	}	
+	function windowControlTrail(e, infoWindow, map) {
+		e.infoWindowHtml = "<div class='googft-info-window'>"+
+							"<h1>"+e.row['ns3:name'].value+"</h1>"+
+							"<i>"+e.row['ns3:segment'].value+"</i>"+
+							"<p>"+e.row['Description'].value+"</p>"+
+							"<b>Overall Difficulty:</b> "+e.row['Overall Difficulty'].value+"<br>"+
+							"<b>Length:</b> "+e.row['Length'].value+"<br>"+
+							"<b>Steepness:</b> "+e.row['Steepness'].value+"<br>"+
+							"<b>Trail/Tread Condition:</b> "+e.row['Trail/Tread Condition'].value+"<br>"+
+							"<b>Blaze Color:</b> "+e.row['Blaze Color'].value+"<br>"+
+							"<b>USGS/USFS Number:</b> "+e.row['USGS/USFS Number'].value+"<br>"+
+							"<b>Allowed Uses:</b> "+e.row['Allowed Uses'].value+"<br>"+
+							"<b>Hikes That Use This Trail:</b> "+e.row['Hikes That Use This Trail'].value+"<br>"+
+							"</div>";
+		infoWindow.setOptions({
+			content: e.infoWindowHtml,
+			position: e.latLng,
+			pixelOffset: e.pixelOffset
+		});
+		infoWindow.open(map);
+	}
+	function TrailControl(controlDiv, map) { //Pertains to the button that controls whether or not to show trails
+
+		// Set CSS styles for the DIV containing the control
+		// Setting padding to 5 px will offset the control
+		// from the edge of the map
+		controlDiv.style.padding = '5px';
+
+		// Set CSS for the control border
+		var controlUI = document.createElement('div');
+		controlUI.style.backgroundColor = 'white';
+		controlUI.style.borderStyle = 'solid';
+		controlUI.style.borderWidth = '2px';
+		controlUI.style.cursor = 'pointer';
+		controlUI.style.textAlign = 'center';
+		controlUI.title = 'Click to show/hide the trails';
+		controlDiv.appendChild(controlUI);
+
+		// Set CSS for the control interior
+		var controlText = document.createElement('div');
+		controlText.style.fontFamily = 'Arial,sans-serif';
+		controlText.style.fontSize = '12px';
+		controlText.style.paddingLeft = '4px';
+		controlText.style.paddingRight = '4px';
+		controlText.innerHTML = '<b>Trails</b>';
+		controlUI.appendChild(controlText);
+
+		// Setup the click event listeners
+		google.maps.event.addDomListener(controlUI, 'click', toggleTrails);
+
+	}
+	function toggleTrails() // This is to turn on and off the trails when the trails button is clicked
+	{
+		if(trailLayer.getMap() === map)
+			hideTrails();
+		else
+			showTrails();
+	}
+	function hideTrails() // This turns off the display of the trails. This function is called when toggleTrails happens.
+	{
+		trailLayer.setMap(null);
+	}
+	function showTrails() // This turns on the display of the trails. This function is called when toggleTrails happens.
+	{
+		trailLayer.setMap(map);
+	}
+</script>
+</head>
+<body onload="init()">
+<div id="footer">Some of these maps generated with <a href="http://www.maptiler.com/">MapTiler</a></div>
+<div id="map"></div>
+</body>
+</html>
