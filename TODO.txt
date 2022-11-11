@@ -1,0 +1,9 @@
+Priority
+- Set database rules to allow edits past the 30 days
+- Data validation for new points added
+- Allow editing points previously made
+- Legend for point colors (or different symbols)
+
+Non-priority
+- Trails display
+- Backup reminding?

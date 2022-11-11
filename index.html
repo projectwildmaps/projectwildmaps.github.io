@@ -72,6 +72,9 @@
 </head>
 
 <body>
+	<!--Content of the input form, gets moved from here into the input form info window
+		the first time the user opens the form. Doing it this way instead of a content string
+		so that we can use addEventListener for the submit button-->
 	<table id="input_form_content">
 		<tr>
 			<td>Name:</td>
@@ -107,6 +110,10 @@
 	<script type="text/javascript">
 		google.load('visualization', '1', { packages: ["map", "table"] });
 	</script>
+
+	 <!--Firebase is module-based, so need a module script tag. Note that firebase imports are
+		only active in this script tag, so put all the code here. Also note that js treates module
+		scripts as their own scope, so nothing declared here is in the global scope.-->
 	<script type="module">
 		//SET UP FIREBASE DATABASE ---------------------------------------------------
 
