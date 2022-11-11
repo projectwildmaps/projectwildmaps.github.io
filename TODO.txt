@@ -4,6 +4,7 @@ Priority
 - Data validation for new points added
 - Allow editing points previously made
 - Legend for point colors (or different symbols)
+- Write documentation for future users
 
 Non-priority
 - Trails display
