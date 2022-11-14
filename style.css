@@ -9,6 +9,7 @@ body {
     width: 100%;
     height: 100%;
     font-family: Trebuchet MS, Trebuchet, Arial, sans-serif;
+    background: #f4f4f4;
 }
 
 #map {
@@ -18,6 +19,9 @@ body {
     right: 0px;
     bottom: 0px;
     overflow: auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px #CCC;
+    background-color: #DEDCD7;
 }
 
 @media screen and (max-width: 600px) {
@@ -27,28 +31,6 @@ body {
         width: 100%;
         height: 100%;
     }
-}
-
-body {
-    background: #f4f4f4;
-}
-
-#header {
-    background: #fff;
-    box-shadow: 0 1px 3px #CCC;
-    border: 1px solid #ccc;
-}
-
-#header h1 {
-    padding: 7px 10px;
-    margin: 0;
-    font-size: 28px;
-}
-
-#map {
-    border: 1px solid #ccc;
-    box-shadow: 0 1px 3px #CCC;
-    background-color: #DEDCD7;
 }
 
 #legend {
