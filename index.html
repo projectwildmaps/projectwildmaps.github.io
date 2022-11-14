@@ -233,6 +233,7 @@
 				dataInfoWindow.setPosition(event.feature.getGeometry().get());
 				dataInfoWindow.open(map);
 				
+				//auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
 				window.setTimeout(function(){
 					autoPan(document.getElementById("data_info_div"))
 				}, 1);
@@ -264,7 +265,10 @@
 			// When the user clicks on the big red pin, open up the form for data input.
 			google.maps.event.addListener(usersMarker, 'click', function(){
 				inputInfoWindow.open(map, usersMarker);
+
+				//auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
 				setTimeout(function(){autoPan(document.getElementById("input_form_content"))}, 1);
+				
 				//reset fields (have to do it after opening, in order to access the elements)
 				document.getElementById("name").value = "";
 				document.getElementById("markerDescription").value = "";
