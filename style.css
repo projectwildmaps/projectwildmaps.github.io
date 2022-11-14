@@ -1,0 +1,65 @@
+html {
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Trebuchet MS, Trebuchet, Arial, sans-serif;
+}
+
+#map {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow: auto;
+}
+
+@media screen and (max-width: 600px) {
+    #map {
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+body {
+    background: #f4f4f4;
+}
+
+#header {
+    background: #fff;
+    box-shadow: 0 1px 3px #CCC;
+    border: 1px solid #ccc;
+}
+
+#header h1 {
+    padding: 7px 10px;
+    margin: 0;
+    font-size: 28px;
+}
+
+#map {
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 3px #CCC;
+    background-color: #DEDCD7;
+}
+
+#legend {
+    padding: 3px;
+    border: 1px solid black;
+    background-color: white;
+    margin: 10px;
+}
+
+#footer {
+    text-align: center;
+    font-size: 9px;
+    color: #606060;
+}
