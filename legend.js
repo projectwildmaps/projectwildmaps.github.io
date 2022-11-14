@@ -65,5 +65,5 @@ function initLegend() {
         legend_entry.appendChild(label);
 
         legend.appendChild(legend_entry);
-    });
+    });   
 }
