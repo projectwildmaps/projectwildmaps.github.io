@@ -64,5 +64,9 @@ function initLegend() {
         legend_entry.appendChild(label);
 
         legend.appendChild(legend_entry);
-    });   
+    });
+
+    if(isMobileBrowser()){ //detect_mobile.js
+        legend.style.marginTop = "100px";
+    }
 }

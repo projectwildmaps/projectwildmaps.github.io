@@ -5,13 +5,15 @@ function autoPan(info_window_content){
     let margin = { //min px margin from the info window's CONTENT viewing box (not full info window)
         left: 23,
         right: 115,
-        top: 73,
+        top: window.innerWidth > 400 ? 73 : 113,
         bottom: 33
     }
     // google's default margins are ish {left:73, right:79, top:73, bottom:83}
 
-    //Get content box, going up two parents so we get the viewing box, in case the actual content
-    //is clipped and scrolling is necessary
+    //Get content box, getting parents so we have the fixed height viewing box,
+    //in case the actual content is big and doesn't fit in the viewing box
+    let view_div = info_window_content.parentElement;
+    if(!view_div.classList.contains("gm-style-iw-d")){view_div = view_div.parentElement;}
     let box = info_window_content.parentElement.parentElement.getBoundingClientRect();
 
     let dx_needed_left = Math.min(0, box.x - margin.left);

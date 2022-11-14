@@ -69,6 +69,7 @@
 						];
 	</script>
 
+	<script src="detect_mobile.js"></script>
 	<script src="map_definitions.js"></script>
 	<script>
 		function getDot(category) // Given the category of a data point, spits out the appropriate color of the data point
@@ -150,7 +151,7 @@
 						google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE,
 						google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN
 					]
-				},
+				}
 			}
 			map = new google.maps.Map(document.getElementById("map"), opts);
 			map.setTilt(45);
@@ -223,7 +224,7 @@
 				var markerDescription = event.feature.getProperty('description');
 				var contributorName = event.feature.getProperty('name');
 
-				var content = "<div id='data_info_div' class='googft-info-window'>" +
+				var content = "<div id='data_info_div'>" +
 					(category? "<b>" + category + "</b>" : "") +
 					"<p>" + markerDescription + "</p>" +
 					"Contributed By: " + contributorName + "<br>" +
