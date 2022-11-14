@@ -334,12 +334,14 @@
 			var dataInfoWindow = new google.maps.InfoWindow();
 			markerLayer.addListener('click', function (event) {
 				var timeStamp = event.feature.getProperty('date');
+				var category = event.feature.getProperty('category');
 				var markerDescription = event.feature.getProperty('description');
 				var contributorName = event.feature.getProperty('name');
 
 				var content = "<div class='googft-info-window'>" +
-					"<p style='font-size:14px'>" + markerDescription + "</p><br><br>" +
-					"<b>Contributed By:</b> " + contributorName + "<br>" +
+					(category? "<b>" + category + "</b>" : "") +
+					"<p>" + markerDescription + "</p>" +
+					"Contributed By: " + contributorName + "<br>" +
 					"<i>" + timeStamp + "</i><br></div>";
 
 				dataInfoWindow.setContent(content);

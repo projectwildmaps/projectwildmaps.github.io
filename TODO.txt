@@ -1,11 +1,16 @@
 Priority
 - Get a google maps API key owned by PWILD, not whoever used to own PMAPS
-- Set database rules to allow edits past the 30 days
+- Set database rules to allow edits past the 30 days without compromising security
 - Data validation for new points added
-- Allow editing points previously made
+- Allow editing points previously made (extra update? direct editing? edit but backup old?)
+- Store previous points with unique keys, instead of incrementing counter
 - Legend for point colors (or different symbols)
 - Write documentation for future users
 
 Non-priority
 - Trails display
 - Backup reminding?
+
+
+Done
+- Show category in infowindow
