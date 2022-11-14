@@ -4,8 +4,7 @@ Priority
 - Data validation for new points added
 - Allow editing points previously made (extra update? direct editing? edit but backup old?)
 - Store previous points with unique keys, instead of incrementing counter
-- Legend for point colors (or different symbols)
-    - click on category in legend to highlight relevant points
+- Better colors for points
 - Write documentation for future users
 
 Non-priority
@@ -16,3 +15,4 @@ Non-priority
 
 Done
 - Show category in infowindow
+- Legend for point colors (or different symbols)
