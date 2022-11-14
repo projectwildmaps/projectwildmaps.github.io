@@ -47,7 +47,6 @@ function initLegend() {
                 if (marker_category == category ||
                     (category == "Other" && !categories.includes(marker_category))
                 ) {
-                    console.log(category, marker_category)
                     if (checkbox.checked) {
                         markerLayer.revertStyle(marker);
                     }
