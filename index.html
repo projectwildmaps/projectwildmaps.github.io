@@ -237,7 +237,7 @@
 				//auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
 				window.setTimeout(function(){
 					autoPan(document.getElementById("data_info_div"))
-				}, 1);
+				}, 10);
 			});
 
 			// Put the data layer on the map
@@ -268,7 +268,9 @@
 				inputInfoWindow.open(map, usersMarker);
 
 				//auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
-				setTimeout(function(){autoPan(document.getElementById("input_form_content"))}, 1);
+				setTimeout(function(){
+					autoPan(document.getElementById("input_form_content"))
+				}, 10);
 				
 				//reset fields (have to do it after opening, in order to access the elements)
 				document.getElementById("name").value = "";
