@@ -13,6 +13,8 @@ For testing, you can expose the localhost server to the internet by installing l
 and then in a different terminal window from the server, running:
 
     lt --port [port number]
+
+- Though in my experience it tends to time out when reloading after 5 min or so with a 408 error. Oof.
 */
 
 const path = require("path");
