@@ -19,34 +19,38 @@
 	<!--Content of the input form, gets moved from here into the input form info window
 		the first time the user opens the form. Doing it this way instead of a content string
 		so that we can use addEventListener for the submit button-->
-	<table id="input_form_content">
-		<tr>
-			<td>Name:</td>
-			<td><input type='text' id='name' /> </td>
-		</tr>
-		<tr>
-			<td>Marker<br>Description:</td>
-			<td><textarea id='markerDescription' style="height: 100px; width: 260px;"></textarea></td>
-		</tr>
-		<tr>
-			<td>Category:</td>
-			<td><input list='category' id='categories'>
-				<datalist id='category'></datalist> <!--populated in init()-->
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input id='submit' type='button' value='Save & Close' /></td>
-		</tr>
-	</table>
+	<div id="input_form_content">
+		<label for='name'>Your Name: </label><br>
+		<input type='text' id='name' class='input_field' />
+
+		<label for='markerDescription'>Marker Description:</label><br>
+		<textarea id='markerDescription' class='input_field' style="height: 100px; width: 260px;"></textarea>
+
+		<label for='categories'>Category:</label><br>
+		<input list='category' id='categories' class='input_field'>
+		<datalist id='category'></datalist> <!--populated in init()-->
+
+		<input id='submit' type='button' value='Save & Close' />
+	</div>
 
 
-	<div id="footer">Some of these maps generated with <a href="http://www.maptiler.com/">MapTiler</a></div>
 	<div id="map"></div>
 	<div id="legend">
 		<b>Legend</b>
 	</div>
+	<div id="footer">Some of these maps generated with <a href="http://www.maptiler.com/">MapTiler</a></div>
 
+	<div id="instructions_container">
+		<div id="instructions">
+			<div id="instruction_scroll_content">
+				Hoka Hey!
+				<p>Welcome to PMAPS, blah blah blah</p>
+			</div>
+			<button id="close_instructions" onclick="document.getElementById('instructions_container').style.display='none'">
+				Let's Go!
+			</button>
+		</div>
+	</div>
 
 	
 	<script>
@@ -253,6 +257,12 @@
 			inputInfoWindow = new google.maps.InfoWindow({disableAutoPan: true});
 			inputInfoWindow.setContent(document.getElementById("input_form_content")); //beginning of body tag
 			document.getElementById("submit").addEventListener("click", saveData);
+			//if mobile device, squish size of input fields to better fit
+			if(isMobileBrowser()){ //detect_mobile.js
+				document.querySelectorAll(".input_field").forEach((el) => {
+					el.style.width = "200px";
+				})
+			}
 
 			// Makes a big red pin, used for inputting data
 			usersMarker = new google.maps.Marker({
@@ -277,8 +287,8 @@
 				document.getElementById("markerDescription").value = "";
 				document.getElementById("categories").value = "";
 			});
-			// Close the input form when the user drags the input marker
-			google.maps.event.addListener(usersMarker, 'position_changed', function () { inputInfoWindow.close(); }); // When the user moves the big red pin, close the data input form. They clearly don't need it. You know what? We don't need them either!
+			// When the user moves the big red pin, close the data input form. They clearly don't need it. You know what? We don't need them either!
+			google.maps.event.addListener(usersMarker, 'position_changed', function () { inputInfoWindow.close(); });
 
 
 			// Trails Stuff
@@ -312,6 +322,11 @@
 			console.log(name, name.length)
 			var description = document.getElementById("markerDescription").value;
 			var cat = document.getElementById("categories").value;
+
+			if(description.length == 0){
+				alert("Please input a description.");
+				return;
+			}
 
 			var pos = usersMarker.getPosition();
 			var d = new Date();
