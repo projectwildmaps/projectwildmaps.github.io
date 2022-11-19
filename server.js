@@ -14,7 +14,7 @@ and then in a different terminal window from the server, running:
 
     lt --port [port number]
 
-- Though in my experience it tends to time out when reloading after 5 min or so with a 408 error. Oof.
+Though in my experience localtunnel tends to time after a few min or so with a 408 error. Oof.
 */
 
 const path = require("path");

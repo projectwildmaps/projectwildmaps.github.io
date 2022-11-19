@@ -46,3 +46,54 @@ body {
     font-size: 9px;
     color: #606060;
 }
+
+.input_field {
+    display: block;
+    margin-bottom: 10px;
+}
+
+textarea {
+    font-family: Arial;
+}
+
+#instructions_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0003;
+
+    transition: display 5s;
+}
+
+#instructions {
+    position: absolute;
+    height: 85vh;
+    width: 70vw;
+    background-color: #f6f6ee;
+    border: 5px solid #d9d9b8;
+    margin: auto;
+    inset: 0;
+    box-shadow: 2px 2px 5px #0005;
+    padding: 10px;
+}
+
+#instruction_footer {
+    height: 35px;
+    padding: 5px;
+    position: absolute;
+    bottom: 0;
+}
+
+#instruction_scroll_content {
+    height: 90%;
+}
+
+#close_instructions {
+    display: block;
+    margin: auto;
+    margin-top: 5px;
+    height: 7%;
+    cursor: pointer;
+}
