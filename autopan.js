@@ -26,10 +26,5 @@ function autoPan(info_window_content){
     let dx_pan = needed_left + needed_right; //eh it works
     let dy_pan = needed_top + needed_bottom;
 
-    console.log("left", needed_left)
-    console.log("right", needed_right)
-    console.log("top", needed_top)
-    console.log("bottom", needed_bottom)
-
     map.panBy(dx_pan, dy_pan);
 }
