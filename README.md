@@ -2,8 +2,7 @@
 
 ## Introduction
 
-PMAPS is an online tool used to record information about locations in Pisgah. This allows knowledge to be passed down and shared among generations of pwilders, preserving our collective knowledge even
-as people graduate.
+PMAPS is an online tool used to record information about locations in Pisgah National Forest. This allows knowledge to be passed down and shared among generations of pwilders, preserving our collective knowledge even as people graduate.
 
 To use, navigate to https://projectwildmaps.github.io/ and follow the instructions.
 
