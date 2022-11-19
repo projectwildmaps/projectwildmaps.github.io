@@ -15,7 +15,7 @@ Priority
 - Write documentation for future users
 
 Non-priority
-- Trails display
+- Trails display - at least clean them up somehow
 - Backup reminding?
 - Pictures?
 
