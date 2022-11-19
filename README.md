@@ -5,20 +5,20 @@
 PMAPS is an online tool used to record information about locations in Pisgah. This allows knowledge to be passed down and shared among generations of pwilders, preserving our collective knowledge even
 as people graduate.
 
-To use, navigate to [https://projectwildmaps.github.io/](https://projectwildmaps.github.io/) and follow the instructions.
+To use, navigate to https://projectwildmaps.github.io/ and follow the instructions.
 
 What it lets you do / how to use
 
 Firebase
 
-GitHub pages
+GitHub pages, with link to documentation (https://pages.github.com/)
 
 Login info
 
 ## Description of Files
 
 index.html
-* The main HTML file. This contains the HTML and most of the javascript used to make the app work.
+* The main HTML file. This contains the HTML and the core javascript used to make the app work.
 See the index.html section below for more information on how this file is organized.
 
 style.css
@@ -97,6 +97,8 @@ Include description of global vars (and use of the categories variable)
 
 Include description of the script module, and explanation of why this is necessary (firebase). Also its limitations in terms of global scoping, and the use of window.varname if needed. Functions not needing to access the database should not be in here because of dealing with the scoping thing.
 
+Also explain that the module code has to be in the HTML file for local testing to work, because of CORS security stuff if not running on a server.
+
 Description of the init() and saveData() functions
 
 
@@ -119,9 +121,6 @@ Link to firebase console
 ## Free Version Limits
 
 ## Useful Documentation Links
-
-
-# GitHub Pages (Hosting)
 
 
 # The Google Maps API
