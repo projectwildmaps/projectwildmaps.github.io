@@ -100,7 +100,7 @@ Also explain that the module code has to be in the HTML file for local testing t
 
 Description of the init() and saveData() functions
 
-
+Description of which maps are used / not
 
 
 # The Database

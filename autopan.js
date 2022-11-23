@@ -1,6 +1,11 @@
 function autoPan(info_window_content){
-    //function to replace google's auto panning when we open an info window, so we can pan
-    //to avoid our legend, which is fatter than the default controls
+    /*Function to replace google's auto panning when we open an info window, so we can pan
+    to avoid our legend, which is fatter than the default controls
+
+    To use, pass a div element that's in the info window. Call the function after
+    waiting about 10ms past when the info window is opened, so the browser has time
+    to render the info window, allowing us to get width / height / position.
+    */
 
     let margin = { //min px margin from the info window
         left: 11,

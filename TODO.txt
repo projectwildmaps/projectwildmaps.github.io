@@ -6,17 +6,25 @@ Priority
     Google Cloud or Google Maps Platform services. This is true even if you only use services
     that are free."
     https://cloud.google.com/billing/docs/how-to/manage-billing-account?_ga=2.99013150.-1698826392.1668412686
+    - VISA gift card??
 
-- Set database rules to allow edits past the 30 days without compromising security
+- Set (and test) database rules:
+    - New "archived" attribute for all data points, this is the only thing updateable
+    - No deletion allowed
+    - New comments field (allow appending, but no editing previous comments)
+- Add archive/unarchive feature on client
+- Add comment feature on client
 - Data validation for new points added
-- Allow editing points previously made (extra update? direct editing? edit but backup old?)
-- Allow comments?
 - Better colors for points
 - Write documentation for future users
+- Set up PMAPS email to forward to the PWILD duke email, document this
+- Allow backup creation client side
+    - automatic backups sent to Git?? Non-priority stretch goal
+- Add password protection
 
 Non-priority
-- Trails display - at least clean them up somehow
-- Backup reminding?
+- Filter by date
+- Trails display
 - Pictures?
 
 
