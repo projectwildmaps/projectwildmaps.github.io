@@ -179,18 +179,17 @@
 					category: data.category,
 					date: data.date,
 					archived: data.archived,
+					archived_visible: archived_visible, //styling attribute
+					my_category_visible: true, //styling attribute, set to true even if category not visible, so users have confirmation their new point was created successfully
 					ref: snapshot.ref //database reference object
 				};
 				var new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
 				markers[snapshot.key] = new_feature; //markers is a global variable
-
-				if (!data.archived) {
-					markerLayer.add(new_feature);
-				}
+				markerLayer.add(new_feature);
 			}));
 			// Handle points being modified (archive/unarchive, comments)
 			onChildChanged(ref(database), (snapshot => {
-				console.log(snapshot.val())
+				markers[snapshot.key].setProperty('archived', snapshot.val().archived); //triggers style recompute
 			}));
 			// Handle points being removed. This will only happen if someone deletes a point from the firebase console.
 			// We're not allowing clients to delete points, only archive them.
@@ -203,9 +202,14 @@
 
 			// Color the data layer based on the category of the data, and give each point roll over text
 			markerLayer.setStyle(function (feature) {
+				let visible = feature.getProperty('my_category_visible');
+				if (feature.getProperty('archived') && !feature.getProperty('archived_visible')) {
+					visible = false;
+				}
 				return {
 					icon: getDot(feature.getProperty('category')),
-					title: feature.getProperty('description')
+					title: feature.getProperty('description'),
+					visible: visible
 				};
 			});
 
@@ -229,11 +233,6 @@
 				toggle_archived_button.textContent = archived ? "Unarchive" : "Archive";
 				toggle_archived_button.addEventListener("click", function(){
 					archived = !archived;
-					event.feature.setProperty('archived', archived);
-					if (!archived_visible) {
-						if(archived) markerLayer.remove(event.feature);
-						else markerLayer.add(event.feature);
-					}
 					update(ref, {'archived': archived});
 					toggle_archived_button.textContent = archived ? "Unarchive" : "Archive";
 				})
