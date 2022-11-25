@@ -32,9 +32,6 @@ function initLegend() {
     legend.appendChild(all_category_entry);
 
     categories.forEach((category) => {
-        //shorten long VAM description
-        let display_name = (category == "VAM (View Appreciation Moment)") ? "VAM" : category;
-
         let legend_entry = document.createElement("div");
 
         let checkbox = document.createElement("input");
@@ -60,6 +57,7 @@ function initLegend() {
 
         let label = document.createElement("label");
         label.htmlFor = checkbox.id;
+        let display_name = (category == "VAM (View Appreciation Moment)") ? "VAM" : category; //shorten long VAM description
         label.innerHTML = '<img src="' + getDot(category) + '"> ' + display_name;
         legend_entry.appendChild(label);
 

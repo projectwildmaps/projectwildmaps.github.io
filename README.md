@@ -102,7 +102,9 @@ Description of the init() and saveData() functions
 
 Description of which maps are used / not
 
-How data is displayed (marker layer etc), how the legend works, how archived points are handled (added / removed from the markerLayer)
+How data is displayed (markers object, marker layer etc), how the legend works, how archived points are handled (added / removed from the markerLayer)
+- Note that the legend uses override/revert style so that it works with and plays nice with showing/hiding archived points. For controlling visibility, only one thing should be using override/revert style, and only one thing should be adding/removing points. Two ways of doing the same thing that don't interfere with each other.
+- Ok actually we should be doing styling by setting properties only used for styling, and only showing the point if both properties are true
 
 # The Database
 
