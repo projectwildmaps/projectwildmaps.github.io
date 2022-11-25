@@ -10,13 +10,13 @@ function initLegend() {
         let checkboxes = legend.querySelectorAll("input");
         if (all_checkbox.checked) {
             markerLayer.forEach((marker) => {
-                markerLayer.revertStyle(marker);
+                marker.setProperty("my_category_visible", true);
             })
             checkboxes.forEach((box) => box.checked = true)
         }
         else {
             markerLayer.forEach((marker) => {
-                markerLayer.overrideStyle(marker, { visible: false });
+                marker.setProperty("my_category_visible", false);
             })
             checkboxes.forEach((box) => box.checked = false)
         }
@@ -45,10 +45,10 @@ function initLegend() {
                     (category == "Other" && !categories.includes(marker_category))
                 ) {
                     if (checkbox.checked) {
-                        markerLayer.revertStyle(marker);
+                        marker.setProperty("my_category_visible", true);
                     }
                     else {
-                        markerLayer.overrideStyle(marker, { visible: false });
+                        marker.setProperty("my_category_visible", false);
                     }
                 }
             })
@@ -68,18 +68,11 @@ function initLegend() {
     let toggle_archive = document.createElement("button");
     toggle_archive.textContent = "toggle on";
     toggle_archive.addEventListener("click", function(){
-        for(let key in markers){
-            if(markers[key].getProperty('archived')){
-                if (archived_visible){
-                    markerLayer.remove(markers[key])
-                }
-                else {
-                    markerLayer.add(markers[key])
-                }
-            }
-        }
         archived_visible = !archived_visible;
         toggle_archive.textContent = archived_visible ? "toggle off" : "toggle on";
+        markerLayer.forEach((marker) => {
+            marker.setProperty("archived_visible", archived_visible);
+        });
     })
     legend.appendChild(toggle_archive);
 
