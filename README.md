@@ -102,6 +102,7 @@ Description of the init() and saveData() functions
 
 Description of which maps are used / not
 
+How data is displayed (marker layer etc), how the legend works, how archived points are handled (added / removed from the markerLayer)
 
 # The Database
 
