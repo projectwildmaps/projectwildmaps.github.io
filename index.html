@@ -55,10 +55,11 @@
 	<script>
 		// GLOBALS (ones we should keep track of at least)
 		var map;
-		var markerLayer; //here because legend.js needs to see this
+		var markers = {}; //object to store our marker features, format "database_key": Feature object
+		var markerLayer; //global because legend.js needs to see this
 		var trailLayer;
-		var inputInfoWindow;
-		var usersMarker;
+		var inputInfoWindow; //global because saveData() needs this
+		var usersMarker; //global because saveData() needs this
 		var archived_visible = false; //legend.js and archive button use this
 		var categories = ['VAM (View Appreciation Moment)',
 							'Waterfall',
@@ -167,10 +168,6 @@
 			// Create data layer to hold all the data people have added
 			markerLayer = new google.maps.Data();
 
-			// Create object to store references to our marker features
-			// Format is database_key: Feature
-			window.markers = {};
-
 			// Add everything in the firebase database to the data layer and markers reference object
 			// This callback triggers once for each point, and then again for new points added
 			onChildAdded(ref(database), (snapshot => {
@@ -182,11 +179,10 @@
 					category: data.category,
 					date: data.date,
 					archived: data.archived,
-					ref: snapshot.ref,
-					key: snapshot.key
+					ref: snapshot.ref //database reference object
 				};
 				var new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
-				markers[snapshot.key] = new_feature;
+				markers[snapshot.key] = new_feature; //markers is a global variable
 
 				if (!data.archived) {
 					markerLayer.add(new_feature);
@@ -207,10 +203,10 @@
 
 			// Color the data layer based on the category of the data, and give each point roll over text
 			markerLayer.setStyle(function (feature) {
-				return ({
+				return {
 					icon: getDot(feature.getProperty('category')),
 					title: feature.getProperty('description')
-				});
+				};
 			});
 
 			// When the data layer is clicked on, display the appropriate data
@@ -235,7 +231,8 @@
 					archived = !archived;
 					event.feature.setProperty('archived', archived);
 					if (!archived_visible) {
-						markerLayer.remove(event.feature);
+						if(archived) markerLayer.remove(event.feature);
+						else markerLayer.add(event.feature);
 					}
 					update(ref, {'archived': archived});
 					toggle_archived_button.textContent = archived ? "Unarchive" : "Archive";

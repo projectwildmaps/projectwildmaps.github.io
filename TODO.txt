@@ -13,7 +13,16 @@ Priority
     - No deletion allowed
     - New comments field (allow appending, but no editing previous comments)
 - Add archive/unarchive feature on client
+    - fix styling: both the legend and the toggle archived display should set a feature property
+        that is checked in the main setStyle function.
+    - all the markers should be in the markerLayer at all times
+    - change in: legend checkbox onchange handler, legend archive button, info window toggle archived button
+        - the info window toggle archived button shouldn't do any setProperty stuff; that should be in onChildChanged
+    - how to handle new points though? (what values for these properties?)
+        - archived_visible = global archived_visible var
+        - my_category_visible = true, even if not really. Good for people to get confirmation their point was added
 - Add comment feature on client
+    - is the 'markers' variable necessary? Probably convenient for this but not sure otherwise
 - Data validation for new points added
 - Better colors for points
 - Write documentation for future users
@@ -27,6 +36,7 @@ Non-priority
 - Filter by date
 - Trails display
 - Pictures?
+- Styling archived points differently? Could do easily in the setStyle function where we style the other points
 
 
 Done
