@@ -55,7 +55,7 @@
 	<script>
 		// GLOBALS (ones we should keep track of at least)
 		var map;
-		var markerLayer;
+		var markerLayer; //here because legend.js needs to see this
 		var trailLayer;
 		var inputInfoWindow;
 		var usersMarker;
@@ -89,7 +89,7 @@
 
 		// Import the functions you need from the SDKs you need
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
-		import { getDatabase, ref, onChildAdded, onChildChanged, update, push } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+		import { getDatabase, ref, onChildAdded, onChildChanged, onChildRemoved, update, push } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
 		
 		// Your web app's Firebase configuration
 		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -166,6 +166,10 @@
 			// Create data layer to hold all the data people have added
 			markerLayer = new google.maps.Data();
 
+			// Create object to store references to our marker features
+			// Format is database_key: Feature
+			window.markers = {};
+
 			// Add everything in the firebase database to the data layer and markers reference object
 			// This callback triggers once for each point, and then again for new points added
 			onChildAdded(ref(database), (snapshot => {
@@ -175,10 +179,27 @@
 					name: data.name,
 					description: data.description,
 					category: data.category,
-					date: data.date
+					date: data.date,
+					archived: data.archived,
+					ref: snapshot.ref,
+					key: snapshot.key
 				};
-				markerLayer.add({ geometry: geowanted, properties: propswanted });
+				var new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
+				markerLayer.add(new_feature);
+				markers[snapshot.key] = new_feature;
 			}));
+			// Handle points being modified (archive/unarchive, comments)
+			onChildChanged(ref(database), (snapshot => {
+				console.log(snapshot.val())
+			}));
+			// Handle points being removed. This will only happen if someone deletes a point from the firebase console.
+			// We're not allowing clients to delete points, only archive them.
+			onChildRemoved(ref(database), (snapshot => {
+				console.log("Removing: ", snapshot.val());
+				markerLayer.remove(markers[snapshot.key]);
+				delete markers[snapshot.key];
+			}));
+
 
 			// Color the data layer based on the category of the data, and give each point roll over text
 			markerLayer.setStyle(function (feature) {
@@ -192,16 +213,27 @@
 			window.dataInfoWindow = new google.maps.InfoWindow({disableAutoPan: true});
 			window.dataInfoWindow = dataInfoWindow
 			markerLayer.addListener('click', function (event) {
+				console.log(event.feature)
 				var timeStamp = event.feature.getProperty('date');
 				var category = event.feature.getProperty('category');
 				var markerDescription = event.feature.getProperty('description');
 				var contributorName = event.feature.getProperty('name');
+				var archived = event.feature.getProperty('archived');
+				var ref = event.feature.getProperty('ref');
 
-				var content = "<div id='data_info_div'>" +
-					(category? "<b>" + category + "</b>" : "") +
-					"<p>" + markerDescription + "</p>" +
-					"Contributed By: " + contributorName + "<br>" +
-					"<i>" + timeStamp + "</i><br></div>";
+				var content = document.createElement("div");
+				content.innerHTML = (category? "<b>" + category + "</b>" : "") +
+									"<p>" + markerDescription + "</p>" +
+									"Contributed By: " + contributorName + "<br>" +
+									"<i>" + timeStamp + "</i><br>"
+				var toggle_archived_button = document.createElement("button");
+				toggle_archived_button.textContent = archived ? "Unarchive" : "Archive";
+				toggle_archived_button.addEventListener("click", function(){
+					archived = !archived;
+					update(ref, {'archived': archived});
+					toggle_archived_button.textContent = archived ? "Unarchive" : "Archive";
+				})
+				content.appendChild(toggle_archived_button);
 
 				dataInfoWindow.setContent(content);
 				dataInfoWindow.setPosition(event.feature.getGeometry().get());
@@ -209,7 +241,7 @@
 				
 				//auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
 				window.setTimeout(function(){
-					autoPan(document.getElementById("data_info_div"))
+					autoPan(content)
 				}, 10);
 			});
 
