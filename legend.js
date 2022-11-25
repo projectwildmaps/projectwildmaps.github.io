@@ -66,6 +66,25 @@ function initLegend() {
         legend.appendChild(legend_entry);
     });
 
+    //Add show/hide archived button
+    let toggle_archive = document.createElement("button");
+    toggle_archive.textContent = "toggle on";
+    toggle_archive.addEventListener("click", function(){
+        for(let key in markers){
+            if(markers[key].getProperty('archived')){
+                if (archived_visible){
+                    markerLayer.remove(markers[key])
+                }
+                else {
+                    markerLayer.add(markers[key])
+                }
+            }
+        }
+        archived_visible = !archived_visible;
+        toggle_archive.textContent = archived_visible ? "toggle off" : "toggle on";
+    })
+    legend.appendChild(toggle_archive);
+
     if(isMobileBrowser()){ //detect_mobile.js
         legend.style.marginTop = "100px";
     }
