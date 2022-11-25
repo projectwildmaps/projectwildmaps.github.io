@@ -19,7 +19,8 @@ Priority
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
 - Allow backup creation client side
-    - automatic backups sent to Git?? Non-priority stretch goal
+    - Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't
+    spam the email
 - Add password protection
 
 Non-priority
