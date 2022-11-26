@@ -33,12 +33,12 @@ body {
     }
 }
 
-.set_archived {
+.info_window_actions u {
     color: gray;
-    text-decoration: underline;
     margin: 0;
     cursor: pointer;
     font-size: 10px;
+    margin-right: 5px;
 }
 
 #legend {

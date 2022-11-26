@@ -93,6 +93,7 @@ trails/
 ## \<body\> Scripts
 
 Include description of global vars (and use of the categories variable)
+- how to add new categories
 
 Include description of the script module, and explanation of why this is necessary (firebase). Also its limitations in terms of global scoping, and the use of window.varname if needed. Functions not needing to access the database should not be in here because of dealing with the scoping thing.
 

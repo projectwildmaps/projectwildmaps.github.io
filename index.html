@@ -226,16 +226,22 @@
 
 				var content = document.createElement("div");
 				content.innerHTML = (category? "<b>" + category + "</b>" : "") +
-									"<div class='set_archived'>" + (archived ? "Unarchive" : "Archive") +"</div>" +
+									"<div class='info_window_actions'>" +
+										"<u class='add_comment'>Add Comment</u>" +
+										"<u class='set_archived'>" + (archived ? "Unarchive" : "Archive") +"</u>" +
+									"</div>" +
 									"<p>" + markerDescription + "</p>" +
 									"Contributed By: " + contributorName + "<br>" +
 									"<i>" + timeStamp + "</i><br>"
 				
 				content.addEventListener("click", function(e){
-					if (e.target.classList.contains("set_archived")){
+					if(e.target.classList.contains("set_archived")){
 						archived = !archived;
 						update(ref, {'archived': archived});
 						content.querySelector(".set_archived").textContent = archived ? "Unarchive" : "Archive";
+					}
+					else if(e.target.classList.contains("add_comment")){
+						console.log("comment");
 					}
 				});
 
