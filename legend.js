@@ -65,11 +65,12 @@ function initLegend() {
     });
 
     //Add show/hide archived button
-    let toggle_archive = document.createElement("button");
-    toggle_archive.textContent = "toggle on";
+    let toggle_archive = document.createElement("div");
+    toggle_archive.id = "legend_toggle_archived";
+    toggle_archive.textContent = "show archived pts";
     toggle_archive.addEventListener("click", function(){
         archived_visible = !archived_visible;
-        toggle_archive.textContent = archived_visible ? "toggle off" : "toggle on";
+        toggle_archive.textContent = archived_visible ? "hide archived pts" : "show archived pts";
         markerLayer.forEach((marker) => {
             marker.setProperty("archived_visible", archived_visible);
         });

@@ -33,12 +33,34 @@ body {
     }
 }
 
+.set_archived {
+    color: gray;
+    text-decoration: underline;
+    margin: 0;
+    cursor: pointer;
+    font-size: 10px;
+}
+
 #legend {
     padding: 3px;
     box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
     border-radius: 2px;
     background-color: white;
     margin: 10px;
+}
+#legend input, #legend label {
+    cursor: pointer;
+}
+
+#legend_toggle_archived {
+    margin: 1px;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 10px;
+    color: gray;
+}
+#legend_toggle_archived:hover {
+    color: royalblue;
 }
 
 .input_field {
