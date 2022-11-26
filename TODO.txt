@@ -1,5 +1,6 @@
 Priority
 - Instructions window
+    - mention that custom categories are allowed
 - Get a google maps API key owned by PWILD, not whoever used to own PMAPS
     "Usage costs are tracked by Project and are charged to the linked Cloud Billing account.
     Important: Projects that are not linked to an active Cloud Billing account cannot use
@@ -17,6 +18,7 @@ Priority
 - Allow backup creation client side
 - Sanitize inputs?
 - Add password protection
+- Set category to "Other" in existing data for points missing this attribute
 
 Non-priority
 - Filter by date
@@ -25,7 +27,7 @@ Non-priority
 - Styling archived points differently? Could do easily in the setStyle function where we style the other points
 - Data validation for new points added - not really necessary
 - Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't spam the email
-
+- Icons centered ever so slightly higher than their actual location
 
 Done
 - Show category in infowindow
