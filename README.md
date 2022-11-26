@@ -123,7 +123,17 @@ Link to firebase console
 
 ## Free Version Limits
 
+## App Check
+
+https://www.google.com/recaptcha/admin/site/590705982
+
+https://firebase.google.com/docs/app-check/web/recaptcha-provider?authuser=0&hl=en
+
 ## Useful Documentation Links
 
 
 # The Google Maps API
+
+Data layers, markers (Data.Feature objects), common functions (like setProperty, getProperty), setStyle, overrideStyle
+
+Mention the autopan thing again maybe
