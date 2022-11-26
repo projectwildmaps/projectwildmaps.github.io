@@ -55,7 +55,7 @@
 	<script>
 		// GLOBALS (ones we should keep track of at least)
 		var map;
-		var markers = {}; //object to store our marker features, format "database_key": Feature object
+		var markers = {}; //stores the marker features, format "database_key": Feature object. Allows getting a marker by the database key for when we need to modify it.
 		var markerLayer; //global because legend.js needs to see this
 		var trailLayer;
 		var inputInfoWindow; //global because saveData() needs this
@@ -207,7 +207,7 @@
 
 			// Color the data layer based on the category of the data, and give each point roll over text
 			markerLayer.setStyle(function (feature) {
-				let visible = feature.getProperty('my_category_visible');
+				let visible = feature.getProperty('my_category_visible'); //messed with in legend.js
 				if (feature.getProperty('archived') && !feature.getProperty('archived_visible')) {
 					visible = false;
 				}
@@ -241,6 +241,7 @@
 				
 				content.addEventListener("click", function(e){
 					if(e.target.classList.contains("set_archived")){
+						//toggle archived state of this point
 						archived = !archived;
 						update(ref, {'archived': archived});
 						content.querySelector(".set_archived").textContent = archived ? "Unarchive" : "Archive";
@@ -263,14 +264,14 @@
 			// Put the data layer on the map
 			markerLayer.setMap(map);
 
-			// Make an info window for showing the data input form. Global so other funcs can see it
+			// Fill category options and make an info window for showing the data input form.
 			var category_datalist = document.getElementById("category");
 			categories.forEach((category) => {
 				let option = document.createElement("option");
 				option.value = category;
 				category_datalist.appendChild(option);
 			});
-			inputInfoWindow = new google.maps.InfoWindow({disableAutoPan: true});
+			inputInfoWindow = new google.maps.InfoWindow({disableAutoPan: true}); //assigned to global var
 			inputInfoWindow.setContent(document.getElementById("input_form_content")); //beginning of body tag
 			document.getElementById("submit").addEventListener("click", saveData);
 			//if mobile device, squish size of input fields to better fit

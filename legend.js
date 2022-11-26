@@ -65,17 +65,17 @@ function initLegend() {
     });
 
     //Add show/hide archived button
-    let toggle_archive = document.createElement("div");
-    toggle_archive.id = "legend_toggle_archived";
-    toggle_archive.textContent = "show archived pts";
-    toggle_archive.addEventListener("click", function(){
+    let toggle_archived = document.createElement("div");
+    toggle_archived.id = "legend_toggle_archived";
+    toggle_archived.textContent = "show archived pts";
+    toggle_archived.addEventListener("click", function(){
         archived_visible = !archived_visible;
-        toggle_archive.textContent = archived_visible ? "hide archived pts" : "show archived pts";
+        toggle_archived.textContent = archived_visible ? "hide archived pts" : "show archived pts";
         markerLayer.forEach((marker) => {
             marker.setProperty("archived_visible", archived_visible);
         });
     })
-    legend.appendChild(toggle_archive);
+    legend.appendChild(toggle_archived);
 
     if(isMobileBrowser()){ //detect_mobile.js
         legend.style.marginTop = "100px";
