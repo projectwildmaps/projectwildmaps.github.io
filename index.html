@@ -179,14 +179,19 @@
 				let data = snapshot.val()
 				var geowanted = new google.maps.Data.Point({ lat: data.lat, lng: data.lon });
 				var propswanted = {
+
 					name: data.name,
 					description: data.description,
 					category: data.category,
 					date: data.date,
 					archived: data.archived,
+					//comments: data.comments
+
 					archived_visible: archived_visible, //styling attribute
 					my_category_visible: true, //styling attribute, set to true even if category not visible, so users have confirmation their new point was created successfully
-					ref: snapshot.ref //database reference object
+					ref: snapshot.ref, //database reference object
+					key: snapshot.key //data location in database
+
 				};
 				var new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
 				markers[snapshot.key] = new_feature; //markers is a global variable
@@ -197,8 +202,11 @@
 				//update archived
 				markers[snapshot.key].setProperty('archived', snapshot.val().archived); //triggers style recompute
 
-				//update comments if data info window currently open
-				if(dataInfoWindow.map){
+				//update comments
+				//TODO (setProperty)
+
+				//update comments display if data info window currently open
+				if(dataInfoWindow.map && dataInfoWindow.content.key == snapshot.key){
 					//TODO
 				}
 			}));
@@ -234,9 +242,13 @@
 				var contributorName = event.feature.getProperty('name');
 				var archived = event.feature.getProperty('archived');
 				var ref = event.feature.getProperty('ref');
+				var key = event.feature.getProperty('key');
 
 				//define comments HTML as a function because reused when submitting a new comment
+				// ... oh wait, but we're re-using this sort of thing in onChildChanged
+				// So maybe this click handler function should really be a separate function. It is kinda long.
 				var commentsHTML = function(){
+					return ""; //temporary
 					//TODO
 					//if comments exist
 					return "<div class='comments'>" + 
@@ -245,21 +257,22 @@
 				}
 
 				var content = document.createElement("div");
+				content.key = key; //data attribute, used for updating comments in onChildChanged
 				content.innerHTML = (category? "<b>" + category + "</b>" : "") +
+									"<p>" + markerDescription + "</p>" +
+									"Contributed By: " + contributorName + "<br>" +
+									"<i>" + timeStamp + "</i><br>" +
 									"<div class='info_window_actions'>" +
 										"<u class='add_comment'>Add Comment</u>" +
 										"<u class='set_archived'>" + (archived ? "Unarchive" : "Archive") +"</u>" +
 									"</div>" +
-									"<p>" + markerDescription + "</p>" +
-									"Contributed By: " + contributorName + "<br>" +
-									"<i>" + timeStamp + "</i><br>" +
 									commentsHTML();
 				
 				content.addEventListener("click", function(e){
 					if(e.target.classList.contains("set_archived")){
 						//toggle archived state of this point
 						archived = !archived;
-						update(ref, {'archived': archived});
+						update(ref, {'archived': archived}); //triggers onChildChanged
 						content.querySelector(".set_archived").textContent = archived ? "Unarchive" : "Archive";
 					}
 					else if(e.target.classList.contains("add_comment")){

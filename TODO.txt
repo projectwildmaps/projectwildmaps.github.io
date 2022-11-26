@@ -12,6 +12,7 @@ Priority
 - Add comment feature on client
     - is the 'markers' variable necessary? Probably convenient for this but not sure otherwise
     - add database rule to allow appends to comments array
+- Should comments be archiveable?
 - Better colors for points
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
