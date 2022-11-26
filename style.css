@@ -60,7 +60,7 @@ textarea {
 .new_comment .cancel_new_comment {
     margin: 5px 0 0 8px;
     cursor: pointer;
-    color: gray;
+    color: #555;
     display: inline-block;
 }
 .new_comment .cancel_new_comment:hover {
