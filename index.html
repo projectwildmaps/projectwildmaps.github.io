@@ -194,7 +194,13 @@
 			}));
 			// Handle points being modified (archive/unarchive, comments)
 			onChildChanged(ref(database), (snapshot => {
+				//update archived
 				markers[snapshot.key].setProperty('archived', snapshot.val().archived); //triggers style recompute
+
+				//update comments if data info window currently open
+				if(dataInfoWindow.map){
+					//TODO
+				}
 			}));
 			// Handle points being removed. This will only happen if someone deletes a point from the firebase console.
 			// We're not allowing clients to delete points, only archive them.
@@ -229,6 +235,15 @@
 				var archived = event.feature.getProperty('archived');
 				var ref = event.feature.getProperty('ref');
 
+				//define comments HTML as a function because reused when submitting a new comment
+				var commentsHTML = function(){
+					//TODO
+					//if comments exist
+					return "<div class='comments'>" + 
+								"<hr><b>Comments:</b>" +
+							"</div>"; //etc
+				}
+
 				var content = document.createElement("div");
 				content.innerHTML = (category? "<b>" + category + "</b>" : "") +
 									"<div class='info_window_actions'>" +
@@ -237,7 +252,8 @@
 									"</div>" +
 									"<p>" + markerDescription + "</p>" +
 									"Contributed By: " + contributorName + "<br>" +
-									"<i>" + timeStamp + "</i><br>"
+									"<i>" + timeStamp + "</i><br>" +
+									commentsHTML();
 				
 				content.addEventListener("click", function(e){
 					if(e.target.classList.contains("set_archived")){
@@ -263,7 +279,8 @@
 						content.removeChild(content.querySelector('.new_comment'));
 					}
 					else if(e.target.classList.contains("submit_comment")){
-						
+						content.removeChild(content.querySelector('.new_comment'));
+						//TODO
 					}
 				});
 
