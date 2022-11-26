@@ -41,6 +41,31 @@ body {
     margin-right: 5px;
 }
 
+.new_comment input, .new_comment textarea {
+    margin-top: 5px;
+    border: 1px solid #777; /*specifying border b/c if don't, sometimes get weird display glitches*/
+    border-radius: 2px;
+}
+.new_comment .submit_comment {
+    margin-top: 5px;
+    cursor: pointer;
+}
+.new_comment .cancel_new_comment {
+    margin: 5px 0 0 8px;
+    cursor: pointer;
+    color: gray;
+    display: inline-block;
+}
+.new_comment .cancel_new_comment:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+.new_comment textarea {
+    height: 75px;
+    width: calc(100% - 7px); /*calc value fills the info window w/o causing a horizontal scrollbar*/ 
+}
+
 #legend {
     padding: 3px;
     box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;

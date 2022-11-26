@@ -247,7 +247,23 @@
 						content.querySelector(".set_archived").textContent = archived ? "Unarchive" : "Archive";
 					}
 					else if(e.target.classList.contains("add_comment")){
-						console.log("comment");
+						if(content.querySelectorAll(".new_comment").length == 0){
+							content.innerHTML += "<div class='new_comment'>" + 
+												"<hr><b>New Comment:</b><br>" +
+												"<input placeholder='Enter your name here'></input><br>" +
+												"<textarea placeholder='Enter comment text...'></textarea><br>" +
+												"<button class='submit_comment'>Submit</button>" +
+												"<p class='cancel_new_comment'>Cancel</p>"
+											 "</div>";
+						}
+						content.parentElement.scrollTo(0, content.scrollHeight);
+						autoPan(content);
+					}
+					else if(e.target.classList.contains("cancel_new_comment")){
+						content.removeChild(content.querySelector('.new_comment'));
+					}
+					else if(e.target.classList.contains("submit_comment")){
+						
 					}
 				});
 
