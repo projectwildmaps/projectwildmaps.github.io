@@ -129,6 +129,11 @@ https://www.google.com/recaptcha/admin/site/590705982
 
 https://firebase.google.com/docs/app-check/web/recaptcha-provider?authuser=0&hl=en
 
+Disabled, but if you want to enable it:
+- click enforce in the firebase console
+- uncomment the code under initialize firebase in index.html
+- the app will now only work when served from projectwildmaps.github.io
+
 ## Useful Documentation Links
 
 
