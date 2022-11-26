@@ -12,6 +12,13 @@ body {
     background: #f4f4f4;
 }
 
+textarea, input {
+    font-family: 'Roboto', Arial, sans-serif; /*What Google uses for info windows, use for consistency*/
+}
+textarea {
+    resize: none;
+}
+
 #map {
     position: absolute;
     top: 0px;
@@ -60,7 +67,6 @@ body {
     text-decoration: underline;
     color: black;
 }
-
 .new_comment textarea {
     height: 75px;
     width: calc(100% - 7px); /*calc value fills the info window w/o causing a horizontal scrollbar*/ 
@@ -88,13 +94,9 @@ body {
     color: royalblue;
 }
 
-.input_field {
+.input_field { /*For the data input form*/
     display: block;
     margin-bottom: 10px;
-}
-
-textarea {
-    font-family: Arial;
 }
 
 #instructions_container {
