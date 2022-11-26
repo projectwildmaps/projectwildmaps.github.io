@@ -19,6 +19,9 @@ Priority
 - Sanitize inputs?
 - Add password protection
 - Set category to "Other" in existing data for points missing this attribute
+- Consider changing the data input info window to use a div + innerHTML like we did for the data info window
+    - use a for loop for the datalist options
+    - don't need to clear the input every time we open it, or have awkward HTML at the top of index.html
 
 Non-priority
 - Filter by date
