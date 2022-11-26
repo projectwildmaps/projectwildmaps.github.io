@@ -8,10 +8,29 @@ Priority
     https://cloud.google.com/billing/docs/how-to/manage-billing-account?_ga=2.99013150.-1698826392.1668412686
     - VISA gift card??
 
-- Set (and test) database rules:
-    - New "archived" attribute for all data points, this is the only thing updateable
-    - No deletion allowed
-    - New comments field (allow appending, but no editing previous comments)
+- Add comment feature on client
+    - is the 'markers' variable necessary? Probably convenient for this but not sure otherwise
+    - add database rule to allow appends to comments array
+- Better colors for points
+- Write documentation for future users
+- Set up PMAPS email to forward to the PWILD duke email, document this
+- Allow backup creation client side
+- Sanitize inputs?
+- Add password protection
+
+Non-priority
+- Filter by date
+- Trails display
+- Pictures?
+- Styling archived points differently? Could do easily in the setStyle function where we style the other points
+- Data validation for new points added - not really necessary
+- Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't spam the email
+
+
+Done
+- Show category in infowindow
+- Legend for point colors (or different symbols)
+- Store previous points with unique keys, instead of incrementing counter
 - Add archive/unarchive feature on client
     - fix styling: both the legend and the toggle archived display should set a feature property
         that is checked in the main setStyle function.
@@ -21,25 +40,6 @@ Priority
     - how to handle new points though? (what values for these properties?)
         - archived_visible = global archived_visible var
         - my_category_visible = true, even if not really. Good for people to get confirmation their point was added
-- Add comment feature on client
-    - is the 'markers' variable necessary? Probably convenient for this but not sure otherwise
-- Data validation for new points added
-- Better colors for points
-- Write documentation for future users
-- Set up PMAPS email to forward to the PWILD duke email, document this
-- Allow backup creation client side
-    - Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't
-    spam the email
-- Add password protection
-
-Non-priority
-- Filter by date
-- Trails display
-- Pictures?
-- Styling archived points differently? Could do easily in the setStyle function where we style the other points
-
-
-Done
-- Show category in infowindow
-- Legend for point colors (or different symbols)
-- Store previous points with unique keys, instead of incrementing counter
+- Set (and test) database rules:
+    - New "archived" attribute for all data points, this is the only thing updateable
+    - No deletion allowed
