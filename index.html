@@ -5,7 +5,7 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<title>PMAPS: PWILD Marking/Annotating Pisgah Systematically</title>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link type="text/css" rel="stylesheet" href="style.css"/>
+	<link type="text/css" rel="stylesheet" href="style.css" />
 
 
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U"></script>
@@ -45,13 +45,14 @@
 				Hoka Hey!
 				<p>Welcome to PMAPS, blah blah blah</p>
 			</div>
-			<button id="close_instructions" onclick="document.getElementById('instructions_container').style.display='none'">
+			<button id="close_instructions"
+				onclick="document.getElementById('instructions_container').style.display='none'">
 				Let's Go!
 			</button>
 		</div>
 	</div>
 
-	
+
 	<script>
 		// GLOBALS (ones we should keep track of at least)
 		var map;
@@ -61,17 +62,18 @@
 		var inputInfoWindow; //global because saveData() needs this
 		var usersMarker; //global because saveData() needs this
 		var archived_visible = false; //legend.js and archive button use this
-		var categories = ['VAM (View Appreciation Moment)',
-							'Waterfall',
-							'Water',
-							'Safety',
-							'Campsite',
-							'Pro-Tip!',
-							'Landmark',
-							'Funny Story',
-							'Solos',
-							'Other' //default, doesn't get special treatment in getDot()
-						];
+		var categories = [
+			'VAM (View Appreciation Moment)',
+			'Waterfall',
+			'Water',
+			'Safety',
+			'Campsite',
+			'Pro-Tip!',
+			'Landmark',
+			'Funny Story',
+			'Solos',
+			'Other' //default, doesn't get special treatment in getDot()
+		];
 	</script>
 
 	<script src="detect_mobile.js"></script>
@@ -83,7 +85,7 @@
 
 	<!--STUFF INVOLVING THE DATABASE-->
 
-	 <!--Firebase is module-based, so need a module script tag. Note that firebase imports are
+	<!--Firebase is module-based, so need a module script tag. Note that firebase imports are
 		only active in this script tag, so put all the database code here. Also note that js
 		treats module scripts as their own scope, so nothing declared here is in the global scope.-->
 	<script type="module">
@@ -93,7 +95,7 @@
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
 		import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app-check.js"
 		import { getDatabase, ref, onChildAdded, onChildChanged, onChildRemoved, update, push } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
-		
+
 		// Your web app's Firebase configuration
 		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 		const firebaseConfig = {
@@ -110,13 +112,13 @@
 		const app = initializeApp(firebaseConfig);
 		const database = getDatabase(app);
 		/*const appCheck = initializeAppCheck(app, {
-  			provider: new ReCaptchaV3Provider('6Lc-dTUjAAAAAOQFOlQaN6w81vK1Eso4oflV1sZk'),
+				provider: new ReCaptchaV3Provider('6Lc-dTUjAAAAAOQFOlQaN6w81vK1Eso4oflV1sZk'),
 			isTokenAutoRefreshEnabled: true
 		});*/
 
 		// END OF FIREBASE SETUP ------------------------------------------------------
 
-		
+
 
 		window.addEventListener("load", init);
 		function init() {
@@ -206,7 +208,7 @@
 				//TODO (setProperty)
 
 				//update comments display if data info window currently open
-				if(dataInfoWindow.map && dataInfoWindow.content.key == snapshot.key){
+				if (dataInfoWindow.map && dataInfoWindow.content.key == snapshot.key) {
 					//TODO
 				}
 			}));
@@ -225,15 +227,30 @@
 				if (feature.getProperty('archived') && !feature.getProperty('archived_visible')) {
 					visible = false;
 				}
+
+				let icon; //an object that will follow the google.maps.Icon interface
+				if (feature.getProperty('archived')){
+					icon = {
+						url: "dots/archived.png",
+						anchor: new google.maps.Point(6, 6) //center point, image is 12x12 px
+					}
+				}
+				else {
+					icon = {
+						url: getDot(feature.getProperty('category')),
+						anchor: new google.maps.Point(4.5, 4.5) //center point, image is 9x9 px
+					}
+				}
+
 				return {
-					icon: getDot(feature.getProperty('category')),
+					icon: icon,
 					title: feature.getProperty('description'),
 					visible: visible
 				};
 			});
 
 			// When the data layer is clicked on, display the appropriate data
-			window.dataInfoWindow = new google.maps.InfoWindow({disableAutoPan: true});
+			window.dataInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
 			window.dataInfoWindow = dataInfoWindow
 			markerLayer.addListener('click', function (event) {
 				var timeStamp = event.feature.getProperty('date');
@@ -247,51 +264,52 @@
 				//define comments HTML as a function because reused when submitting a new comment
 				// ... oh wait, but we're re-using this sort of thing in onChildChanged
 				// So maybe this click handler function should really be a separate function. It is kinda long.
-				var commentsHTML = function(){
+				var commentsHTML = function () {
 					return ""; //temporary
 					//TODO
 					//if comments exist
-					return "<div class='comments'>" + 
-								"<hr><b>Comments:</b>" +
-							"</div>"; //etc
+					return "<div class='comments'>" +
+						"<hr><b>Comments:</b>" +
+						"</div>"; //etc
 				}
 
 				var content = document.createElement("div");
-				content.key = key; //data attribute, used for updating comments in onChildChanged
-				content.innerHTML = (category? "<b>" + category + "</b>" : "") +
-									"<p>" + markerDescription + "</p>" +
-									"Contributed By: " + contributorName + "<br>" +
-									"<i>" + timeStamp + "</i><br>" +
-									"<div class='info_window_actions'>" +
-										"<u class='add_comment'>Add Comment</u>" +
-										"<u class='set_archived'>" + (archived ? "Unarchive" : "Archive") +"</u>" +
-									"</div>" +
-									commentsHTML();
-				
-				content.addEventListener("click", function(e){
-					if(e.target.classList.contains("set_archived")){
+				content.dataset.key = key; //data attribute, used for updating comments in onChildChanged
+				content.innerHTML = (category ? "<b>" + category + "</b>" : "") +
+					(archived ? " [ARCHIVED]" : "") +
+					"<p>" + markerDescription + "</p>" +
+					"Contributed By: " + contributorName + "<br>" +
+					"<i>" + timeStamp + "</i><br>" +
+					"<div class='info_window_actions'>" +
+					"<u class='add_comment'>Add Comment</u>" +
+					"<u class='set_archived'>" + (archived ? "Unarchive" : "Archive") + "</u>" +
+					"</div>" +
+					commentsHTML();
+
+				content.addEventListener("click", function (e) {
+					if (e.target.classList.contains("set_archived")) {
 						//toggle archived state of this point
 						archived = !archived;
-						update(ref, {'archived': archived}); //triggers onChildChanged
+						update(ref, { 'archived': archived }); //triggers onChildChanged
 						content.querySelector(".set_archived").textContent = archived ? "Unarchive" : "Archive";
 					}
-					else if(e.target.classList.contains("add_comment")){
-						if(content.querySelectorAll(".new_comment").length == 0){
-							content.innerHTML += "<div class='new_comment'>" + 
-												"<hr><b>New Comment:</b><br>" +
-												"<input placeholder='Enter your name here'></input><br>" +
-												"<textarea placeholder='Enter comment text...'></textarea><br>" +
-												"<button class='submit_comment'>Submit</button>" +
-												"<p class='cancel_new_comment'>Cancel</p>"
-											 "</div>";
+					else if (e.target.classList.contains("add_comment")) {
+						if (content.querySelectorAll(".new_comment").length == 0) {
+							content.innerHTML += "<div class='new_comment'>" +
+								"<hr><b>New Comment:</b><br>" +
+								"<input placeholder='Enter your name here'></input><br>" +
+								"<textarea placeholder='Enter comment text...'></textarea><br>" +
+								"<button class='submit_comment'>Submit</button>" +
+								"<p class='cancel_new_comment'>Cancel</p>"
+							"</div>";
 						}
 						content.parentElement.scrollTo(0, content.scrollHeight);
 						autoPan(content);
 					}
-					else if(e.target.classList.contains("cancel_new_comment")){
+					else if (e.target.classList.contains("cancel_new_comment")) {
 						content.removeChild(content.querySelector('.new_comment'));
 					}
-					else if(e.target.classList.contains("submit_comment")){
+					else if (e.target.classList.contains("submit_comment")) {
 						content.removeChild(content.querySelector('.new_comment'));
 						//TODO
 					}
@@ -300,9 +318,9 @@
 				dataInfoWindow.setContent(content);
 				dataInfoWindow.setPosition(event.feature.getGeometry().get());
 				dataInfoWindow.open(map);
-				
+
 				//auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
-				window.setTimeout(function(){
+				window.setTimeout(function () {
 					autoPan(content)
 				}, 10);
 			});
@@ -317,11 +335,11 @@
 				option.value = category;
 				category_datalist.appendChild(option);
 			});
-			inputInfoWindow = new google.maps.InfoWindow({disableAutoPan: true}); //assigned to global var
+			inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true }); //assigned to global var
 			inputInfoWindow.setContent(document.getElementById("input_form_content")); //beginning of body tag
 			document.getElementById("submit").addEventListener("click", saveData);
 			//if mobile device, squish size of input fields to better fit
-			if(isMobileBrowser()){ //detect_mobile.js
+			if (isMobileBrowser()) { //detect_mobile.js
 				document.querySelectorAll(".input_field").forEach((el) => {
 					el.style.width = "200px";
 				})
@@ -337,14 +355,14 @@
 				anchorPoint: new google.maps.Point(0, -30)
 			});
 			// When the user clicks on the big red pin, open up the form for data input.
-			google.maps.event.addListener(usersMarker, 'click', function(){
+			google.maps.event.addListener(usersMarker, 'click', function () {
 				inputInfoWindow.open(map, usersMarker);
 
 				//auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
-				setTimeout(function(){
+				setTimeout(function () {
 					autoPan(document.getElementById("input_form_content"))
 				}, 10);
-				
+
 				//reset fields (have to do it after opening, in order to access the elements)
 				document.getElementById("name").value = "";
 				document.getElementById("markerDescription").value = "";
@@ -383,19 +401,19 @@
 			var name = document.getElementById("name").value;
 			var description = document.getElementById("markerDescription").value;
 			var category = document.getElementById("categories").value;
-			
-			if(description.length == 0){
+
+			if (description.length == 0) {
 				alert("Please input a description.");
 				return;
 			}
 
-			if(name.length == 0){
+			if (name.length == 0) {
 				let confirmed = confirm("You haven't provided a name, do you wish to remain anonymous?");
-				if(!confirmed) return;
+				if (!confirmed) return;
 				name = "Unknown";
 			}
 
-			if(category.length == 0){
+			if (category.length == 0) {
 				let confirmed = confirm("You haven't provided a category, are you sure you want to leave this field blank? It will default to 'Other' as the category.")
 				if (!confirmed) return;
 				category = "Other";
