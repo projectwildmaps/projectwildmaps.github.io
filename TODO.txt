@@ -31,7 +31,6 @@ Non-priority
 - Styling archived points differently? Could do easily in the setStyle function where we style the other points
 - Data validation for new points added - not really necessary
 - Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't spam the email
-- Icons centered ever so slightly higher than their actual location
 
 Done
 - Show category in infowindow
@@ -49,3 +48,4 @@ Done
 - Set (and test) database rules:
     - New "archived" attribute for all data points, this is the only thing updateable
     - No deletion allowed
+- Icons centered ever so slightly higher than their actual location
