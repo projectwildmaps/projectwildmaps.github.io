@@ -116,7 +116,7 @@ function init() {
     // Put the data layer on the map
     markerLayer.setMap(map);
 
-    // Initialize the marker and input form that allows people to add new points
+    // Initialize the big red marker and input form that allows people to add new points
     initInputInfoWindow(); //inputInfoWindow.js
 
 
