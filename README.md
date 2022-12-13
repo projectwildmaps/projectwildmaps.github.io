@@ -1,3 +1,11 @@
+## Table of Contents
+1. [Overview](#overview)
+2. [Making Edits](#making-edits)
+3. [How the Code Works](#how-the-code-works)
+4. [Making Edits](#making-edits)
+5. [The Database](#the-database)
+6. [The Google Maps API](#the-google-maps-api)
+
 # Overview
 
 ## Introduction
@@ -92,24 +100,7 @@ trails/
 * Contains the trail vector data.
 
 
-# Making Edits
-
-Here are some common things you may want to change, and how to change them.
-
-### Add new category
-
-
-### Remove existing category
-- mention that this will change existing points of the removed category to be considered as Other, so may want to go into the database and update those
-
-### Add new maps
-
-
-### Change default starting location
-In index.html, the first script tag contains a list of global variables. Change the center_coords variable to have the new latitude/longitude that the map should be centered at by default.
-
-
-# Description of index.html
+# How the Code Works
 
 ## \<head\> Tag
 
@@ -131,6 +122,25 @@ Description of which maps are used / not
 How data is displayed (markers object, marker layer etc), how the legend works, how archived points are handled (added / removed from the markerLayer)
 - Note that the legend uses override/revert style so that it works with and plays nice with showing/hiding archived points. For controlling visibility, only one thing should be using override/revert style, and only one thing should be adding/removing points. Two ways of doing the same thing that don't interfere with each other.
 - Ok actually we should be doing styling by setting properties only used for styling, and only showing the point if both properties are true
+
+
+
+# Making Edits
+
+Here are some common things you may want to change, and how to change them.
+
+### Add a new category
+
+
+### Remove an existing category
+- mention that this will change existing points of the removed category to be considered as Other, so may want to go into the database and update those
+
+### Add a new map
+
+
+### Change the default starting location
+In index.html, the first script tag contains a list of global variables. Change the center_coords variable to have the new latitude/longitude that the map should be centered at by default.
+
 
 # The Database
 
