@@ -1,10 +1,9 @@
 ## Table of Contents
 1. [Overview](#overview)
-2. [Making Edits](#making-edits)
-3. [How the Code Works](#how-the-code-works)
-4. [Making Edits](#making-edits)
-5. [The Database](#the-database)
-6. [The Google Maps API](#the-google-maps-api)
+2. [How the Code Works](#how-the-code-works)
+3. [Making Edits](#making-edits)
+4. [The Database](#the-database)
+5. [The Google Maps API](#the-google-maps-api)
 
 # Overview
 
