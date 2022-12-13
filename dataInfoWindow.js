@@ -49,14 +49,23 @@ function openDataInfoWindow(feature){
                 let comment = {
                     name: name,
                     text: text,
-                    date: dateString
+                    date: dateString,
+                    deleted: false //when "deleting" a comment, we only change this value to true so it doesn't display, don't actually delete it
                 };
-                let feature_ref = feature.getProperty('ref');
-                let comments_ref = child(feature_ref, "comments");
+                let comments_ref = child(feature.getProperty('ref'), "comments");
                 push(comments_ref, comment);
     
                 // the push triggers onChildChanged, which will refresh the HTML, clearing the input form
                 // and displaying the new comment
+            }
+        }
+        else if(e.target.classList.contains("delete_comment")){
+            let yes_confirm = confirm("Are you sure you really want to delete this comment? You won't be able to get it back, though a backup will still be stored in the database.");
+            if(!yes_confirm){}
+            else {
+                let comment_key = e.target.dataset.comment_key;
+                let ref = child(feature.getProperty('ref'), "comments/" + comment_key);
+                update(ref, { deleted: true });
             }
         }
     });
@@ -92,12 +101,19 @@ function setDataInfoWindowHTML(div, feature) {
         commentsHTML += "<hr><b>Comments:</b>";
         for(let comment_key in comments){
             let comment = comments[comment_key];
-            commentsHTML += "<br><br>" + 
-                            "<div class='comment_header'>" + //styled as a flexbox with justify-content: space-between;
-                                "<u>" + comment.name + "</u>" +
-                                "<i>" + comment.date + "&nbsp;</i>" + //&nbsp; (non breaking space) so the date doesn't get cut off by overflow
-                            "</div>" +
-                            comment.text;
+            if(!comment.deleted){
+                commentsHTML += "<br><br>" + 
+                "<div class='comment_header'>" + //styled as a flexbox with justify-content: space-between;
+                    "<div>" +
+                        "<u>" + comment.name + "</u>&nbsp;&nbsp;" +
+                        "<i>" + comment.date + "</i>" +
+                    "</div>" +
+                    "<div>" +
+                        "<u class='delete_comment action' style='margin-left: 10px;' data-comment_key='" + comment_key + "'>Delete</u>" +
+                    "</div>" +
+                "</div>" +
+                comment.text;
+            }
         }
     }
 
@@ -106,9 +122,9 @@ function setDataInfoWindowHTML(div, feature) {
         "<p>" + markerDescription + "</p>" +
         "Contributed By: " + contributorName + "<br>" +
         "<i>" + timeStamp + "</i><br>" +
-        "<div class='info_window_actions'>" +
-        "<u class='add_comment action'>Add Comment</u>" +
-        "<u class='set_archived action'>" + (archived ? "Unarchive" : "Archive") + "</u>" +
+        "<div>" +
+            "<u class='add_comment action'>Add Comment</u>" +
+            "<u class='set_archived action'>" + (archived ? "Unarchive" : "Archive") + "</u>" +
         "</div>" +
         commentsHTML
 }
