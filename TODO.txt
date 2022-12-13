@@ -13,11 +13,10 @@ Priority
     - is the 'markers' variable necessary? Probably convenient for this but not sure otherwise
     - add database rule to allow appends to comments array
 - Should comments be archiveable?
-- Better colors for points
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
 - Allow backup creation client side
-- Sanitize inputs?
+- Sanitize outputs with textContent
 - Add password protection
 - Set category to "Other" in existing data for points missing this attribute
 - Consider changing the data input info window to use a div + innerHTML like we did for the data info window
@@ -49,3 +48,4 @@ Done
     - New "archived" attribute for all data points, this is the only thing updateable
     - No deletion allowed
 - Icons centered ever so slightly higher than their actual location
+- Better colors for points
