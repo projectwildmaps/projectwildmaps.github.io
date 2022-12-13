@@ -32,6 +32,9 @@ legend.js
 getDot.js
 * stuff
 
+dataInfoWindow.js
+* stuff
+
 autopan.js
 * stuff
 
@@ -39,6 +42,9 @@ detect_mobile.js
 * stuff
 
 trails.js
+* stuff
+
+init.js
 * stuff
 
 markerDataBackup_\[date\].json
