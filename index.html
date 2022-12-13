@@ -56,6 +56,7 @@
 	<script>
 		// GLOBALS (ones we should keep track of at least)
 		var map;
+		var center_coords = new google.maps.LatLng(35.292621, -82.833716);
 		var markers = {}; //stores the marker features, format "database_key": Feature object. Allows getting a marker by the database key for when we need to modify it.
 		var markerLayer; //global because legend.js needs to see this
 		var trailLayer;
@@ -126,7 +127,7 @@
 				streetViewControl: true,
 				mapTypeId: 'Nat Geo',
 				backgroundColor: "rgb(220,220,220)",
-				center: new google.maps.LatLng(35.292621, -82.833716),
+				center: center_coords, //global config var
 				zoom: 13,
 				mapTypeControlOptions: {
 					mapTypeIds: [

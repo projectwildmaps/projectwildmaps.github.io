@@ -83,6 +83,22 @@ trails/
 * Contains the trail vector data.
 
 
+# Making Edits
+
+Here are some common things you may want to change, and how to change them.
+
+### Add new category
+
+
+### Remove existing category
+- mention that this will change existing points of the removed category to be considered as Other, so may want to go into the database and update those
+
+### Add new maps
+
+
+### Change default starting location
+In index.html, the first script tag contains a list of global variables. Change the center_coords variable to have the new latitude/longitude that the map should be centered at by default.
+
 
 # Description of index.html
 
