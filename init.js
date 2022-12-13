@@ -44,7 +44,7 @@ function init() {
             category: data.category,
             date: data.date,
             archived: data.archived,
-            //comments: data.comments
+            comments: data.comments,
 
             archived_visible: archived_visible, //styling attribute
             my_category_visible: true, //styling attribute, set to true even if category not visible, so users have confirmation their new point was created successfully
@@ -62,9 +62,9 @@ function init() {
         markers[snapshot.key].setProperty('archived', snapshot.val().archived); //triggers style recompute
 
         //update comments
-        //NOT READY YET - markers[snapshot.key].setProperty('comments', snapshot.val().comments)
+        markers[snapshot.key].setProperty('comments', snapshot.val().comments);
 
-        //if data info window is open for this point, update it
+        //if data info window is open for this point, update it's displayed information
         let content_div = document.querySelector("div[data-key = '" + snapshot.key + "']");
         if (content_div) {
             setDataInfoWindowHTML(content_div, markers[snapshot.key]); //dataInfoWindow.js
