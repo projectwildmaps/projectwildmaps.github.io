@@ -10,11 +10,6 @@ Priority
     that are free."
     https://cloud.google.com/billing/docs/how-to/manage-billing-account?_ga=2.99013150.-1698826392.1668412686
     - VISA gift card??
-
-- Add comment feature on client
-    - is the 'markers' variable necessary? Probably convenient for this but not sure otherwise
-    - add database rule to allow appends to comments array
-- Should comments be archiveable?
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
 - Allow backup creation client side
@@ -22,6 +17,7 @@ Priority
 - Add password protection
 - Set category to "Other" in existing data for points missing this attribute
 - Consider changing the data input info window to use a div + innerHTML like we did for the data info window
+    - do an event listener on the overall content div just like we did w the data input window
     - use a for loop for the datalist options
     - don't need to clear the input every time we open it, or have awkward HTML at the top of index.html
 
@@ -29,7 +25,6 @@ Non-priority
 - Filter by date
 - Trails display
 - Pictures?
-- Styling archived points differently? Could do easily in the setStyle function where we style the other points
 - Data validation for new points added - not really necessary
 - Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't spam the email
 
@@ -51,3 +46,8 @@ Done
     - No deletion allowed
 - Icons centered ever so slightly higher than their actual location
 - Better colors for points
+- Add comment feature on client
+    - is the 'markers' variable necessary? Probably convenient for this but not sure otherwise
+    - add database rule to allow appends to comments array
+- Comments can be "deleted" - just means they will no longer show, database still has it
+- Styling archived points differently? Could do easily in the setStyle function where we style the other points
