@@ -40,7 +40,7 @@ textarea {
     }
 }
 
-.info_window_actions .action {
+.action { /* meant for info windows */
     color: gray;
     margin: 0;
     cursor: pointer;
