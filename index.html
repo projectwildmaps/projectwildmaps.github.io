@@ -74,15 +74,19 @@
 		var markers = {}; //stores the marker features, format "database_key": Feature object. Allows getting a marker by the database key for when we need to modify it.
 		var markerLayer; //global because legend.js needs to see this
 		var trailLayer;
-		var inputInfoWindow; //global because saveData() needs this
-		var usersMarker; //global because saveData() needs this
 		var archived_visible = false; //legend.js and archive button use this
+
+		//other globals defined in more relevant scripts
+		//dataInfoWindow - see dataInfoWindow.js
+		//inputInfoWindow - see inputInfoWindow.js
+		//usersMarker - see inputInfoWindow.js
 	</script>
 
 	<script src="detect_mobile.js"></script>
 	<script src="map_definitions.js"></script>
 	<script src="getDot.js"></script>
 	<script src="dataInfoWindow.js"></script>
+	<script src="inputInfoWindow.js"></script>
 	<script src="legend.js"></script>
 	<script src="autopan.js"></script>
 	<script src="trails.js"></script>
@@ -127,48 +131,6 @@
 		window.push = push;
 
 		window.database = database;
-	</script>
-	<script>
-		function saveData() { //What to do when the user hits the "submit" button on the user input form.
-			// Awkwardly pulls what the user wrote on the input form
-			var name = document.getElementById("name").value;
-			var description = document.getElementById("markerDescription").value;
-			var category = document.getElementById("categories").value;
-
-			if (description.length == 0) {
-				alert("Please input a description.");
-				return;
-			}
-
-			if (name.length == 0) {
-				let confirmed = confirm("You haven't provided a name, do you wish to remain anonymous?");
-				if (!confirmed) return;
-				name = "Unknown";
-			}
-
-			if (category.length == 0) {
-				let confirmed = confirm("You haven't provided a category, are you sure you want to leave this field blank? It will default to 'Other' as the category.")
-				if (!confirmed) return;
-				category = "Other";
-			}
-
-			var pos = usersMarker.getPosition();
-			var d = new Date();
-			var dateString = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
-
-			// Adds the data to the database
-			push(ref(database), {
-				lat: pos.lat(),
-				lon: pos.lng(),
-				name: name,
-				description: description,
-				category: category,
-				date: dateString,
-				archived: false
-			});
-
-			inputInfoWindow.close(); // If we're saving data, we must be done with the input form, so let's close it.
-		}
 	</script>
 
 	<script src="init.js"></script>

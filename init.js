@@ -1,4 +1,5 @@
 function init() {
+    // MAP STUFF --------------------------------------------------------
     var opts = {
         streetViewControl: true,
         mapTypeId: 'Nat Geo',
@@ -24,30 +25,9 @@ function init() {
 
     initLegend(); //legend.js
 
-    // Things above this point deal with the maps. Things below this point deals with the data.
 
-    /*
-        var trailDataLayer = new google.maps.Data();
-        trailDataLayer.loadGeoJson('trails/srw_data.geojson');
-        trailDataLayer.loadGeoJson('trails/graveyard.geojson');
-        trailDataLayer.loadGeoJson('trails/davidson.geojson');
-        trailDataLayer.loadGeoJson('trails/blueRidge.geojson');
-        trailDataLayer.loadGeoJson('trails/blackBalsam.geojson');
-        trailDataLayer.loadGeoJson('trails/mills.geojson');
-        trailDataLayer.loadGeoJson('trails/farlow.geojson');
-        trailDataLayer.loadGeoJson('trails/mount2sea.geojson');
-    
-        trailDataLayer.addListener('click', function(event) {
-            var content = "<div class='googft-info-window'>"+
-                            "<h1>"+event.feature.getProperty('name')+"</h1>"+
-                            "<i>"+event.feature.getProperty('segment')+"</i>"+
-                            "</div>";
-            infowindow.setContent(content);
-            infowindow.setPosition(event.feature.getGeometry().get()); //This doesn't work. This would be right if it were points, not trails.
-            infowindow.open(map);
-        });
-        trailDataLayer.setMap(map);
-    */
+
+    // DATA STUFF ------------------------------------------------------------------------------------
 
     // Create data layer to hold all the data people have added
     markerLayer = new google.maps.Data();
@@ -136,51 +116,36 @@ function init() {
     // Put the data layer on the map
     markerLayer.setMap(map);
 
-    // Fill category options and make an info window for showing the data input form.
-    var category_datalist = document.getElementById("category");
-    categories.forEach((category) => {
-        let option = document.createElement("option");
-        option.value = category;
-        category_datalist.appendChild(option);
-    });
-    inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true }); //assigned to global var
-    inputInfoWindow.setContent(document.getElementById("input_form_content")); //beginning of body tag
-    document.getElementById("submit").addEventListener("click", saveData);
-    //if mobile device, squish size of input fields to better fit
-    if (isMobileBrowser()) { //detect_mobile.js
-        document.querySelectorAll(".input_field").forEach((el) => {
-            el.style.width = "200px";
-        })
-    }
-
-    // Makes a big red pin, used for inputting data
-    usersMarker = new google.maps.Marker({
-        position: map.getCenter(),
-        map: map,
-        title: 'Use me to mark places',
-        draggable: true,
-        animation: google.maps.Animation.DROP,
-        anchorPoint: new google.maps.Point(0, -30)
-    });
-    // When the user clicks on the big red pin, open up the form for data input.
-    google.maps.event.addListener(usersMarker, 'click', function () {
-        inputInfoWindow.open(map, usersMarker);
-
-        //auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
-        setTimeout(function () {
-            autoPan(document.getElementById("input_form_content"))
-        }, 10);
-
-        //reset fields (have to do it after opening, in order to access the elements)
-        document.getElementById("name").value = "";
-        document.getElementById("markerDescription").value = "";
-        document.getElementById("categories").value = "";
-    });
-    // When the user moves the big red pin, close the data input form. They clearly don't need it. You know what? We don't need them either!
-    google.maps.event.addListener(usersMarker, 'position_changed', function () { inputInfoWindow.close(); });
+    // Initialize the marker and input form that allows people to add new points
+    initInputInfoWindow(); //inputInfoWindow.js
 
 
-    // Trails Stuff
+    // TRAIL STUFF -----------------------------------------------------------------------------
+
+    /*
+        var trailDataLayer = new google.maps.Data();
+        trailDataLayer.loadGeoJson('trails/srw_data.geojson');
+        trailDataLayer.loadGeoJson('trails/graveyard.geojson');
+        trailDataLayer.loadGeoJson('trails/davidson.geojson');
+        trailDataLayer.loadGeoJson('trails/blueRidge.geojson');
+        trailDataLayer.loadGeoJson('trails/blackBalsam.geojson');
+        trailDataLayer.loadGeoJson('trails/mills.geojson');
+        trailDataLayer.loadGeoJson('trails/farlow.geojson');
+        trailDataLayer.loadGeoJson('trails/mount2sea.geojson');
+    
+        trailDataLayer.addListener('click', function(event) {
+            var content = "<div class='googft-info-window'>"+
+                            "<h1>"+event.feature.getProperty('name')+"</h1>"+
+                            "<i>"+event.feature.getProperty('segment')+"</i>"+
+                            "</div>";
+            infowindow.setContent(content);
+            infowindow.setPosition(event.feature.getGeometry().get()); //This doesn't work. This would be right if it were points, not trails.
+            infowindow.open(map);
+        });
+        trailDataLayer.setMap(map);
+    */
+
+
     /*trailLayer = new google.maps.FusionTablesLayer({
         query: {
             select: 'ns1:coordinates',
