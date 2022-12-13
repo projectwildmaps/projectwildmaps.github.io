@@ -81,6 +81,8 @@ package.json, package-lock.json
 
 ### Old, Unused Files
 
+**Note that none of these files work, they are only here because I didn't want to delete them.**
+
 OLD_PMAPS.html
 * The original version of PMAPS, which read data from a google spreadsheet and wrote new data by submitting to a google form through javascript. The spreadsheet is deleted, so this version doesn't work anymore. To run this version, you just need this file, markerForm.html, and the map folders.
 
