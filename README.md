@@ -26,6 +26,9 @@ style.css
 map_definitions.js
 * Stuff
 
+init.js
+* stuff
+
 legend.js
 * stuff
 
@@ -35,6 +38,9 @@ getDot.js
 dataInfoWindow.js
 * stuff
 
+inputInfoWindow.js
+* stuff
+
 autopan.js
 * stuff
 
@@ -42,9 +48,6 @@ detect_mobile.js
 * stuff
 
 trails.js
-* stuff
-
-init.js
 * stuff
 
 markerDataBackup_\[date\].json
