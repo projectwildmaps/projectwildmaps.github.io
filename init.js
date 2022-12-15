@@ -44,20 +44,29 @@ function init() {
     // set up location changing widget
 
     let location_dropdown = document.getElementById("change_location");
+    let location_button = document.getElementById("change_location_button");
+    let location_list = document.getElementById("locations");
+
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(location_dropdown);
 
     //populate location list
-    let location_list = document.getElementById("locations");
     for(let name in locations){ //global config var
         let li = document.createElement("li");
         li.textContent = name;
         if(locations[name].default){li.style.fontWeight = 500;}
         location_list.appendChild(li);
     }
-    //add event handler to make menu appear and to handle location changes
+    //add event handler to make menu appear/disappear and to handle location changes
     document.addEventListener("click", function(e){
         if(location_dropdown.contains(e.target)){
-            location_list.style.display = "block";
+            // menu appear / disappear
+            if(location_button.contains(e.target) && location_list.style.display != "none"){
+                location_list.style.display = "none";
+            }
+            else {
+                location_list.style.display = "block";
+            }
+            // location change
             if(e.target.tagName == "LI"){
                 //switch which one is bold
                 location_list.querySelectorAll("li").forEach(li => {li.style.fontWeight = "initial";});
@@ -81,6 +90,11 @@ function init() {
     });
     //event handlers to hide the menu - the mouseleave/mouseenter one is just for convenience, and copying google
     document.addEventListener("mousedown", function(e){
+        if(!location_dropdown.contains(e.target)){
+            location_list.style.display = "none";
+        }
+    });
+    document.addEventListener("touchstart", function(e){ //for mobile compatibility
         if(!location_dropdown.contains(e.target)){
             location_list.style.display = "none";
         }
