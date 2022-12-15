@@ -57,8 +57,8 @@ detect_mobile.js
 trails.js
 * stuff
 
-markerDataBackup_\[date\].json
-* Contains the most recent backup made of the database. A new backup can be made by viewing the database from the Firebase console and exporting the data as JSON. When you do this, rename the file with the date the backup was made.
+PMAPS Data Backup \[date\].json
+* Contains the most recent backup made of the database. A new backup can be made by clicking the "Download Data" button while viewing PMAPS.
 
 TODO.txt
 * stuff

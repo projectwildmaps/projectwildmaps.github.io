@@ -76,8 +76,4 @@ function initLegend() {
         });
     })
     legend.appendChild(toggle_archived);
-
-    if(isMobileBrowser()){ //detect_mobile.js
-        legend.style.marginTop = "100px";
-    }
 }

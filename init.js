@@ -11,17 +11,18 @@ function init() {
                 'USGS 2013', 'USGS TIFF', 'Nat Geo', 'USGS',
                 google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE,
                 google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN
-            ]
+            ],
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
         }
     }
     map = new google.maps.Map(document.getElementById("map"), opts);
     map.setTilt(45);
 
     // add maps defined in map_definitions.js to the map
-    //map.mapTypes.set('USGS 2013', usgs2013);
+    map.mapTypes.set('USGS 2013', usgs2013);
     map.mapTypes.set('USGS TIFF', usgsTiff);
     map.mapTypes.set('Nat Geo', natGeo);
-    //map.mapTypes.set('USGS', usgsStolen);
+    //map.mapTypes.set('USGS', usgsStolen); // basically the same as USGS TIFF but worse quality
 
     initLegend(); //legend.js
 
@@ -118,6 +119,30 @@ function init() {
 
     // Initialize the big red marker and input form that allows people to add new points
     initInputInfoWindow(); //inputInfoWindow.js
+
+    //Init the map control that lets you download the data
+    let download_button = document.getElementById("download_data");
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(download_button);
+    download_button.addEventListener("click", function(){
+        // we use the get function to get a fresh and correct copy of the data from the database, in case we messed up tracking data in the markers object upon onChildChanged etc.
+        get(ref(database)).then((snapshot) => {
+            const data = JSON.stringify(snapshot.val(), null, 4); // use 4 spaces as whitespace indent
+            const blob = new Blob([data], {type: "application/json"});
+            const url = URL.createObjectURL(blob);
+
+            let d = new Date();
+            const dateString = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
+
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = "PMAPS Data Backup " + dateString;
+
+            a.click();
+            
+            URL.revokeObjectURL(url); // saves memory, since the created URL stays around until page unload by default
+        });
+    });
+
 
 
     // TRAIL STUFF -----------------------------------------------------------------------------

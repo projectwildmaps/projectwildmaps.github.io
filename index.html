@@ -35,8 +35,11 @@
 
 
 	<div id="map"></div>
-	<div id="legend">
+	<div id="legend" class="custom_map_control">
 		<b>Legend</b>
+	</div>
+	<div id="download_data" class="custom_map_control">
+		Download Data
 	</div>
 
 	<div id="instructions_container">
@@ -99,7 +102,7 @@
 		// Import the functions you need from the SDKs you need
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
 		import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app-check.js"
-		import { getDatabase, ref, child, onChildAdded, onChildChanged, onChildRemoved, update, push } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+		import { getDatabase, ref, child, onChildAdded, onChildChanged, onChildRemoved, update, push, get } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
 
 		// Your web app's Firebase configuration
 		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -130,6 +133,7 @@
 		window.onChildRemoved = onChildRemoved;
 		window.update = update;
 		window.push = push;
+		window.get = get;
 
 		window.database = database;
 	</script>
