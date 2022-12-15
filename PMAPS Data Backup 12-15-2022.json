@@ -1213,5 +1213,23 @@
         "lat": 35.366671347197986,
         "lon": -82.74011763421629,
         "name": "Adam"
+    },
+    "-NJJGKcSOKMeHKvIFwOx": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "12-15-2022",
+        "description": "Cripple Creek Arch. \"Mountain Man\" and \"Cripple Creek\" seem to be used interchangeably on maps to mean this area.",
+        "lat": 36.48101714720019,
+        "lon": -80.86386366668704,
+        "name": "Adam"
+    },
+    "-NJJGj0rCaDZeHUtIU2q": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "12-15-2022",
+        "description": "Wilderness Cabin",
+        "lat": 36.48556321219377,
+        "lon": -80.87077840152743,
+        "name": "Adam"
     }
 }
