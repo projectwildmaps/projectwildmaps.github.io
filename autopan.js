@@ -10,7 +10,7 @@ function autoPan(info_window_content){
     let margin = { //min px margin from the info window
         left: 11,
         right: 115,
-        top: window.innerWidth > 400 ? 61 : 101,
+        top: 61,
         bottom: 33
     }
     // google's default margins are ish {left:61, right:79, top:61, bottom:83}

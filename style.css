@@ -99,6 +99,8 @@ textarea {
 
 #download_data {
     cursor: pointer;
+    text-align: center;
+    margin-top: 0;
 }
 
 #change_location {
@@ -121,6 +123,7 @@ textarea {
     font-size: 18px;
     font-family: Roboto, Arial, sans-serif;
     font-weight: 500;
+    color: black;
 }
 #change_location > button:hover {
     background-color: rgb(235, 235, 235);
