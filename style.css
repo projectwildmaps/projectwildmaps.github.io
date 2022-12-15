@@ -77,13 +77,14 @@ textarea {
     justify-content: space-between;
 }
 
-#legend {
+.custom_map_control {
     padding: 3px;
     box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
     border-radius: 2px;
     background-color: white;
     margin: 10px;
 }
+
 #legend input, #legend label {
     cursor: pointer;
 }
@@ -97,6 +98,10 @@ textarea {
 }
 #legend_toggle_archived:hover {
     color: royalblue;
+}
+
+#download_data {
+    cursor: pointer;
 }
 
 .input_field { /*For the data input form*/

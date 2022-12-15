@@ -12,7 +12,6 @@ Priority
     - VISA gift card??
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
-- Allow backup creation client side
 - Sanitize outputs with textContent
 - Add password protection
 - Set category to "Other" in existing data for points missing this attribute
@@ -51,3 +50,4 @@ Done
     - add database rule to allow appends to comments array
 - Comments can be "deleted" - just means they will no longer show, database still has it
 - Styling archived points differently? Could do easily in the setStyle function where we style the other points
+- Allow backup creation client side
