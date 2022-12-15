@@ -585,7 +585,7 @@
         "name": "Ari"
     },
     "-NGp7YLz-Bxr7fL6r153": {
-        "archived": false,
+        "archived": true,
         "category": "Landmark",
         "date": "3/17/2014 17:27:03",
         "description": "Gear Locker",
@@ -838,6 +838,7 @@
     },
     "-NGp7YMU_Eh4q2Yu08_x": {
         "archived": false,
+        "category": "Other",
         "date": "9/29/2014 22:50:21",
         "description": "THERE ARE NO SPOTS HERE FOR AUGUST. ",
         "lat": 35.3453560034468,
@@ -846,6 +847,7 @@
     },
     "-NGp7YMVR51x0NMws15r": {
         "archived": false,
+        "category": "Safety",
         "date": "9/29/2014 22:52:08",
         "description": "aug 2014, 2 crewlings stung (i think by logs, but higher up from the area ari pointed out) be careful! ",
         "lat": 35.3911997765105,
@@ -1005,15 +1007,6 @@
         "lon": -82.8288236507568,
         "name": "Dusty H"
     },
-    "-NGp7YMtg2fpcOO0zCjF": {
-        "archived": false,
-        "category": "Landmark",
-        "date": "6/23/2016 1:05:29",
-        "description": "Art Annex",
-        "lat": 35.292621,
-        "lon": -78.9187368997726,
-        "name": "Ari"
-    },
     "-NGp7YMuEiV523jp6UQn": {
         "archived": false,
         "category": "Pro-Tip!",
@@ -1022,5 +1015,104 @@
         "lat": 35.3045296503207,
         "lon": -82.84384402124023,
         "name": "ur mom"
+    },
+    "-NJIpbU-kQCYvPhfbm14": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "12-14-2022",
+        "description": "Moutain Man Shelter",
+        "lat": 36.48142690782881,
+        "lon": -80.86391194644929,
+        "name": "Adam"
+    },
+    "-NJIpr7pMTYxM7yyVNf2": {
+        "archived": false,
+        "category": "Pro-Tip!",
+        "date": "12-14-2022",
+        "description": "Mountain man water spigot. The water might look a little cloudy but it's good. Make sure to fill up on water here if going into the backcountry overnight.",
+        "lat": 36.48150454644058,
+        "lon": -80.86435182872773,
+        "name": "Adam"
+    },
+    "-NJIr7UWakC_6wD3z9e-": {
+        "archived": false,
+        "category": "Trails",
+        "date": "12-14-2022",
+        "description": "Trailhead for the trail going up to Raccoon Mountain is hard to find, my crew completely missed it August 2022, though others were able to find it. Not that you would want to take that trail anyway... I heard it was ridiculously steep.",
+        "lat": 36.47932632253003,
+        "lon": -80.86292489353181,
+        "name": "Adam"
+    },
+    "-NJIrDQJsLD-TW7bn880": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "12-14-2022",
+        "description": "Raccoon Mountain",
+        "lat": 36.47905026601905,
+        "lon": -80.87470515552522,
+        "name": "Adam"
+    },
+    "-NJIrpQ2EAkEU_P8U6f2": {
+        "archived": false,
+        "category": "Pro-Tip!",
+        "date": "12-14-2022",
+        "description": "This trail is pretty steep. The hike up to Raven Knob is definitely worth it and the trail isn't too long, but if you're only doing it as a day hike your crewlings will appreciate not bringing their packs.",
+        "lat": 36.4722520641586,
+        "lon": -80.8442996341324,
+        "name": "Adam"
+    },
+    "-NJIsPlvhmRZ-urLmd1A": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "12-14-2022",
+        "description": "Climbing Tower",
+        "lat": 36.48206095421505,
+        "lon": -80.84998055282594,
+        "name": "Adam"
+    },
+    "-NJIsgElcyO-EVydmsCH": {
+        "archived": false,
+        "category": "Funny Story",
+        "date": "12-14-2022",
+        "description": "Crewlings went on a hike around the lake in August 2022 looking for mangoes... :)",
+        "lat": 36.47357206624775,
+        "lon": -80.84004565063478,
+        "name": "Adam"
+    },
+    "-NJItLz-fOecTyqEwCZE": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "12-14-2022",
+        "description": "The big arena / amphitheater, big enough to fit all of PWILD several times over. We had final Jambo here in August 2022.",
+        "lat": 36.47402068929016,
+        "lon": -80.84723397079469,
+        "name": "Adam"
+    },
+    "-NJIuYsg04CfczYEbxTj": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "12-14-2022",
+        "description": "The Gear Locker (in the parking garage). You can access it by taking the elevator down from the Lobby level - but can't take the elevator back up. To get out, either go through the back door near the gate used for cars, or take the fire escape stairs leading to the front of swift (if you're outside the locker facing it, the stairs are behind you, all the way on the other side of the garage).",
+        "lat": 36.003059663662235,
+        "lon": -78.92191713479615,
+        "name": "Adam"
+    },
+    "-NJIv_ELOjNNWpzEb8nS": {
+        "archived": false,
+        "category": "Pro-Tip!",
+        "date": "12-14-2022",
+        "description": "If you don't have a clicker, you can trick the swift gate to open by wheeling the big black trash bin in front of the gate on the inside. The system thinks it's a car trying to leave, and opens the gate. Totally legit.\n\nAnd by the way, that trash bin is fantastic for transporting stuff like sleeping bags between the locker and the parking lot (during gear prep/cleanup).",
+        "lat": 36.0031377788889,
+        "lon": -78.92251794961548,
+        "name": "Adam"
+    },
+    "-NJIxOeZdJvRxN-1xF7v": {
+        "archived": false,
+        "category": "Water",
+        "date": "12-14-2022",
+        "description": "The crewlings love love loved swimming in August 2022. I'm pretty sure it was the favorite activity by far. FYI for if a PD ever plans to come back here.",
+        "lat": 36.4746720508159,
+        "lon": -80.84619863811494,
+        "name": "Adam"
     }
 }
