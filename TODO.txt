@@ -14,13 +14,10 @@ Priority
 - Set up PMAPS email to forward to the PWILD duke email, document this
 - Sanitize outputs with textContent
 - Add password protection
-- Set category to "Other" in existing data for points missing this attribute
 - Consider changing the data input info window to use a div + innerHTML like we did for the data info window
     - do an event listener on the overall content div just like we did w the data input window
     - use a for loop for the datalist options
     - don't need to clear the input every time we open it, or have awkward HTML at the top of index.html
-- Add widget to change the map's center (Camp Raven Knob, Duke, etc.)
-- Fix autopan margin since it's now dropdown menus. Note that the menus can change height if the text is long enough
 
 Non-priority
 - Filter by date
@@ -53,3 +50,6 @@ Done
 - Comments can be "deleted" - just means they will no longer show, database still has it
 - Styling archived points differently? Could do easily in the setStyle function where we style the other points
 - Allow backup creation client side
+- Add widget to change the map's center (Camp Raven Knob, Duke, etc.)
+- Fix autopan margin since it's now dropdown menus. Note that the menus can change height if the text is long enough
+- Set category to "Other" in existing data for points missing this attribute
