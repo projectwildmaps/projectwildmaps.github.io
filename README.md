@@ -58,7 +58,7 @@ trails.js
 * stuff
 
 PMAPS Data Backup \[date\].json
-* Contains the most recent backup made of the database. A new backup can be made by clicking the "Download Data" button while viewing PMAPS.
+* Contains the most recent backup made of the database. A new backup can be made by clicking the "Download Data" button while viewing PMAPS. If for some reason that isn't working, you can log into the Firebase console and export the data as a JSON file from there.
 
 TODO.txt
 * stuff
