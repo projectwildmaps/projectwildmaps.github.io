@@ -65,19 +65,8 @@
 
 	<script>
 		// GLOBAL CONFIG (you can change)
-		var default_zoom_level = 13;
-		var categories = [
-			'VAM (View Appreciation Moment)',
-			'Waterfall',
-			'Water',
-			'Safety',
-			'Campsite',
-			'Pro-Tip!',
-			'Landmark',
-			'Funny Story',
-			'Solos',
-			'Other' //default, doesn't get special treatment in getDot()
-		];
+		var default_zoom_level = 13; // uses this if zoom not specified in the default location below
+		
 		// Locations we can switch to. The only required property is coords
 		// mapTypeId, if specified, is the map to switch to ("roadmap", "satellite", "Nat Geo", etc)
 		// zoom, if specified, is the default zoom level for this location (bigger = more zoomed in)
@@ -92,7 +81,7 @@
 			"Duke": {
 				coords: new google.maps.LatLng(36.001046, -78.938461),
 				mapTypeId: "roadmap",
-				zoom: 16
+				zoom: 13
 			},
 			"Camp Raven Knob": {
 				coords: new google.maps.LatLng(36.482337, -80.861160),
@@ -100,6 +89,19 @@
 				zoom: 14
 			}
 		}
+
+		var categories = [
+			'VAM (View Appreciation Moment)',
+			'Waterfall',
+			'Water',
+			'Safety',
+			'Campsite',
+			'Pro-Tip!',
+			'Landmark',
+			'Funny Story',
+			'Solos',
+			'Other' //default, doesn't get special treatment in getDot()
+		];
 
 		// GLOBALS (not config, only code should mess with these)
 		var map;

@@ -69,16 +69,6 @@ none.png
 favicon.ico
 * The image that appears on the browser tab next to the page's title.
 
-### Node JS Stuff
-These files are here to allow the app to be run from a server, instead of just as a static webpage.
-This is mostly used for testing (e.g. connecting an iPhone to your computer's localhost to test mobile compatibility).
-
-server.js
-* Running `node server.js` will run the app from a server.
-
-package.json, package-lock.json
-* These store dependency information, as well as random other node js info that doesn't matter.
-
 ### Old, Unused Files
 
 **Note that none of these files work, they are only here because I didn't want to delete them.**
@@ -142,6 +132,9 @@ Here are some common things you may want to change, and how to change them.
 ### Change the default starting location / add a new location
 In index.html, the first script tag contains a list of locations as a global config variable. To change the default starting location, change which of these has the default property set to true. To add a new location, follow the format of the existing locations (there is a comment explaining what each of the properties means).
 
+### Notes for Editing
+
+Mobile responsiveness blah blah, here's how to do it with Chrome
 
 # The Database
 
