@@ -28,18 +28,25 @@
 
 		<label for='categories'>Category:</label><br>
 		<input list='category' id='categories' class='input_field'>
-		<datalist id='category'></datalist> <!--populated in init()-->
+		<datalist id='category'></datalist> <!-- populated in init.js -->
 
 		<input id='submit' type='button' value='Save & Close' />
 	</div>
 
 
 	<div id="map"></div>
-	<div id="legend" class="custom_map_control">
+	<div id="legend" class="custom_map_control"> <!-- populated in legend.js initLegend() -->
 		<b>Legend</b>
 	</div>
-	<div id="download_data" class="custom_map_control">
+	<div id="download_data" class="custom_map_control"> <!-- this is set up in init.js -->
 		Download Data
+	</div>
+	<div id="change_location" class=""> <!-- This is set up in init.js. Styling copied from google's dropdown -->
+		<button>
+			<span>Location</span>
+			<img src="https://maps.gstatic.com/mapfiles/arrow-down.png">
+		</button>
+		<ul id="locations"></ul>
 	</div>
 
 	<div id="instructions_container">
@@ -58,7 +65,7 @@
 
 	<script>
 		// GLOBAL CONFIG (you can change)
-		var center_coords = new google.maps.LatLng(35.292621, -82.833716);
+		var default_zoom_level = 13;
 		var categories = [
 			'VAM (View Appreciation Moment)',
 			'Waterfall',
@@ -71,6 +78,28 @@
 			'Solos',
 			'Other' //default, doesn't get special treatment in getDot()
 		];
+		// Locations we can switch to. The only required property is coords
+		// mapTypeId, if specified, is the map to switch to ("roadmap", "satellite", "Nat Geo", etc)
+		// zoom, if specified, is the default zoom level for this location (bigger = more zoomed in)
+		// The default location has the default property set to true (exactly one location must have this)
+		var locations = {
+			"Pisgah": {
+				coords: new google.maps.LatLng(35.292621, -82.833716),
+				mapTypeId: "Nat Geo",
+				zoom: 13,
+				default: true
+			},
+			"Duke": {
+				coords: new google.maps.LatLng(36.001046, -78.938461),
+				mapTypeId: "roadmap",
+				zoom: 16
+			},
+			"Camp Raven Knob": {
+				coords: new google.maps.LatLng(36.482337, -80.861160),
+				mapTypeId: "terrain",
+				zoom: 14
+			}
+		}
 
 		// GLOBALS (not config, only code should mess with these)
 		var map;
@@ -79,10 +108,11 @@
 		var trailLayer;
 		var archived_visible = false; //legend.js and archive button use this
 
-		//other globals defined in more relevant scripts
-		//dataInfoWindow - see dataInfoWindow.js
-		//inputInfoWindow - see inputInfoWindow.js
-		//usersMarker - see inputInfoWindow.js
+		/*other globals defined in more relevant scripts
+			dataInfoWindow - see dataInfoWindow.js
+			inputInfoWindow - see inputInfoWindow.js
+			usersMarker - see inputInfoWindow.js
+		*/
 	</script>
 
 	<script src="detect_mobile.js"></script>
