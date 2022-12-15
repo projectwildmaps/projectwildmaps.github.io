@@ -139,8 +139,8 @@ Here are some common things you may want to change, and how to change them.
 ### Add a new map
 
 
-### Change the default starting location
-In index.html, the first script tag contains a list of global variables. Change the center_coords variable to have the new latitude/longitude that the map should be centered at by default.
+### Change the default starting location / add a new location
+In index.html, the first script tag contains a list of locations as a global config variable. To change the default starting location, change which of these has the default property set to true. To add a new location, follow the format of the existing locations (there is a comment explaining what each of the properties means).
 
 
 # The Database

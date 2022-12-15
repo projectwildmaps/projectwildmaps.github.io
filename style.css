@@ -96,12 +96,71 @@ textarea {
     font-size: 10px;
     color: gray;
 }
-#legend_toggle_archived:hover {
-    color: royalblue;
-}
 
 #download_data {
     cursor: pointer;
+}
+
+#change_location {
+    cursor: pointer;
+    margin: 10px;
+    margin-left: 0;
+    position: absolute; /*for z-index shenanigans*/
+    z-index: 0;
+}
+#change_location > button {
+    /* copying the google maps dropdown css for consistency */
+    padding: 8px 17px;
+    position: relative;
+    user-select: none;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: Roboto, Arial, sans-serif;
+    font-weight: 500;
+}
+#change_location > button:hover {
+    background-color: rgb(235, 235, 235);
+}
+#change_location > button > span {
+    position: relative;
+    right: 3px;
+}
+#change_location img {
+    user-select: none;
+    margin: -2px 0 0;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    width: 7px;
+    height: 4px;
+}
+#locations {
+    /* copying the google maps dropdown css for consistency */
+    list-style: none;
+    margin: 0;
+    padding: 2px;
+    position: absolute;
+    top: 100%;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    z-index: -1;
+    display: block;
+}
+#locations li {
+    padding: 5px;
+    user-select: none;
+    font-size: 18px;
+    color: rgb(86, 86, 86);
+}
+#locations li:hover {
+    color: black;
+    background-color:rgb(235, 235, 235);
 }
 
 .input_field { /*For the data input form*/

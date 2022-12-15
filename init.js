@@ -1,11 +1,25 @@
 function init() {
     // MAP STUFF --------------------------------------------------------
+    
+    // get map config stuff from the default location
+    let center_coords;
+    let zoom = default_zoom_level; //global config var
+    for(let name in locations){
+        if(locations[name].default){
+            center_coords = locations[name].coords;
+            if(locations[name].zoom){
+                zoom = locations[name].zoom;
+            }
+        }
+    }
+
+    //configure the map
     var opts = {
         streetViewControl: true,
         mapTypeId: 'Nat Geo',
         backgroundColor: "rgb(220,220,220)",
-        center: center_coords, //global config var
-        zoom: 13,
+        center: center_coords, //see top of function
+        zoom: zoom, //see top of function
         mapTypeControlOptions: {
             mapTypeIds: [
                 'USGS 2013', 'USGS TIFF', 'Nat Geo', 'USGS',
@@ -16,7 +30,6 @@ function init() {
         }
     }
     map = new google.maps.Map(document.getElementById("map"), opts);
-    map.setTilt(45);
 
     // add maps defined in map_definitions.js to the map
     map.mapTypes.set('USGS 2013', usgs2013);
@@ -26,6 +39,59 @@ function init() {
 
     initLegend(); //legend.js
 
+
+
+    // set up location changing widget
+
+    let location_dropdown = document.getElementById("change_location");
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(location_dropdown);
+
+    //populate location list
+    let location_list = document.getElementById("locations");
+    for(let name in locations){ //global config var
+        let li = document.createElement("li");
+        li.textContent = name;
+        if(locations[name].default){li.style.fontWeight = 500;}
+        location_list.appendChild(li);
+    }
+    //add event handler to make menu appear and to handle location changes
+    document.addEventListener("click", function(e){
+        if(location_dropdown.contains(e.target)){
+            location_list.style.display = "block";
+            if(e.target.tagName == "LI"){
+                //switch which one is bold
+                location_list.querySelectorAll("li").forEach(li => {li.style.fontWeight = "initial";});
+                e.target.style.fontWeight = 500;
+
+                //change location
+                let name = e.target.textContent;
+                let L = locations[name];
+                map.setCenter(L.coords);
+                usersMarker.setPosition(L.coords); // so people can add points here
+
+                //change map features
+                if(L.mapTypeId){
+                    map.setMapTypeId(L.mapTypeId);
+                }
+                if(L.zoom){
+                    map.setZoom(L.zoom);
+                }
+            }
+        }
+    });
+    //event handlers to hide the menu - the mouseleave/mouseenter one is just for convenience, and copying google
+    document.addEventListener("mousedown", function(e){
+        if(!location_dropdown.contains(e.target)){
+            location_list.style.display = "none";
+        }
+    });
+    let hide_timeout;
+    location_dropdown.addEventListener("mouseleave", function(){
+        hide_timeout = setTimeout(function(){location_list.style.display = "none";}, 1000);
+    });
+    location_dropdown.addEventListener("mouseenter", function(){
+        clearTimeout(hide_timeout);
+    })
 
 
     // DATA STUFF ------------------------------------------------------------------------------------
@@ -138,7 +204,7 @@ function init() {
             a.download = "PMAPS Data Backup " + dateString;
 
             a.click();
-            
+
             URL.revokeObjectURL(url); // saves memory, since the created URL stays around until page unload by default
         });
     });
