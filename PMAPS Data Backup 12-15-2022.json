@@ -37,7 +37,7 @@
     },
     "-NGp7YKuhzbmjFYZWnrY": {
         "archived": false,
-        "category": "VAM (View Appreciation Moment)",
+        "category": "Other",
         "date": "3/16/2014 0:46:53",
         "description": "(this point is for testing/demonstration purposes)\n\nYeaaaahhhhh Boiiiiiii....HAWGS GONE WILD!!!!!!",
         "lat": 35.3161564059321,
@@ -1113,6 +1113,105 @@
         "description": "The crewlings love love loved swimming in August 2022. I'm pretty sure it was the favorite activity by far. FYI for if a PD ever plans to come back here.",
         "lat": 36.4746720508159,
         "lon": -80.84619863811494,
+        "name": "Adam"
+    },
+    "-NJJ0ofey77dIok0w5Cj": {
+        "archived": false,
+        "category": "Campsite",
+        "date": "12-14-2022",
+        "description": "I heard that there's a great campsite just off the trail at this intersection.",
+        "lat": 35.27776775742902,
+        "lon": -82.80101450769043,
+        "name": "Adam"
+    },
+    "-NJJ1X1JYwaxA06hWS5U": {
+        "archived": false,
+        "category": "Water",
+        "date": "12-14-2022",
+        "description": "The map isn't lying, these are actual river crossings, no bridges. Not too deep, but definitely would flood your boots if you didn't take them off.",
+        "lat": 35.36796618677737,
+        "lon": -82.74161967126464,
+        "name": "Adam"
+    },
+    "-NJJ2RVo-Ym7vqQN14dE": {
+        "archived": false,
+        "category": "Pro-Tip!",
+        "date": "12-14-2022",
+        "description": "In March 2022, a ranger warned us that the suspension bridge here was washed away, and it would be a while before it would get fixed. Until then, I understand you won't be able to cross the river on 133 here. Perhaps it's possible to ford it in August, but I wouldn't risk planning your route around that.",
+        "lat": 35.34357071936222,
+        "lon": -82.73041876641845,
+        "name": "Adam"
+    },
+    "-NJJ3ikdO1VhiL0Dg58_": {
+        "archived": false,
+        "category": "Campsite",
+        "date": "12-14-2022",
+        "description": "Camped here in March 2022, the only feasible camping along this blue stretch of 147. That said, you're basically camping right on the trail (which goes through the gap) / under the rhododendrons nearby, so not ideal.",
+        "lat": 35.36170177004837,
+        "lon": -82.69831808892822,
+        "name": "Adam"
+    },
+    "-NJJ4lvXJRTMtigBLOMF": {
+        "archived": false,
+        "category": "Nice trail",
+        "date": "12-14-2022",
+        "description": "The forest along this trail is super gorgeous, especially in fall.",
+        "lat": 35.31829246543518,
+        "lon": -82.89255293695066,
+        "name": "Adam"
+    },
+    "-NJJ5wmTD25RJI5U9Etj": {
+        "archived": false,
+        "category": "VAM (View Appreciation Moment)",
+        "date": "12-14-2022",
+        "description": "360 degree VAMs from the trail, northward from here on the Art Loeb. This continues for quite a while, it's definitely worth coming to this area.",
+        "lat": 35.324875375876864,
+        "lon": -82.87684592095945,
+        "name": "Adam"
+    },
+    "-NJJ6kENUu4tthSJxNSl": {
+        "archived": false,
+        "category": "Pro-Tip!",
+        "date": "12-14-2022",
+        "description": "Site of the incident quite a few years back that nearly stopped PWILD. Pro tip: don't block a trail with your packs because you want to go swimming naked.",
+        "lat": 35.311218740990185,
+        "lon": -82.7876678356323,
+        "name": "Adam"
+    },
+    "-NJJ6tnkHkE46gxLHDo1": {
+        "archived": false,
+        "category": "Campsite",
+        "date": "12-14-2022",
+        "description": "No camping, very small gap.",
+        "lat": 35.30379416681356,
+        "lon": -82.75513800469969,
+        "name": "Adam"
+    },
+    "-NJJ8qD4zCvfMT5qWoyJ": {
+        "archived": false,
+        "category": "Campsite",
+        "date": "12-15-2022",
+        "description": "There are a few flatter places towards the middle of 322 where you could easily set up a camp. I don't remember exactly where but my guess is around here based on the contour lines.",
+        "lat": 35.328516755658065,
+        "lon": -82.69617232171629,
+        "name": "Adam"
+    },
+    "-NJJ9gHnIRy-zEQmb75a": {
+        "archived": false,
+        "category": "Campsite",
+        "date": "12-15-2022",
+        "description": "Camped here in March 2022. There's a clearing area where the road ends, and you can set up a tent just off the trail. Not an ideal campsite since you have to set up right by a trail / dirt road, but we didn't see anyone when we were there. Getting water from here was a little annoying.",
+        "lat": 35.31374013947455,
+        "lon": -82.72964629022215,
+        "name": "Adam"
+    },
+    "-NJJAO048MnFNF3awJ1F": {
+        "archived": false,
+        "category": "Campsite",
+        "date": "12-15-2022",
+        "description": "Developed campsite here right by the river (with gravel tent pads). Are you allowed to camp here? Not sure. But we did in March 2022 and it was luxurious.",
+        "lat": 35.366671347197986,
+        "lon": -82.74011763421629,
         "name": "Adam"
     }
 }
