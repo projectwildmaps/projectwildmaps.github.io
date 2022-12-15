@@ -134,7 +134,9 @@ In index.html, the first script tag contains a list of locations as a global con
 
 ### Notes for Editing
 
-Mobile responsiveness blah blah, here's how to do it with Chrome
+Making yourself a collaborator on github (or adding an SSH key to the projectwildmaps GitHub to authenticate your computer), cloning, pushing, automatic deployment via GitHub pages, etc.
+Appcheck and localhost
+Mobile responsiveness blah blah, here's how to test it with Chrome
 
 # The Database
 
