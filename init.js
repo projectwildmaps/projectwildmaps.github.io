@@ -20,6 +20,7 @@ function init() {
         backgroundColor: "rgb(220,220,220)",
         center: center_coords, //see top of function
         zoom: zoom, //see top of function
+        zoomControl: false,
         mapTypeControlOptions: {
             mapTypeIds: [
                 'USGS 2013', 'USGS TIFF', 'Nat Geo', 'USGS',
@@ -38,6 +39,9 @@ function init() {
     //map.mapTypes.set('USGS', usgsStolen); // basically the same as USGS TIFF but worse quality
 
     initLegend(); //legend.js
+
+
+    
 
 
 
@@ -224,6 +228,7 @@ function init() {
     });
 
 
+    
 
     // TRAIL STUFF -----------------------------------------------------------------------------
 
@@ -273,4 +278,16 @@ function init() {
     trailControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(trailControlDiv);
     */
+
+
+    // MISC ----------------------------------------------------------------------------------------
+
+    // set up info control to open the instructions panel
+    // this is in misc. because it needs to happen after we add the download data map control
+    let info_control = document.getElementById("info_control");
+    let instructions = document.getElementById("instructions_container");
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(info_control);
+    info_control.addEventListener("click", function(){
+        instructions.style.display = "block";
+    });
 }
