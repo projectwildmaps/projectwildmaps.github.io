@@ -7,20 +7,21 @@ function init() {
     
     // get map config stuff from the default location
     let center_coords;
-    let zoom = default_zoom_level; //global config var
+    let zoom;
+    let mapTypeId;
     for(let name in locations){
-        if(locations[name].default){
-            center_coords = locations[name].coords;
-            if(locations[name].zoom){
-                zoom = locations[name].zoom;
-            }
+        let loc = locations[name];
+        if(loc.default){
+            center_coords = loc.coords;
+            zoom = loc.zoom ? loc.zoom : default_zoom_level;
+            mapTypeId = loc.mapTypeId ? loc.mapTypeId : "roadmap";
         }
     }
 
     //configure the map
     var opts = {
         streetViewControl: true,
-        mapTypeId: 'Nat Geo',
+        mapTypeId: mapTypeId,
         backgroundColor: "rgb(220,220,220)",
         center: center_coords, //see top of function
         zoom: zoom, //see top of function
