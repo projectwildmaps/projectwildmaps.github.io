@@ -1,8 +1,4 @@
 Priority
-- Instructions window
-    - mention that custom categories are allowed
-    - mention how archiving works
-    - mention comment deletion, distinction with archiving (can't undo, but backup still stored)
 - Get a google maps API key owned by PWILD, not whoever used to own PMAPS
     "Usage costs are tracked by Project and are charged to the linked Cloud Billing account.
     Important: Projects that are not linked to an active Cloud Billing account cannot use
@@ -57,3 +53,7 @@ Done
 - Add widget to change the map's center (Camp Raven Knob, Duke, etc.)
 - Fix autopan margin since it's now dropdown menus. Note that the menus can change height if the text is long enough
 - Set category to "Other" in existing data for points missing this attribute
+- Instructions window
+    - mention that custom categories are allowed
+    - mention how archiving works
+    - mention comment deletion, distinction with archiving (can't undo, but backup still stored)
