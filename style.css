@@ -182,7 +182,7 @@ textarea {
     background-color: royalblue;
     height: 20px;
     width: 20px;
-    border-radius: 25px;
+    border-radius: 20px;
     margin-top: 0;
     margin-right: 17px; /* center with the street view control */
 
@@ -198,44 +198,59 @@ textarea {
     margin-bottom: 10px;
 }
 
-#instructions_container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #0003;
-
-    transition: display 5s;
-}
-
 #instructions {
-    position: absolute;
-    height: 85vh;
-    width: 70vw;
+    height: calc(100vh - 4rem);
+    width: min(calc(100vw - 4rem), 800px);
     background-color: #f6f6ee;
     border: 5px solid #d9d9b8;
-    margin: auto;
-    inset: 0;
     box-shadow: 2px 2px 5px #0005;
-    padding: 10px;
+}
+
+#instructions_layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#instruction_scroll_content {
+    padding-right: 1rem;
+}
+
+.text-img-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0 1rem 0;
+    width: 100%;
+}
+.text-img-flex p {
+    margin: 0;
+    flex-basis: 350px;
+    flex-grow: 1;
+}
+.text-img-flex img {
+    width: 200px;
+    align-self: flex-start;
+}
+
+#instructions::backdrop {
+    background-color: rgba(0 0 0 / .5);
 }
 
 #instruction_footer {
     height: 35px;
     padding: 5px;
-    position: absolute;
-    bottom: 0;
 }
 
 #instruction_scroll_content {
-    height: 90%;
+    /* height: calc(100% - 2rem); */
+    overflow-y: auto;
 }
 
 #close_instructions {
     display: block;
     margin: auto;
-    margin-top: 5px;
+    margin-top: 10px;
     height: 7%;
     cursor: pointer;
 }
