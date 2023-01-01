@@ -93,6 +93,9 @@ function init() {
                 if(L.zoom){
                     map.setZoom(L.zoom);
                 }
+
+                //animate the big red pin in case they didn't realize it came along
+                animateUsersMarker(); //inputInfoWindow.js
             }
         }
     });

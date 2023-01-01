@@ -269,8 +269,14 @@ nicely to the right of the text, or below the text on small screens */
     flex-grow: 1;
 }
 .text-img-flex img {
+    display: block;
+    margin: auto;
     width: 200px;
     align-self: flex-start; /* For some reason preserves image aspect ratios */
+}
+.text-img-flex .caption {
+    margin-top: 5px;
+    text-align: center;
 }
 
 /* Close instructions button at the bottom */
