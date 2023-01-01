@@ -16,59 +16,86 @@
 </head>
 
 <body>
-	<!--Content of the input form, gets moved from here into the input form info window
+	<!-- div to hold HTML we'll move into the map later, shouldn't display until then -->
+	<div style="display: none;">
+		<!--Content of the input form, gets moved from here into the input form info window
 		the first time the user opens the form. Doing it this way instead of a content string
 		so that we can use addEventListener for the submit button-->
-	<div id="input_form_content">
-		<label for='name'>Your Name: </label><br>
-		<input type='text' id='name' class='input_field' />
+		<div id="input_form_content">
+			<label for='name'>Your Name: </label><br>
+			<input type='text' id='name' class='input_field' />
 
-		<label for='markerDescription'>Marker Description:</label><br>
-		<textarea id='markerDescription' class='input_field' style="height: 100px; width: 260px;"></textarea>
+			<label for='markerDescription'>Marker Description:</label><br>
+			<textarea id='markerDescription' class='input_field' style="height: 100px; width: 260px;"></textarea>
 
-		<label for='categories'>Category:</label><br>
-		<input list='category' id='categories' class='input_field'>
-		<datalist id='category'></datalist> <!-- populated in init.js -->
+			<label for='categories'>Category:</label><br>
+			<input list='category' id='categories' class='input_field'>
+			<datalist id='category'></datalist> <!-- populated in init.js -->
 
-		<input id='submit' type='button' value='Save & Close' />
+			<input id='submit' type='button' value='Save & Close' />
+		</div>
+
+		<div id="legend" class="custom_map_control"> <!-- populated in legend.js initLegend() -->
+			<b>Legend</b>
+		</div>
+		<div id="download_data" class="custom_map_control"> <!-- this is set up in init.js -->
+			Download<br>
+			Data
+		</div>
+		<div id="change_location"> <!-- This is set up in init.js. Styling copied from google's dropdown -->
+			<button id="change_location_button">
+				<span>Location</span>
+				<img src="https://maps.gstatic.com/mapfiles/arrow-down.png">
+			</button>
+			<ul id="locations"></ul>
+		</div>
+		<div id="info_control" class="custom_map_control">i</div> <!-- opens the instructions panel -->
 	</div>
 
 
 	<div id="map"></div>
-	<div id="legend" class="custom_map_control"> <!-- populated in legend.js initLegend() -->
-		<b>Legend</b>
-	</div>
-	<div id="download_data" class="custom_map_control"> <!-- this is set up in init.js -->
-		Download<br>
-		Data
-	</div>
-	<div id="change_location"> <!-- This is set up in init.js. Styling copied from google's dropdown -->
-		<button id="change_location_button">
-			<span>Location</span>
-			<img src="https://maps.gstatic.com/mapfiles/arrow-down.png">
-		</button>
-		<ul id="locations"></ul>
-	</div>
-	<div id="info_control" class="custom_map_control">i</div> <!-- opens the instructions panel -->
 
-	<div id="instructions_container">
-		<div id="instructions">
+	<dialog id="instructions">
+		<div id="instructions_layout">
 			<div id="instruction_scroll_content">
 				Hoka Hey!
-				<p>Welcome to PMAPS, blah blah blah</p>
+				<p>Welcome to PMAPS!!! This is an online tool for recording information about locations in Pisgah National Forest (and other ~PWILDy~ places). This allows our knowledge to be shared among generations of PWILDers, despite that pesky thing called graduation.</p>
+	
+				<h2>How to Use</h2>
+
+				<div class="text-img-flex">
+					<p>Click on a circle marker to read the information about that point. The category, description, contributor, and date are displayed, along with comments if they exist. You can add a new comment by clicking "Add Comment", which will open a form allowing you to enter your name and your comment.</p>
+				
+					<img src="instructions_images/point_info.png" alt="screenshot of a data point's information">
+				</div>
+				
+				<div class="text-img-flex">
+					<p>To add a new point, click and drag the big red pin to the location you wish to mark. Click the pin to open the data entry form. Enter your name, what you want to say about that location, and a category. For the category, click on the category input to select one from the dropdown, or if none of the existing categories fits, you can instead type in a custom category. Click "Save & Close" to add the point.</p>
+					<img src="instructions_images/input_form.png" alt="screenshot of the input form">
+				</div>
+
+				<h2>Other Things</h2>
+
+				<p><b>Maps and Locations - </b>You can change the map type using the dropdown in the top left. You can jump to different PWILD-related locations using the location dropdown in the top left.</p>
+
+				<p><b>The Legend - </b> The legend allows you to filter points by category. Checking / unchecking a category will show/hide all points belonging to it.</p>
+
+				<p><b>Archiving Points - </b>Archiving a point hides it from view by default. This is used if you want to remove a point for any reason (e.g. if a point is outdated / no longer accurate). To archive a point, click on it and then click "Archive." To unarchive a point, click "show archived points" in the legend, click the point (it will be displayed as a gray circle with an x through it), then click "Unarchive."</p>
+
+				<p><b>Editing Points - </b>There is currently no way to edit a submitted point directly, since this app is accessible to the public and we want to protect the data from being messed with or deleted. Instead, you have to archive the old point and make a new one.</p>
+
 			</div>
-			<button id="close_instructions"
-				onclick="document.getElementById('instructions_container').style.display='none'">
+			<button id="close_instructions" onclick="document.getElementById('instructions').close()">
 				Let's Go!
 			</button>
 		</div>
-	</div>
+	</dialog>
 
 
 	<script>
 		// GLOBAL CONFIG (you can change)
 		var default_zoom_level = 13; // uses this if zoom not specified in the default location below
-		
+
 		// Locations we can switch to. The only required property is coords
 		// mapTypeId, if specified, is the map to switch to ("roadmap", "satellite", "Nat Geo", etc)
 		// zoom, if specified, is the default zoom level for this location (bigger = more zoomed in)

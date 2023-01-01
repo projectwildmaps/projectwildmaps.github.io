@@ -1,4 +1,8 @@
 function init() {
+    //show instructions immediately
+    document.getElementById("instructions").showModal();
+    document.querySelector("#instructions button").blur(); //prevent weird autofocusing
+ 
     // MAP STUFF --------------------------------------------------------
     
     // get map config stuff from the default location
@@ -285,9 +289,9 @@ function init() {
     // set up info control to open the instructions panel
     // this is in misc. because it needs to happen after we add the download data map control
     let info_control = document.getElementById("info_control");
-    let instructions = document.getElementById("instructions_container");
+    let instructions = document.getElementById("instructions");
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(info_control);
     info_control.addEventListener("click", function(){
-        instructions.style.display = "block";
+        instructions.showModal();
     });
 }
