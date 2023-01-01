@@ -1088,15 +1088,6 @@
         "lon": -80.84723397079469,
         "name": "Adam"
     },
-    "-NJIuYsg04CfczYEbxTj": {
-        "archived": false,
-        "category": "Landmark",
-        "date": "12-14-2022",
-        "description": "The Gear Locker (in the parking garage). You can access it by taking the elevator down from the Lobby level - but can't take the elevator back up. To get out, either go through the back door near the gate used for cars, or take the fire escape stairs leading to the front of swift (if you're outside the locker facing it, the stairs are behind you, all the way on the other side of the garage).",
-        "lat": 36.003059663662235,
-        "lon": -78.92191713479615,
-        "name": "Adam"
-    },
     "-NJIv_ELOjNNWpzEb8nS": {
         "archived": false,
         "category": "Pro-Tip!",
@@ -1230,6 +1221,15 @@
         "description": "There are a couple flatter places towards the middle of 322 where you could probably set up a camp. I don't remember exactly where but my guess is around this area based on the contour lines.",
         "lat": 35.328271667936356,
         "lon": -82.70316752282714,
+        "name": "Adam"
+    },
+    "-NKgvFEO_qmODGaOvryk": {
+        "archived": false,
+        "category": "Landmark",
+        "date": "1-1-2023",
+        "description": "The Gear Locker (in the parking garage). You can access it by taking the elevator down from the Lobby level. Unfortunately, you can't take the elevator back up, unless you have a DukeCard belonging to an RA or someone with a Swift parking pass. To get out, either go through the back door near the gate used for cars, or take the fire escape stairs leading to the front of swift (if you're outside the locker facing it, the stairs are behind you, all the way on the other side of the garage).",
+        "lat": 36.0030660089537,
+        "lon": -78.92194207623169,
         "name": "Adam"
     }
 }
