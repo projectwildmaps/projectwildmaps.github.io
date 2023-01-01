@@ -198,24 +198,64 @@ textarea {
     margin-bottom: 10px;
 }
 
+
+/* General instruction dialog layout */
+
 #instructions {
     height: calc(100vh - 4rem);
     width: min(calc(100vw - 4rem), 800px);
     background-color: #f6f6ee;
     border: 5px solid #d9d9b8;
     box-shadow: 2px 2px 5px #0005;
+    font-family: "Open Sans";
 }
 
-#instructions_layout {
+#instructions::backdrop {
+    background-color: rgba(0 0 0 / .5);
+}
+
+#instruction_footer {
+    height: 35px;
+    padding: 5px;
+}
+
+#instructions_vertical_layout {
     display: flex;
+    gap: 1em;
     flex-direction: column;
     height: 100%;
 }
 
+/* Instructions content */
+
 #instruction_scroll_content {
     padding-right: 1rem;
+    overflow-y: auto;
+    border-bottom: 1px solid black;
 }
 
+#instructions_header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#hoka {
+    font-family: "Rock Salt";
+    margin: 0;
+    font-size: 36px;
+}
+#instructions_header div:last-child {
+    display: flex;
+    gap: 10px;
+}
+#instructions_header img {
+    height: 50px;
+}
+
+/* text-img-flex is a class for divs containing two elements,
+a p tag and an img or div containing an img. It puts the image
+nicely to the right of the text, or below the text on small screens */
 .text-img-flex {
     display: flex;
     flex-wrap: wrap;
@@ -230,27 +270,33 @@ textarea {
 }
 .text-img-flex img {
     width: 200px;
-    align-self: flex-start;
+    align-self: flex-start; /* For some reason preserves image aspect ratios */
 }
 
-#instructions::backdrop {
-    background-color: rgba(0 0 0 / .5);
-}
-
-#instruction_footer {
-    height: 35px;
-    padding: 5px;
-}
-
-#instruction_scroll_content {
-    /* height: calc(100% - 2rem); */
-    overflow-y: auto;
-}
+/* Close instructions button at the bottom */
 
 #close_instructions {
     display: block;
     margin: auto;
-    margin-top: 10px;
-    height: 7%;
+    padding: 0;
     cursor: pointer;
+    font-family: "Open Sans";
+    position: relative;
+
+    width: fit-content;
+    border: none;
+    background-color: transparent;
+}
+
+#close_instructions > div {
+    position: absolute;
+    inset: 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#close_instructions > img {
+    height: 30px;
+    display: block;
 }
