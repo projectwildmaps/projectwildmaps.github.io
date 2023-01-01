@@ -6,7 +6,7 @@ function animateUsersMarker(){
     usersMarker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(() => {
         usersMarker.setAnimation(null);
-    }, 1200);
+    }, 1000);
 }
 
 function initInputInfoWindow() {
@@ -33,7 +33,7 @@ function initInputInfoWindow() {
         map: map,
         title: 'Use me to mark places',
         draggable: true,
-        anchorPoint: new google.maps.Point(0, -30),
+        anchorPoint: new google.maps.Point(0, -30)
     });
     // Animate the pin when we close the instructions
     document.getElementById("instructions").addEventListener("close", animateUsersMarker); //see function at top of file
