@@ -301,6 +301,7 @@ nicely to the right of the text, or below the text on small screens */
     display: flex;
     align-items: center;
     justify-content: center;
+    color: black;
 }
 #close_instructions > img {
     height: 30px;

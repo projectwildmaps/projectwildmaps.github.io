@@ -96,7 +96,7 @@ function init() {
                 }
 
                 //animate the big red pin in case they didn't realize it came along
-                animateUsersMarker(); //inputInfoWindow.js
+                animateUsersMarker(); //newPoint.js
             }
         }
     });
@@ -210,7 +210,7 @@ function init() {
     markerLayer.setMap(map);
 
     // Initialize the big red marker and input form that allows people to add new points
-    initInputInfoWindow(); //inputInfoWindow.js
+    initInputInfoWindow(); //newPoint.js
 
     //Init the map control that lets you download the data
     let download_button = document.getElementById("download_data");
