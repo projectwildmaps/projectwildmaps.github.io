@@ -45,7 +45,7 @@ getDot.js
 dataInfoWindow.js
 * stuff
 
-inputInfoWindow.js
+newPoint.js
 * stuff
 
 autopan.js
