@@ -1,7 +1,15 @@
 var inputInfoWindow;
 var usersMarker;
 
-function initInputInfoWindow(){
+//function to animate the big red pin when the instructions close or the map location changes, to draw attention to it
+function animateUsersMarker(){
+    usersMarker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(() => {
+        usersMarker.setAnimation(null);
+    }, 1200);
+}
+
+function initInputInfoWindow() {
     // Fill category options and make an info window for showing the data input form.
     var category_datalist = document.getElementById("category");
     categories.forEach((category) => {
@@ -25,9 +33,11 @@ function initInputInfoWindow(){
         map: map,
         title: 'Use me to mark places',
         draggable: true,
-        animation: google.maps.Animation.DROP,
-        anchorPoint: new google.maps.Point(0, -30)
+        anchorPoint: new google.maps.Point(0, -30),
     });
+    // Animate the pin when we close the instructions
+    document.getElementById("instructions").addEventListener("close", animateUsersMarker); //see function at top of file
+
     // When the user clicks on the big red pin, open up the form for data input.
     google.maps.event.addListener(usersMarker, 'click', function () {
         inputInfoWindow.open(map, usersMarker);
@@ -42,10 +52,65 @@ function initInputInfoWindow(){
         document.getElementById("markerDescription").value = "";
         document.getElementById("categories").value = "";
     });
+
     // When the user moves the big red pin, close the data input form. They clearly don't need it. You know what? We don't need them either!
-    google.maps.event.addListener(usersMarker, 'position_changed', function () { inputInfoWindow.close(); });
+    usersMarker.addListener('position_changed', function () { inputInfoWindow.close(); });
+
+    //When the user pans or resizes the screen, make sure the big red pin is still visible
+    //Don't do this if the user is dragging the marker, since sometime that can pan the screen too
+    let dragging = false;
+    usersMarker.addListener("dragstart", function(){dragging = true;});
+    usersMarker.addListener("dragend", function(){dragging = false;});
+    map.addListener("bounds_changed", function (event) {
+        if(dragging) return;
+        
+        //get map bounds NE and SW points
+        //convert those to pixel coordinates
+        //convert marker position to pixel coordinates
+        //get how many pixels we need to shift the marker in the x and y directions based on the usersMarkerMargins global config var
+        //get new marker pixel coords
+        //convert to latlng, set the position
+
+        let map_bounds = map.getBounds();
+        let ne_px = fromLatLngToPixel(map_bounds.getNorthEast()); //see below for this function
+        let sw_px = fromLatLngToPixel(map_bounds.getSouthWest());
+        let marker_px = fromLatLngToPixel(usersMarker.getPosition());
+
+        let m = usersMarkerMargins; //global config var
+        let new_marker_px = {
+            x: clamp(sw_px.x + m.left, marker_px.x, ne_px.x - m.right),
+            y: clamp(ne_px.y + m.top, marker_px.y, sw_px.y - m.bottom)
+        }
+        let new_latlng = fromPixelToLatLng(new_marker_px);
+        if(!usersMarker.getPosition().equals(new_latlng)){
+            usersMarker.setPosition(new_latlng);
+        }
+    });
 }
 
+function clamp(min, value, max){
+    return Math.max(Math.min(value, max), min);
+}
+
+//functions to convert between LatLng and pixel coordinates (from the top left of the world)
+//see this documentation: https://developers.google.com/maps/documentation/javascript/coordinates
+function fromLatLngToPixel(latlng){
+    let world_coords = map.getProjection().fromLatLngToPoint(latlng);
+    let scale = 2**(map.getZoom());
+    return {
+        x: world_coords.x * scale,
+        y: world_coords.y * scale
+    };
+}
+function fromPixelToLatLng(pixel_coords){
+    //pixel coords should have properties x and y
+    let scale = 2**(map.getZoom());
+    let world_coord = {
+        x: pixel_coords.x / scale,
+        y: pixel_coords.y / scale
+    }
+    return map.getProjection().fromPointToLatLng(world_coord);
+}
 
 
 function saveData() { //What to do when the user hits the "submit" button on the user input form.

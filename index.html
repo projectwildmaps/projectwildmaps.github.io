@@ -73,9 +73,9 @@
 	
 				<div class="text-img-flex">
 					<p><b>Note:</b> You can come back to these instructions at any time by clicking the info icon at the right of the map.</p>
-					<div style="display: flex; align-items: center; gap: 10px;">
+					<div>
 						<img style="width: 50px;" src="instructions_images/info_icon.png" alt="screenshot of the info icon">
-						<p><b>The info<br>icon</b></p>
+						<p class="caption"><b>The info icon</b></p>
 					</div>
 				</div>
 
@@ -86,7 +86,7 @@
 				
 					<div>
 						<img src="instructions_images/point_info.png" alt="screenshot of a data point's information">
-						<p style="text-align: center;"><b>Figure 1</b></p>
+						<p class="caption"><b>Figure 1</b></p>
 					</div>
 				</div>
 				
@@ -94,7 +94,7 @@
 					<p>To add a new point, click and drag the big red pin to the location you wish to mark. Click the pin to open the data entry form (see Figure 2). Enter your name, what you want to say about that location, and a category. For the category, click on the category input to select one from the dropdown, or if none of the existing categories fits, you can instead type in a custom category. Click "Save & Close" to add the point.</p>
 					<div>
 						<img src="instructions_images/input_form.png" alt="screenshot of the input form">
-						<p style="text-align: center;"><b>Figure 2</b></p>
+						<p class="caption"><b>Figure 2</b></p>
 					</div>
 				</div>
 
@@ -156,6 +156,15 @@
 			'Solos',
 			'Other' //default, doesn't get special treatment in getDot()
 		];
+
+		//pixel margins from the edge of the screen that the big red pin's position needs to stay within to remain visible
+		//this is used in inputInfoWindow.js
+		var usersMarkerMargins = {
+			top: 85, //don't get hidden behind the dropdown menus
+			bottom: 5,
+			left: 15,
+			right: 120 //don't get hidden behind the legend
+		}
 
 		// GLOBALS (not config, only code should mess with these)
 		var map;
