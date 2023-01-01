@@ -6,6 +6,8 @@
 	<title>PMAPS: PWILD Marking/Annotating Pisgah Systematically</title>
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link type="text/css" rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Oleo+Script&family=Rock+Salt">
+
 
 	<!-- these scripts should load before the ones at the end of the body do -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U"></script>
@@ -56,22 +58,44 @@
 	<div id="map"></div>
 
 	<dialog id="instructions">
-		<div id="instructions_layout">
+		<div id="instructions_vertical_layout">
 			<div id="instruction_scroll_content">
-				Hoka Hey!
+				<div id="instructions_header">
+					<h1 id="hoka">Hoka Hey!</h1>
+					<div>
+						<img src="instructions_images/backpacker.png" alt="">
+						<img src="instructions_images/mountain.png" alt="">
+						<img src="instructions_images/compass3.png" alt="">
+					</div>
+				</div>
+				
 				<p>Welcome to PMAPS!!! This is an online tool for recording information about locations in Pisgah National Forest (and other ~PWILDy~ places). This allows our knowledge to be shared among generations of PWILDers, despite that pesky thing called graduation.</p>
 	
+				<div class="text-img-flex">
+					<p><b>Note:</b> You can come back to these instructions at any time by clicking the info icon at the right of the map.</p>
+					<div style="display: flex; align-items: center; gap: 10px;">
+						<img style="width: 50px;" src="instructions_images/info_icon.png" alt="screenshot of the info icon">
+						<p><b>The info<br>icon</b></p>
+					</div>
+				</div>
+
 				<h2>How to Use</h2>
 
 				<div class="text-img-flex">
-					<p>Click on a circle marker to read the information about that point. The category, description, contributor, and date are displayed, along with comments if they exist. You can add a new comment by clicking "Add Comment", which will open a form allowing you to enter your name and your comment.</p>
+					<p>Click on a point to read the information about that point. The category, description, contributor, and date are displayed, along with comments if they exist (see Figure 1). You can add a new comment by clicking "Add Comment", which will open a form allowing you to enter your name and your comment.</p>
 				
-					<img src="instructions_images/point_info.png" alt="screenshot of a data point's information">
+					<div>
+						<img src="instructions_images/point_info.png" alt="screenshot of a data point's information">
+						<p style="text-align: center;"><b>Figure 1</b></p>
+					</div>
 				</div>
 				
 				<div class="text-img-flex">
-					<p>To add a new point, click and drag the big red pin to the location you wish to mark. Click the pin to open the data entry form. Enter your name, what you want to say about that location, and a category. For the category, click on the category input to select one from the dropdown, or if none of the existing categories fits, you can instead type in a custom category. Click "Save & Close" to add the point.</p>
-					<img src="instructions_images/input_form.png" alt="screenshot of the input form">
+					<p>To add a new point, click and drag the big red pin to the location you wish to mark. Click the pin to open the data entry form (see Figure 2). Enter your name, what you want to say about that location, and a category. For the category, click on the category input to select one from the dropdown, or if none of the existing categories fits, you can instead type in a custom category. Click "Save & Close" to add the point.</p>
+					<div>
+						<img src="instructions_images/input_form.png" alt="screenshot of the input form">
+						<p style="text-align: center;"><b>Figure 2</b></p>
+					</div>
 				</div>
 
 				<h2>Other Things</h2>
@@ -86,7 +110,8 @@
 
 			</div>
 			<button id="close_instructions" onclick="document.getElementById('instructions').close()">
-				Let's Go!
+				<img src="instructions_images/wood_sign.png">
+				<div>Let's Go!</div>
 			</button>
 		</div>
 	</dialog>
