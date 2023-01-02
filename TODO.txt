@@ -14,9 +14,8 @@ Priority
         - do an event listener on the overall content div just like we did w the data input window
         - use a for loop for the datalist options
         - don't need to clear the input every time we open it, or have awkward HTML at the top of index.html
+    - Make it look pretty, no overflow clipping on mobile for the input info window
 - Add password protection
-- Remove need for JS detect mobile
-- Option to download all data, unarchived data, archived data (dialog modal)
 
 
 Non-priority
@@ -57,3 +56,5 @@ Done
     - mention that custom categories are allowed
     - mention how archiving works
     - mention comment deletion, distinction with archiving (can't undo, but backup still stored)
+- Option to download all data, unarchived data, archived data (dialog modal)
+- Remove need for JS detect mobile

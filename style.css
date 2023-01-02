@@ -69,12 +69,15 @@ dialog::backdrop {
 .input_field { /*For the data input form*/
     display: block;
     margin-bottom: 10px;
+    margin-right: 5px;
+    border: 1px solid #777; /*specifying border b/c if don't, sometimes get weird display glitches*/
+    border-radius: 4px;
 }
 
 .new_comment input, .new_comment textarea {
     margin-top: 5px;
     border: 1px solid #777; /*specifying border b/c if don't, sometimes get weird display glitches*/
-    border-radius: 2px;
+    border-radius: 4px;
 }
 .new_comment .submit_comment {
     margin-top: 5px;
