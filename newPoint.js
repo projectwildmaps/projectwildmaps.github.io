@@ -20,12 +20,6 @@ function initInputInfoWindow() {
     inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true }); //assigned to global var
     inputInfoWindow.setContent(document.getElementById("input_form_content")); //beginning of body tag
     document.getElementById("submit").addEventListener("click", saveData);
-    //if mobile device, squish size of input fields to better fit
-    if (isMobileBrowser()) { //detect_mobile.js
-        document.querySelectorAll(".input_field").forEach((el) => {
-            el.style.width = "200px";
-        })
-    }
 
     // Makes a big red pin, used for inputting data
     usersMarker = new google.maps.Marker({
