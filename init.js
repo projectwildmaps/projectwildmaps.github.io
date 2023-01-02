@@ -180,17 +180,16 @@ function init() {
             visible = false;
         }
 
-        let icon; //an object that will follow the google.maps.Icon interface
+        //icon is an object that will follow the google.maps.Icon interface
+        let center_coord = dot_radius + dot_padding + 1; //see getDot.js
+        let icon = {
+            url: getDot(feature.getProperty('category'), dot_padding), //dot_padding is global config var
+            anchor: new google.maps.Point(center_coord, center_coord)
+        }
         if (feature.getProperty('archived')) {
             icon = {
                 url: "dots/archived.png",
                 anchor: new google.maps.Point(6, 6) //center point, image is 12x12 px
-            }
-        }
-        else {
-            icon = {
-                url: getDot(feature.getProperty('category')),
-                anchor: new google.maps.Point(4.5, 4.5) //center point, image is 9x9 px
             }
         }
 
