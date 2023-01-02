@@ -174,17 +174,17 @@ textarea {
     align-items: center;
     justify-content: center;
 
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     font-style: italic;
     font-family: serif;
     color: white;
     background-color: royalblue;
-    height: 20px;
-    width: 20px;
-    border-radius: 20px;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
     margin-top: 0;
-    margin-right: 17px; /* center with the street view control */
+    margin-right: 12px; /* center with the street view control */
 
     user-select: none;
     cursor: pointer;
@@ -273,10 +273,16 @@ nicely to the right of the text, or below the text on small screens */
     margin: auto;
     width: 200px;
     align-self: flex-start; /* For some reason preserves image aspect ratios */
+    border: 1px solid black;
 }
 .text-img-flex .caption {
     margin-top: 5px;
     text-align: center;
+}
+#instructions .highlight {
+    background-color: #d9d9b8;
+    padding: 1rem;
+    width: calc(100% - 2rem);
 }
 
 /* Close instructions button at the bottom */
