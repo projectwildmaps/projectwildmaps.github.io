@@ -6,7 +6,7 @@
 	<title>PMAPS: PWILD Marking/Annotating Pisgah Systematically</title>
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link type="text/css" rel="stylesheet" href="style.css" />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Oleo+Script&family=Rock+Salt">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rock+Salt">
 
 
 	<!-- these scripts should load before the ones at the end of the body do -->
@@ -68,13 +68,17 @@
 						<img src="instructions_images/compass3.png" alt="">
 					</div>
 				</div>
-				
-				<p>Welcome to PMAPS!!! This is an online tool for recording information about locations in Pisgah National Forest (and other ~PWILDy~ places). This allows our knowledge to be shared among generations of PWILDers, despite that pesky thing called graduation.</p>
-	
+
+				<p>Welcome to PMAPS!!! This is an online tool for recording information about locations in Pisgah
+					National Forest (and other ~PWILDy~ places). This allows our knowledge to be shared among
+					generations of PWILDers, despite that pesky thing called graduation.</p>
+
 				<div class="text-img-flex">
-					<p><b>Note:</b> You can come back to these instructions at any time by clicking the info icon at the right of the map.</p>
+					<p><b>Note:</b> You can come back to these instructions at any time by clicking the info icon at the
+						right of the map.</p>
 					<div>
-						<img style="width: 50px;" src="instructions_images/info_icon.png" alt="screenshot of the info icon">
+						<img style="width: 50px;" src="instructions_images/info_icon.png"
+							alt="screenshot of the info icon">
 						<p class="caption"><b>The info icon</b></p>
 					</div>
 				</div>
@@ -82,16 +86,23 @@
 				<h2>How to Use</h2>
 
 				<div class="text-img-flex">
-					<p>Click on a point to read the information about that point. The category, description, contributor, and date are displayed, along with comments if they exist (see Figure 1). You can add a new comment by clicking "Add Comment", which will open a form allowing you to enter your name and your comment.</p>
-				
+					<p>Click on a point to read the information about that point. The category, description,
+						contributor, and date are displayed, along with comments if they exist (see Figure 1). You can
+						add a new comment by clicking "Add Comment", which will open a form allowing you to enter your
+						name and your comment.</p>
+
 					<div>
 						<img src="instructions_images/point_info.png" alt="screenshot of a data point's information">
 						<p class="caption"><b>Figure 1</b></p>
 					</div>
 				</div>
-				
+
 				<div class="text-img-flex">
-					<p>To add a new point, click and drag the big red pin to the location you wish to mark. Click the pin to open the data entry form (see Figure 2). Enter your name, what you want to say about that location, and a category. For the category, click on the category input to select one from the dropdown, or if none of the existing categories fits, you can instead type in a custom category. Click "Save & Close" to add the point.</p>
+					<p>To add a new point, click and drag the big red pin to the location you wish to mark. Click the
+						pin to open the data entry form (see Figure 2). Enter your name, what you want to say about that
+						location, and a category. For the category, click on the category input to select one from the
+						dropdown, or if none of the existing categories fits, you can instead type in a custom category.
+						Click "Save & Close" to add the point.</p>
 					<div>
 						<img src="instructions_images/input_form.png" alt="screenshot of the input form">
 						<p class="caption"><b>Figure 2</b></p>
@@ -100,13 +111,21 @@
 
 				<h2>Other Things</h2>
 
-				<p><b>Maps and Locations - </b>You can change the map type using the dropdown in the top left. You can jump to different PWILD-related locations using the location dropdown in the top left.</p>
+				<p><b>Maps and Locations - </b>You can change the map type using the dropdown in the top left. You can
+					jump to different PWILD-related locations using the location dropdown in the top left.</p>
 
-				<p><b>The Legend - </b> The legend allows you to filter points by category. Checking / unchecking a category will show/hide all points belonging to it.</p>
+				<p><b>The Legend - </b> The legend allows you to filter points by category. Checking / unchecking a
+					category will show/hide all points belonging to it.</p>
 
-				<p><b>Archiving Points - </b>Archiving a point hides it from view by default. This is used if you want to remove a point for any reason (e.g. if a point is outdated / no longer accurate). To archive a point, click on it and then click "Archive." To unarchive a point, click "show archived points" in the legend, click the point (it will be displayed as a gray circle with an x through it), then click "Unarchive."</p>
+				<p><b>Archiving Points - </b>Archiving a point hides it from view by default. This is used if you want
+					to remove a point for any reason (e.g. if a point is outdated / no longer accurate). To archive a
+					point, click on it and then click "Archive." To unarchive a point, click "show archived points" in
+					the legend, click the point (it will be displayed as a gray circle with an x through it), then click
+					"Unarchive."</p>
 
-				<p><b>Editing Points - </b>There is currently no way to edit a submitted point directly, since this app is accessible to the public and we want to protect the data from being messed with or deleted. Instead, you have to archive the old point and make a new one.</p>
+				<p><b>Editing Points - </b>There is currently no way to edit a submitted point directly, since this app
+					is accessible to the public and we want to protect the data from being messed with or deleted.
+					Instead, you have to archive the old point and make a new one.</p>
 
 			</div>
 			<button id="close_instructions" onclick="document.getElementById('instructions').close()">
@@ -154,8 +173,22 @@
 			'Landmark',
 			'Funny Story',
 			'Solos',
-			'Other' //default, doesn't get special treatment in getDot()
+			'Other' //default, see getDot()
 		];
+		var dot_colors = {
+			"VAM (View Appreciation Moment)": "aqua",
+			"Waterfall": "#0033cc", //dark blue
+			"Water": "#8ba9e4", //medium pastel blue
+			"Safety": "#ffff66", //slightly pale yellow
+			"Campsite": "#4ffc4f", //light green
+			"Pro-Tip!": "#ff4d4d", //pastel red
+			"Landmark": "#009900", //dark green
+			"Funny Story": "#ffa3ee", //pink
+			"Solos": "orange",
+			"Other": "white"
+		}
+		var dot_radius = 4; //px
+		var dot_padding = 5; //extra transparent px around the dot to make dots easier to click on the map
 
 		//pixel margins from the edge of the screen that the big red pin's position needs to stay within to remain visible
 		//this is used in newPoint.js
