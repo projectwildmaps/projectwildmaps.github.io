@@ -40,7 +40,7 @@
 		<div id="legend" class="custom_map_control"> <!-- populated in legend.js initLegend() -->
 			<b>Legend</b>
 		</div>
-		<div id="download_data" class="custom_map_control"> <!-- this is set up in init.js -->
+		<div id="download_control" class="custom_map_control"> <!-- this is set up in init.js -->
 			Download<br>
 			Data
 		</div>
@@ -56,6 +56,24 @@
 
 
 	<div id="map"></div>
+
+	<dialog id="download_modal">
+		<button id="close_download_modal" onclick="document.querySelector('#download_modal').close()">&#10006;</button>
+		<p><b>Choose Download Option:</b></p>
+		<div class="radio_row">
+			<input type="radio" name="download_option" id="all" value="All" checked autofocus>
+			<label for="all">All Data</label>
+		</div>
+		<div class="radio_row">
+			<input type="radio" name="download_option" id="nonarchived" value="Nonarchived">
+			<label for="nonarchived">Nonarchived Data Only (visible points)</label>
+		</div>
+		<div class="radio_row">
+			<input type="radio" name="download_option" id="archived" value="Archived">
+			<label for="archived">Archived Data Only (removed points)</label>
+		</div>
+		<button id="start_download">Download</button>
+	</dialog>
 
 	<dialog id="instructions">
 		<div id="instructions_vertical_layout">
@@ -103,7 +121,8 @@
 						location, and a category. For the category, click on the category input to select one from the
 						dropdown, or if none of the existing categories fits, you can instead type in a custom category.
 						Click "Save & Close" to add the point.<br><br>
-						Again, if you forget how to do something, you can reopen these instructions by clicking the blue info icon at the right of the map.
+						Again, if you forget how to do something, you can reopen these instructions by clicking the blue
+						info icon at the right of the map.
 					</p>
 					<div>
 						<img src="instructions_images/input_form.png" alt="screenshot of the input form">
