@@ -585,8 +585,16 @@
         "name": "Ari"
     },
     "-NGp7YLz-Bxr7fL6r153": {
-        "archived": true,
+        "archived": false,
         "category": "Landmark",
+        "comments": {
+            "-NKkkle6OJQbRhBHUXqr": {
+                "date": "1-1-2023",
+                "deleted": false,
+                "name": "Adam",
+                "text": "The Gear Locker is no longer here; it's in the Swift parking garage. Interesting point for PWILD history though."
+            }
+        },
         "date": "3/17/2014 17:27:03",
         "description": "Gear Locker",
         "lat": 36.0053159318492,

@@ -1,3 +1,9 @@
+/* General styling */
+:root {
+    --base-color: #f6f6ee;
+    --accent-color: #d9d9b8;
+}
+
 html {
     overflow: hidden;
 }
@@ -31,6 +37,16 @@ textarea {
     background-color: #DEDCD7;
 }
 
+dialog {
+    background-color: var(--base-color);
+    border: 5px solid var(--accent-color);
+    box-shadow: 2px 2px 5px #0005;
+    font-family: "Open Sans";
+}
+dialog::backdrop {
+    background-color: rgba(0 0 0 / .5);
+}
+
 @media screen and (max-width: 600px) {
     #map {
         top: 0px;
@@ -40,12 +56,19 @@ textarea {
     }
 }
 
+/* Info Window Stuff */
+
 .action { /* meant for info windows */
     color: gray;
     margin: 0;
     cursor: pointer;
     font-size: 10px;
     margin-right: 5px;
+}
+
+.input_field { /*For the data input form*/
+    display: block;
+    margin-bottom: 10px;
 }
 
 .new_comment input, .new_comment textarea {
@@ -77,6 +100,9 @@ textarea {
     justify-content: space-between;
 }
 
+
+/* map controls */
+
 .custom_map_control {
     padding: 3px;
     box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
@@ -97,12 +123,12 @@ textarea {
     color: gray;
 }
 
-#download_data {
+#download_control {
     cursor: pointer;
     text-align: center;
     margin-top: 0;
 }
-#download_data:hover {
+#download_control:hover {
     background-color: rgb(235, 235, 235);
 }
 
@@ -193,25 +219,12 @@ textarea {
     background-color: #3e3ed5;
 }
 
-.input_field { /*For the data input form*/
-    display: block;
-    margin-bottom: 10px;
-}
-
 
 /* General instruction dialog layout */
 
 #instructions {
     height: calc(100vh - 4rem);
     width: min(calc(100vw - 4rem), 800px);
-    background-color: #f6f6ee;
-    border: 5px solid #d9d9b8;
-    box-shadow: 2px 2px 5px #0005;
-    font-family: "Open Sans";
-}
-
-#instructions::backdrop {
-    background-color: rgba(0 0 0 / .5);
 }
 
 #instruction_footer {
@@ -280,7 +293,7 @@ nicely to the right of the text, or below the text on small screens */
     text-align: center;
 }
 #instructions .highlight {
-    background-color: #d9d9b8;
+    background-color: var(--accent-color);
     padding: 1rem;
     width: calc(100% - 2rem);
 }
@@ -312,4 +325,38 @@ nicely to the right of the text, or below the text on small screens */
 #close_instructions > img {
     height: 30px;
     display: block;
+}
+
+
+/* Download dialog */
+
+#download_modal p {
+    margin-top: 0;
+}
+#download_modal .radio_row {
+    margin-bottom: 12px;
+}
+#download_modal .radio_row * {
+    cursor: pointer;
+}
+#download_modal #start_download {
+    cursor: pointer;
+    margin-top: 1rem;
+    background-color: var(--accent-color);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: black;
+    font-size: 1rem;
+}
+#download_modal #close_download_modal {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-right: 0.3rem;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
 }
