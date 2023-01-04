@@ -1168,15 +1168,6 @@
         "lon": -82.87684592095945,
         "name": "Adam"
     },
-    "-NJJ6kENUu4tthSJxNSl": {
-        "archived": false,
-        "category": "Pro-Tip!",
-        "date": "12-14-2022",
-        "description": "Site of the incident quite a few years back that nearly stopped PWILD. Pro tip: don't block a trail with your packs because you want to go swimming naked.",
-        "lat": 35.311218740990185,
-        "lon": -82.7876678356323,
-        "name": "Adam"
-    },
     "-NJJ6tnkHkE46gxLHDo1": {
         "archived": false,
         "category": "Campsite",
@@ -1238,6 +1229,15 @@
         "description": "The Gear Locker (in the parking garage). You can access it by taking the elevator down from the Lobby level. Unfortunately, you can't take the elevator back up, unless you have a DukeCard belonging to an RA or someone with a Swift parking pass. To get out, either go through the back door near the gate used for cars, or take the fire escape stairs leading to the front of swift (if you're outside the locker facing it, the stairs are behind you, all the way on the other side of the garage).",
         "lat": 36.0030660089537,
         "lon": -78.92194207623169,
+        "name": "Adam"
+    },
+    "-NKu_PnEE_bTV2QRBH0G": {
+        "archived": false,
+        "category": "Pro-Tip!",
+        "date": "1-3-2023",
+        "description": "Somewhere around here was the site of the 2016 incident that got PWILD suspended for a year. Pro tip: don't block a trail with your packs because you want to go watersliding naked. Juicy details archived here: https://issuu.com/dukechronicle/docs/october_23__2017",
+        "lat": 35.28933283943214,
+        "lon": -82.8155789422344,
         "name": "Adam"
     }
 }
