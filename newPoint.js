@@ -10,16 +10,17 @@ function animateUsersMarker(){
 }
 
 function initInputInfoWindow() {
+    inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true }); //assigned to global var
+
     // Fill category options and make an info window for showing the data input form.
-    var category_datalist = document.getElementById("category");
+    var category_datalist = document.getElementById("category_names");
     categories.forEach((category) => {
         let option = document.createElement("option");
         option.value = category;
         category_datalist.appendChild(option);
     });
-    inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true }); //assigned to global var
-    inputInfoWindow.setContent(document.getElementById("input_form_content")); //beginning of body tag
-    document.getElementById("submit").addEventListener("click", saveData);
+    inputInfoWindow.setContent(document.getElementById("inputInfoWindow_content")); //beginning of body tag
+    document.querySelector("#inputInfoWindow_content #submit").addEventListener("click", saveData);
 
     // Makes a big red pin, used for inputting data
     usersMarker = new google.maps.Marker({
@@ -38,7 +39,7 @@ function initInputInfoWindow() {
 
         //auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
         setTimeout(function () {
-            autoPan(document.getElementById("input_form_content"))
+            autoPan(document.getElementById("inputInfoWindow_content"))
         }, 10);
 
         //reset fields (have to do it after opening, in order to access the elements)

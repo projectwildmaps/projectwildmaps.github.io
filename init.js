@@ -159,6 +159,7 @@ function init() {
 
         //if data info window is open for this point, update it's displayed information
         let content_div = document.querySelector("div[data-key = '" + snapshot.key + "']");
+        console.log(snapshot.key)
         if (content_div) {
             setDataInfoWindowHTML(content_div, markers[snapshot.key]); //dataInfoWindow.js
             autoPan(content_div);
@@ -210,6 +211,8 @@ function init() {
 
     // Initialize the big red marker and input form that allows people to add new points
     initInputInfoWindow(); //newPoint.js
+    // Initialize the info window that lets you view data
+    initDataInfoWindow(); //dataInfoWindow.js
 
     //Init the map control that lets you download the data
     let download_control = document.getElementById("download_control");
