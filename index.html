@@ -5,9 +5,12 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<title>PMAPS: PWILD Marking/Annotating Pisgah Systematically</title>
 	<link rel="shortcut icon" href="favicon.ico" />
-	<link type="text/css" rel="stylesheet" href="style.css" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rock+Salt">
 
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/info_window.css">
+	<link rel="stylesheet" href="css/map_controls.css">
+	<link rel="stylesheet" href="css/dialog.css">
 
 	<!-- these scripts should load before the ones at the end of the body do -->
 	<!-- Google APIs -->
@@ -41,17 +44,21 @@
 
 		<!-- content of the inputInfoWindow (will be moved to the info window), see newPoint.js -->
 		<div id="inputInfoWindow_content">
-			<label for='name'>Your Name: </label><br>
-			<input type='text' id='name' class='input_field' />
+			<div>
+				<label for='name'>Your Name: </label><br>
+				<input type='text' id='name' class='input_field' />
+			</div>
+			<div>
+				<label for='markerDescription'>Marker Description:</label><br>
+				<textarea id='markerDescription' class='input_field'></textarea>
+			</div>
+			<div>
+				<label for='categories'>Category:</label><br>
+				<input list='category_names' id='categories' class='input_field'>
+				<datalist id='category_names'></datalist> <!-- populated in newPoint.js initInputInfoWindow() -->
+			</div>
 
-			<label for='markerDescription'>Marker Description:</label><br>
-			<textarea id='markerDescription' class='input_field' style="height: 100px; width: 260px;"></textarea>
-
-			<label for='categories'>Category:</label><br>
-			<input list='category_names' id='categories' class='input_field'>
-			<datalist id='category_names'></datalist> <!-- populated in newPoint.js initInputInfoWindow() -->
-
-			<input id='submit' type='button' value='Save & Close' />
+			<button id='submit'>Save & Close</button>
 		</div>
 
 		<!-- template for the dataInfoWindow, will be cloned, see openDataInfoWindow() in dataInfoWindow.js -->
@@ -288,13 +295,13 @@
 		*/
 	</script>
 
-	<script src="map_definitions.js"></script>
-	<script src="getDot.js"></script>
-	<script src="dataInfoWindow.js"></script>
-	<script src="newPoint.js"></script>
-	<script src="legend.js"></script>
-	<script src="autopan.js"></script>
-	<script src="trails.js"></script>
+	<script src="js/map_definitions.js"></script>
+	<script src="js/getDot.js"></script>
+	<script src="js/dataInfoWindow.js"></script>
+	<script src="js/newPoint.js"></script>
+	<script src="js/legend.js"></script>
+	<script src="js/autopan.js"></script>
+	<script src="js/trails.js"></script>
 
 	<!--Firebase is module-based, so need a module script tag (in the HTML file). Note that js treats
 		module scripts as their own scope, so nothing declared in here is in the global scope.-->
@@ -340,7 +347,7 @@
 		window.database = database;
 	</script>
 
-	<script src="init.js"></script>
+	<script src="js/init.js"></script>
 	<script>
 		window.addEventListener("load", init);
 	</script>
