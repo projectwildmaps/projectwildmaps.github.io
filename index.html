@@ -10,6 +10,7 @@
 
 
 	<!-- these scripts should load before the ones at the end of the body do -->
+	<!-- Google APIs -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
@@ -18,25 +19,10 @@
 </head>
 
 <body>
-	<!-- div to hold HTML we'll move into the map later, shouldn't display until then -->
+	<!-- div to hold HTML for custom map controls, and templates, that shouldn't display -->
 	<div style="display: none;">
-		<!--Content of the input form, gets moved from here into the input form info window
-		the first time the user opens the form. Doing it this way instead of a content string
-		so that we can use addEventListener for the submit button-->
-		<div id="input_form_content">
-			<label for='name'>Your Name: </label><br>
-			<input type='text' id='name' class='input_field' />
 
-			<label for='markerDescription'>Marker Description:</label><br>
-			<textarea id='markerDescription' class='input_field' style="height: 100px; width: 260px;"></textarea>
-
-			<label for='categories'>Category:</label><br>
-			<input list='category' id='categories' class='input_field'>
-			<datalist id='category'></datalist> <!-- populated in init.js -->
-
-			<input id='submit' type='button' value='Save & Close' />
-		</div>
-
+		<!-- custom map controls -->
 		<div id="legend" class="custom_map_control"> <!-- populated in legend.js initLegend() -->
 			<b>Legend</b>
 		</div>
@@ -51,11 +37,74 @@
 			</button>
 			<ul id="locations"></ul>
 		</div>
-		<div id="info_control" class="custom_map_control">i</div> <!-- opens the instructions panel -->
+		<div id="info_control" class="custom_map_control">i</div> <!-- see init.js, opens the instructions panel -->
+
+		<!-- content of the inputInfoWindow (will be moved to the info window), see newPoint.js -->
+		<div id="inputInfoWindow_content">
+			<label for='name'>Your Name: </label><br>
+			<input type='text' id='name' class='input_field' />
+
+			<label for='markerDescription'>Marker Description:</label><br>
+			<textarea id='markerDescription' class='input_field' style="height: 100px; width: 260px;"></textarea>
+
+			<label for='categories'>Category:</label><br>
+			<input list='category_names' id='categories' class='input_field'>
+			<datalist id='category_names'></datalist> <!-- populated in newPoint.js initInputInfoWindow() -->
+
+			<input id='submit' type='button' value='Save & Close' />
+		</div>
+
+		<!-- template for the dataInfoWindow, will be cloned, see openDataInfoWindow() in dataInfoWindow.js -->
+		<template id="dataInfoWindow_template">
+			<div>
+				<b><i class="archived"></i></b>
+				<b class="category"></b><br>
+				<p class="description"></p>
+				Contributed By: <span class="name"></span><br>
+				<i class="date"></i><br>
+				<div>
+					<u class='add_comment action'>Add Comment</u>
+					<u class='set_archived action'>{archived ? "Unarchive" : "Archive"}</u>
+				</div>
+				<div class="comments">
+					<div class="comments_header"> <!-- not shown if no comments, via CSS :last-child -->
+						<hr><b>Comments:</b>
+					</div>
+				</div>
+				<div class="new_comment">
+					<hr>
+					<b>New Comment:</b><br>
+					<input class="comment_name" placeholder="Enter your name here"></input><br>
+					<textarea class="comment_text" placeholder="Enter comment text..."></textarea><br>
+					<button class="submit_comment">Submit</button>
+					<p class="cancel_new_comment">Cancel</p>
+				</div>
+			</div>
+		</template>
+
+		<!-- template for a new comment, will be cloned -->
+		<template id="comment_template">
+			<div class="comment">
+				<div class="comment_title"> <!-- styled as a flexbox with justify-content: space-between; -->
+					<div>
+						<u class="name"></u>
+						<i class="date"></i>
+					</div>
+					<div>
+						<u class="delete_comment action">Delete</u>
+					</div>
+				</div>
+				<span class="text"></span>
+			</div>
+		</template>
+
 	</div>
 
 
 	<div id="map"></div>
+
+
+	<!-- dialogs -->
 
 	<dialog id="download_modal">
 		<button id="close_download_modal" onclick="document.querySelector('#download_modal').close()">&#10006;</button>
@@ -161,9 +210,8 @@
 
 	<script>
 		// GLOBAL CONFIG (you can change)
-		var default_zoom_level = 13; // uses this if zoom not specified in the default location below
 
-		// Locations we can switch to. The only required property is coords
+		// Locations we can switch to. The only required property is coords.
 		// mapTypeId, if specified, is the map to switch to ("roadmap", "satellite", "Nat Geo", etc)
 		// zoom, if specified, is the default zoom level for this location (bigger = more zoomed in)
 		// The default location has the default property set to true (exactly one location must have this)
@@ -185,6 +233,7 @@
 				zoom: 14
 			}
 		}
+		var default_zoom_level = 13; // uses this if zoom not specified in the default location
 
 		var categories = [
 			'VAM (View Appreciation Moment)',
@@ -236,7 +285,6 @@
 		*/
 	</script>
 
-	<script src="detect_mobile.js"></script>
 	<script src="map_definitions.js"></script>
 	<script src="getDot.js"></script>
 	<script src="dataInfoWindow.js"></script>
@@ -245,8 +293,8 @@
 	<script src="autopan.js"></script>
 	<script src="trails.js"></script>
 
-	<!--Firebase is module-based, so need a module script tag. Note that js treats module scripts
-		as their own scope, so nothing declared in here is in the global scope.-->
+	<!--Firebase is module-based, so need a module script tag (in the HTML file). Note that js treats
+		module scripts as their own scope, so nothing declared in here is in the global scope.-->
 	<script type="module">
 		//SET UP FIREBASE DATABASE ---------------------------------------------------
 
