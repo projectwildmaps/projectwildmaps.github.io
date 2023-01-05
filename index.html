@@ -22,12 +22,20 @@
 </head>
 
 <body>
-	<!-- div to hold HTML for custom map controls, and templates, that shouldn't display -->
+	<!-- main map container -->
+	<div id="map"></div>
+
+
+	<!-- div to hold HTML for custom map controls, and templates, that will be referenced / moved but shouldn't display at first -->
 	<div style="display: none;">
 
 		<!-- custom map controls -->
 		<div id="legend" class="custom_map_control"> <!-- populated in legend.js initLegend() -->
 			<b>Legend</b>
+		</div>
+		<div id="date_filter" class="custom_map_control">
+			<input id="start_date" type="date">
+			<input id="end_date" type="date">
 		</div>
 		<div id="download_control" class="custom_map_control"> <!-- this is set up in init.js -->
 			Download<br>
@@ -91,7 +99,7 @@
 			</div>
 		</template>
 
-		<!-- template for a new comment, will be cloned -->
+		<!-- template for a new comment, will be cloned, see dataInfoWindow.js -->
 		<template id="comment_template">
 			<div class="comment">
 				<div class="comment_title"> <!-- styled as a flexbox with justify-content: space-between; -->
@@ -109,10 +117,6 @@
 		</template>
 
 	</div>
-
-
-	<div id="map"></div>
-
 
 	<!-- dialogs -->
 
@@ -295,12 +299,21 @@
 		*/
 	</script>
 
+	<!-- definitions and utility functions -->
 	<script src="js/map_definitions.js"></script>
 	<script src="js/getDot.js"></script>
+	<script src="js/autopan.js"></script>
+
+	<!-- info window / data stuff -->
 	<script src="js/dataInfoWindow.js"></script>
 	<script src="js/newPoint.js"></script>
+
+	<!-- custom map controls -->
+	<script src="js/locationChange.js"></script>
 	<script src="js/legend.js"></script>
-	<script src="js/autopan.js"></script>
+	<script src="js/dateFilter.js"></script>
+	<script src="js/download.js"></script>
+
 	<script src="js/trails.js"></script>
 
 	<!--Firebase is module-based, so need a module script tag (in the HTML file). Note that js treats

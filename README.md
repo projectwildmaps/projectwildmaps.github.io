@@ -21,6 +21,10 @@ GitHub pages, with link to documentation (https://pages.github.com/)
 
 Login info
 
+**Contact**:
+
+Most recently maintained by Adam Kosinski, class of 2024. Email: adamkosinski631@gmail.com
+
 ## Description of Files
 
 index.html

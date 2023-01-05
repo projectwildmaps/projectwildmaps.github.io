@@ -71,14 +71,14 @@ function openDataInfoWindow(feature) {
             }
         }
         else if (e.target.classList.contains("toggle_deleted_comments")){
-            //use a class on this element to indicate deleted, setDataInfoWindowHTML will pick up on it
+            //use a class on this element to indicate deleted, setDataInfoWindowContent will pick up on it
             e.target.classList.toggle("show_deleted");
-            setDataInfoWindowHTML(content, feature);
+            setDataInfoWindowContent(content, feature);
             autoPan(content);
         }
     });
 
-    setDataInfoWindowHTML(content, feature); //see below in this file
+    setDataInfoWindowContent(content, feature); //see below in this file
     dataInfoWindow.setContent(content);
     dataInfoWindow.setPosition(feature.getGeometry().get());
     dataInfoWindow.open(map);
@@ -89,7 +89,7 @@ function openDataInfoWindow(feature) {
     }, 10);
 }
 
-function setDataInfoWindowHTML(div, feature) {
+function setDataInfoWindowContent(div, feature) {
     //div is the content div for the data info window
     //feature is the Feature object of the point we clicked on
     //this function is separate because we call it in onChildChanged (see init()), to update the HTML if the point's data changes

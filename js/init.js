@@ -44,80 +44,8 @@ function init() {
     //map.mapTypes.set('USGS', usgsStolen); // basically the same as USGS TIFF but worse quality
 
     initLegend(); //legend.js
-
-
     
-
-
-
-    // set up location changing widget
-
-    let location_dropdown = document.getElementById("change_location");
-    let location_button = document.getElementById("change_location_button");
-    let location_list = document.getElementById("locations");
-
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(location_dropdown);
-
-    //populate location list
-    for(let name in locations){ //global config var
-        let li = document.createElement("li");
-        li.textContent = name;
-        if(locations[name].default){li.style.fontWeight = 500;}
-        location_list.appendChild(li);
-    }
-    //add event handler to make menu appear/disappear and to handle location changes
-    document.addEventListener("click", function(e){
-        if(location_dropdown.contains(e.target)){
-            // menu appear / disappear
-            if(location_button.contains(e.target) && location_list.style.display != "none"){
-                location_list.style.display = "none";
-            }
-            else {
-                location_list.style.display = "block";
-            }
-            // location change
-            if(e.target.tagName == "LI"){
-                //switch which one is bold
-                location_list.querySelectorAll("li").forEach(li => {li.style.fontWeight = "initial";});
-                e.target.style.fontWeight = 500;
-
-                //change location
-                let name = e.target.textContent;
-                let L = locations[name];
-                map.setCenter(L.coords);
-                usersMarker.setPosition(L.coords); // so people can add points here
-
-                //change map features
-                if(L.mapTypeId){
-                    map.setMapTypeId(L.mapTypeId);
-                }
-                if(L.zoom){
-                    map.setZoom(L.zoom);
-                }
-
-                //animate the big red pin in case they didn't realize it came along
-                animateUsersMarker(); //newPoint.js
-            }
-        }
-    });
-    //event handlers to hide the menu - the mouseleave/mouseenter one is just for convenience, and copying google
-    document.addEventListener("mousedown", function(e){
-        if(!location_dropdown.contains(e.target)){
-            location_list.style.display = "none";
-        }
-    });
-    document.addEventListener("touchstart", function(e){ //for mobile compatibility
-        if(!location_dropdown.contains(e.target)){
-            location_list.style.display = "none";
-        }
-    });
-    let hide_timeout;
-    location_dropdown.addEventListener("mouseleave", function(){
-        hide_timeout = setTimeout(function(){location_list.style.display = "none";}, 1000);
-    });
-    location_dropdown.addEventListener("mouseenter", function(){
-        clearTimeout(hide_timeout);
-    })
+    initLocationChangeDropdown(); //locationChange.js
 
 
     // DATA STUFF ------------------------------------------------------------------------------------
@@ -160,7 +88,7 @@ function init() {
         //if data info window is open for this point, update it's displayed information
         let content_div = document.querySelector("div[data-key = '" + snapshot.key + "']");
         if (content_div) {
-            setDataInfoWindowHTML(content_div, markers[snapshot.key]); //dataInfoWindow.js
+            setDataInfoWindowContent(content_div, markers[snapshot.key]); //dataInfoWindow.js
             autoPan(content_div);
         }
     }));
@@ -214,53 +142,7 @@ function init() {
     initDataInfoWindow(); //dataInfoWindow.js
 
     //Init the map control that lets you download the data
-    let download_control = document.getElementById("download_control");
-    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(download_control);
-    download_control.addEventListener("click", function(){
-        document.getElementById("download_modal").showModal();
-    });
-    let download_button = document.getElementById("start_download");
-    download_button.addEventListener("click", function(){
-        // we use the get function to get a fresh and correct copy of the data from the database, in case we messed up tracking data in the markers object upon onChildChanged etc.
-        get(ref(database)).then((snapshot) => {
-            const all_data = snapshot.val();
-            
-            //figure out what points to download
-            const download_type = document.querySelector("#download_modal input:checked").value;
-            let data = {};
-            if(download_type == "All"){
-                data = all_data;
-            }
-            else {
-                for(let key in all_data){
-                    if(download_type == "Nonarchived" && !all_data[key].archived ||
-                        download_type == "Archived" && all_data[key].archived)
-                    {
-                        data[key] = all_data[key];
-                    }
-                }
-            }
-
-            //convert to JSON and download
-            const data_string = JSON.stringify(data, null, 4); // use 4 spaces as whitespace indent
-            const blob = new Blob([data_string], {type: "application/json"});
-            const url = URL.createObjectURL(blob);
-
-            let d = new Date();
-            const dateString = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
-
-            let a = document.createElement("a");
-            a.href = url;
-            a.download = "PMAPS Data Backup " + dateString + (download_type == "All" ? "" : " " + download_type);
-
-            a.click();
-
-            URL.revokeObjectURL(url); // saves memory, since the created URL stays around until page unload by default
-
-            //we're done downloading, close the modal
-            document.getElementById("download_modal").close();
-        });
-    });
+    initDownloadButton();
 
 
     

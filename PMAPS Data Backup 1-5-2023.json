@@ -1239,5 +1239,50 @@
         "lat": 35.28933283943214,
         "lon": -82.8155789422344,
         "name": "Adam"
+    },
+    "-NL-RgR54NyA7nTkvT1e": {
+        "archived": false,
+        "category": "Funny Story",
+        "date": "1-5-2023",
+        "description": "Accidentally left water filters hanging on a tree here in Fall 2022, didn’t realize until we got back to Duke.",
+        "lat": 35.3521762979828,
+        "lon": -82.77852005311517,
+        "name": "Adam"
+    },
+    "-NL-TtoYlTSC57MDEqda": {
+        "archived": false,
+        "category": "Campsite",
+        "date": "1-5-2023",
+        "description": "There’s a small clearing here where we set up camp in March 2022, but was in sight of two trails so not great. Overall this gap didn’t seem so nice for camping, not that flat and quite overgrown. Maybe there’s something better closer to the river, I don’t remember.",
+        "lat": 35.34409498574735,
+        "lon": -82.66006023789326,
+        "name": "Adam"
+    },
+    "-NL-VmkiE13dn5nCjPO8": {
+        "archived": false,
+        "category": "VAM (View Appreciation Moment)",
+        "date": "1-5-2023",
+        "description": "BEAUTIFUL VAM. Bit of a hike to get here, especially since it’s an out and back trail, but so worth it. If you have less time, try the John Rock hike instead for a similar view.",
+        "lat": 35.30422727946311,
+        "lon": -82.79436430256257,
+        "name": "Adam"
+    },
+    "-NL-WA6OZuhlslY7hFAm": {
+        "archived": false,
+        "category": "VAM (View Appreciation Moment)",
+        "date": "1-5-2023",
+        "description": "Great VAM, view of Looking Glass Rock and the whole valley. Fun fact you can see Black Balsam from here.",
+        "lat": 35.27956733389805,
+        "lon": -82.78944190040714,
+        "name": "Adam"
+    },
+    "-NL-ZgXyURPsnDVTB9i3": {
+        "archived": false,
+        "category": "Pro-Tip!",
+        "date": "1-5-2023",
+        "description": "Mountain looks impressive, but unfortunately no views. Not really any good views on all of 322 for that matter (from Turkey Pen to Black Mountain).",
+        "lat": 35.330274307052306,
+        "lon": -82.67297881656233,
+        "name": "Adam"
     }
 }
