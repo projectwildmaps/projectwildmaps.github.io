@@ -30,14 +30,10 @@ body {
     background-color: #DEDCD7;
 }
 
-dialog {
-    background-color: var(--base-color);
-    border: 5px solid var(--accent-color);
-    box-shadow: 2px 2px 5px #0005;
-    font-family: "Open Sans";
-}
-dialog::backdrop {
-    background-color: rgba(0 0 0 / .5);
+textarea {
+    resize: none;
+    min-height: 6rem;
+    width: 20rem;
 }
 
 @media screen and (max-width: 600px) {
@@ -47,4 +43,16 @@ dialog::backdrop {
         width: 100%;
         height: 100%;
     }
+}
+
+/* used for buttons, to overwrite default styling */
+.no-style {
+    display: block;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    color: black;
+    font-family: inherit;
+    font-size: inherit;
 }

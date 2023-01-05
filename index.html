@@ -34,13 +34,22 @@
 			<b>Legend</b>
 		</div>
 		<div id="date_filter" class="custom_map_control">
-			<input id="start_date" type="date">
-			<input id="end_date" type="date">
+			<button id="date_filter_header" class="no-style"><b>Date Filter</b><img class="arrow" src="https://maps.gstatic.com/mapfiles/arrow-down.png" alt="open_date_filter"></button>
+			<div id="date_filter_content"> <!-- hidden unless the parent has the "open" attribute -->
+				<div class="flex">
+					<label for="start_date">From:</label><button id="reset_start_date" class="reset no-style">reset</button>
+				</div>
+				<input id="start_date" type="date">
+				<div class="flex">
+					<label for="end_date">To:</label><button id="reset_end_date" class="reset no-style">reset</button>
+				</div>
+				<input id="end_date" type="date">
+			</div>
 		</div>
-		<div id="download_control" class="custom_map_control"> <!-- this is set up in init.js -->
+		<button id="download_control" class="custom_map_control no-style"> <!-- this is set up in init.js -->
 			Download<br>
 			Data
-		</div>
+		</button>
 		<div id="change_location"> <!-- This is set up in init.js. Styling copied from google's dropdown -->
 			<button id="change_location_button">
 				<span>Location</span>
@@ -48,10 +57,10 @@
 			</button>
 			<ul id="locations"></ul>
 		</div>
-		<div id="info_control" class="custom_map_control">i</div> <!-- see init.js, opens the instructions panel -->
+		<button id="info_control" class="custom_map_control no-style">i</button> <!-- see init.js, opens the instructions panel -->
 
 		<!-- content of the inputInfoWindow (will be moved to the info window), see newPoint.js -->
-		<div id="inputInfoWindow_content">
+		<div id="inputInfoWindow_content" class="info_window_content">
 			<div>
 				<label for='name'>Your Name: </label><br>
 				<input type='text' id='name' class='input_field' />
@@ -71,21 +80,21 @@
 
 		<!-- template for the dataInfoWindow, will be cloned, see openDataInfoWindow() in dataInfoWindow.js -->
 		<template id="dataInfoWindow_template">
-			<div>
+			<div class="info_window_content">
 				<b><i class="archived"></i></b>
 				<b class="category"></b><br>
 				<p class="description"></p>
 				Contributed By: <span class="name"></span><br>
 				<i class="date"></i><br>
 				<div>
-					<u class='add_comment action'>Add Comment</u>
-					<u class='set_archived action'>{archived ? "Unarchive" : "Archive"}</u>
+					<button class='add_comment action no-style'>Add Comment</button>
+					<button class='set_archived action no-style'>{archived ? "Unarchive" : "Archive"}</button>
 				</div>
 				<div class="comments">
 					<div class="comments_header">
 						<hr>
 						<b>Comments:</b><br>
-						<u class="toggle_deleted_comments action">(show deleted)</u>
+						<button class="toggle_deleted_comments action no-style">(show deleted)</button>
 					</div>
 				</div>
 				<div class="new_comment">
@@ -94,7 +103,7 @@
 					<input class="comment_name" placeholder="Enter your name here"></input><br>
 					<textarea class="comment_text" placeholder="Enter comment text..."></textarea><br>
 					<button class="submit_comment">Submit</button>
-					<p class="cancel_new_comment">Cancel</p>
+					<button class="cancel_new_comment no-style">Cancel</button>
 				</div>
 			</div>
 		</template>
@@ -109,7 +118,7 @@
 						<i class="date"></i>
 					</div>
 					<div>
-						<u class="delete_comment action">Delete</u>
+						<button class="delete_comment action no-style">Delete</button>
 					</div>
 				</div>
 				<span class="text"></span>
@@ -214,7 +223,7 @@
 					Instead, you have to archive the old point and make a new one.</p>
 
 			</div>
-			<button id="close_instructions" onclick="document.getElementById('instructions').close()">
+			<button id="close_instructions" class="no-style" onclick="document.getElementById('instructions').close()">
 				<img src="instructions_images/wood_sign.png">
 				<div>Let's Go!</div>
 			</button>

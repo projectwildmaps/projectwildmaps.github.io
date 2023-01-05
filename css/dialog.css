@@ -1,3 +1,14 @@
+dialog {
+    background-color: var(--base-color);
+    border: 5px solid var(--accent-color);
+    box-shadow: 2px 2px 5px #0005;
+    font-family: "Open Sans";
+}
+dialog::backdrop {
+    background-color: rgba(0 0 0 / .5);
+}
+
+
 /* General instruction dialog layout */
 
 #instructions {
@@ -79,22 +90,18 @@ nicely to the right of the text, or below the text on small screens */
 /* Close instructions button at the bottom */
 
 #close_instructions {
-    display: block;
     margin: auto;
-    padding: 0;
     cursor: pointer;
     font-family: "Open Sans";
     position: relative;
-
     width: fit-content;
-    border: none;
-    background-color: transparent;
 }
 
 #close_instructions > div {
     position: absolute;
     inset: 0;
     font-weight: bold;
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;

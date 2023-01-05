@@ -8,26 +8,7 @@
     margin: 10px;
 }
 
-#legend input, #legend label {
-    cursor: pointer;
-}
-
-#legend_toggle_archived {
-    margin: 1px;
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 10px;
-    color: gray;
-}
-
-#download_control {
-    cursor: pointer;
-    text-align: center;
-    margin-top: 0;
-}
-#download_control:hover {
-    background-color: rgb(235, 235, 235);
-}
+/* change location dropdown */
 
 #change_location {
     cursor: pointer;
@@ -92,6 +73,74 @@
     background-color:rgb(235, 235, 235);
 }
 
+
+/* legend */
+
+#legend {
+    width: 90px;
+}
+#legend input, #legend label {
+    cursor: pointer;
+}
+#legend input {
+    margin-left: 2px;
+}
+#legend_toggle_archived {
+    margin: 1px;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 10px;
+    color: gray;
+}
+
+
+/* date filter */
+
+#date_filter {
+    margin-top: 0;
+}
+button#date_filter_header {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+#date_filter_content {
+    width: 90px;
+}
+#date_filter:not([open]) #date_filter_content {
+    display: none;
+}
+#date_filter .flex {
+    display: flex;
+    justify-content: space-between;
+}
+#date_filter .reset {
+    text-decoration: underline;
+    cursor: pointer;
+}
+#date_filter input {
+    font-size: 11px;
+    display: block;
+    width: calc(100% - 5px); /* 5px = 2 * 2px border + 1px padding left */
+}
+
+
+/* download button */
+
+#download_control {
+    cursor: pointer;
+    text-align: center;
+    margin-top: 0;
+}
+#download_control:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+
+/* info icon */
+
 #info_control {
     display: flex;
     align-items: center;
@@ -103,9 +152,9 @@
     font-family: serif;
     color: white;
     background-color: royalblue;
-    height: 30px;
-    width: 30px;
-    border-radius: 30px;
+    height: 36px;
+    width: 36px;
+    border-radius: 36px;
     margin-top: 0;
     margin-right: 12px; /* center with the street view control */
 

@@ -2,16 +2,16 @@ function init() {
     //show instructions immediately
     document.getElementById("instructions").showModal();
     document.querySelector("#instructions button").blur(); //prevent weird autofocusing
- 
+
     // MAP STUFF --------------------------------------------------------
-    
+
     // get map config stuff from the default location
     let center_coords;
     let zoom;
     let mapTypeId;
-    for(let name in locations){
+    for (let name in locations) {
         let loc = locations[name];
-        if(loc.default){
+        if (loc.default) {
             center_coords = loc.coords;
             zoom = loc.zoom ? loc.zoom : default_zoom_level;
             mapTypeId = loc.mapTypeId ? loc.mapTypeId : "roadmap";
@@ -43,9 +43,26 @@ function init() {
     map.mapTypes.set('Nat Geo', natGeo);
     //map.mapTypes.set('USGS', usgsStolen); // basically the same as USGS TIFF but worse quality
 
-    initLegend(); //legend.js
-    
+
+    // CUSTOM MAP CONTROLS ----------------------------------
+    // order of initializing matters for layout if stuff being pushed to same map control area
+
     initLocationChangeDropdown(); //locationChange.js
+
+    initLegend(); //legend.js
+
+    initDateFilter(); //dateFilter.js
+
+    //Init the map control that lets you download the data
+    initDownloadButton(); //download.js
+
+    // set up info control to open the instructions panel
+    let info_control = document.getElementById("info_control");
+    let instructions = document.getElementById("instructions");
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(info_control);
+    info_control.addEventListener("click", function () {
+        instructions.showModal();
+    });
 
 
     // DATA STUFF ------------------------------------------------------------------------------------
@@ -59,19 +76,20 @@ function init() {
         let data = snapshot.val()
         var geowanted = new google.maps.Data.Point({ lat: data.lat, lng: data.lon });
         var propswanted = {
-
+            //data attributes
             name: data.name,
             description: data.description,
             category: data.category,
             date: data.date,
             archived: data.archived,
             comments: data.comments,
-
-            archived_visible: archived_visible, //styling attribute
-            my_category_visible: true, //styling attribute, set to true even if category not visible, so users have confirmation their new point was created successfully
+            //styling attributes
+            archived_visible: archived_visible, //see legend.js
+            my_category_visible: true, //see legend.js, set to true even if category not visible, so users have confirmation their new point was created successfully
+            my_date_visible: true, //see dateFilter.js, set to true even if category not visible, so users have confirmation their new point was created successfully
+            //database attributes
             ref: snapshot.ref, //database reference object
             key: snapshot.key //data location in database
-
         };
         var new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
         markers[snapshot.key] = new_feature; //markers is a global variable
@@ -138,14 +156,12 @@ function init() {
 
     // Initialize the big red marker and input form that allows people to add new points
     initInputInfoWindow(); //newPoint.js
+
     // Initialize the info window that lets you view data
     initDataInfoWindow(); //dataInfoWindow.js
 
-    //Init the map control that lets you download the data
-    initDownloadButton();
 
 
-    
 
     // TRAIL STUFF -----------------------------------------------------------------------------
 
@@ -195,16 +211,4 @@ function init() {
     trailControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(trailControlDiv);
     */
-
-
-    // MISC ----------------------------------------------------------------------------------------
-
-    // set up info control to open the instructions panel
-    // this is in misc. because it needs to happen after we add the download data map control
-    let info_control = document.getElementById("info_control");
-    let instructions = document.getElementById("instructions");
-    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(info_control);
-    info_control.addEventListener("click", function(){
-        instructions.showModal();
-    });
 }
