@@ -121,7 +121,8 @@ function init() {
 
     // Color the data layer based on the category of the data, and give each point roll over text
     markerLayer.setStyle(function (feature) {
-        let visible = feature.getProperty('my_category_visible'); //messed with in legend.js
+        let visible = feature.getProperty('my_category_visible') &&
+                        feature.getProperty('my_date_visible');
         if (feature.getProperty('archived') && !feature.getProperty('archived_visible')) {
             visible = false;
         }

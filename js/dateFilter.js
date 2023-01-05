@@ -45,7 +45,10 @@ function filterByDate(){
     let end = document.querySelector("#end_date").valueAsDate;
     
     markerLayer.forEach(marker => {
-        let date = marker.getProperty("date");
-        console.log(date);
+        let date_components = marker.getProperty("date").split("/"); //month, day, year
+        let month_index = date_components[0] - 1;
+        let day = date_components[1];
+        let year = date_components[2];
+        let date = new Date(year, month_index, day);
     });
 }
