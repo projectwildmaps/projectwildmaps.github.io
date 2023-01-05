@@ -14,7 +14,6 @@ Priority
 - Add password protection
 - SVG for archived points
 
-
 Non-priority
 - Filter by date
 - Trails display
@@ -55,3 +54,4 @@ Done
     - mention comment deletion, distinction with archiving (can't undo, but backup still stored)
 - Option to download all data, unarchived data, archived data (dialog modal)
 - Remove need for JS detect mobile
+- Deleted comments can be toggled visible

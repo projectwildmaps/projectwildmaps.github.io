@@ -188,7 +188,7 @@ function init() {
         }
         if (feature.getProperty('archived')) {
             icon = {
-                url: "dots/archived.png",
+                url: "archived.png",
                 anchor: new google.maps.Point(6, 6) //center point, image is 12x12 px
             }
         }

@@ -1,0 +1,140 @@
+/* General instruction dialog layout */
+
+#instructions {
+    height: calc(100vh - 4rem);
+    width: min(calc(100vw - 4rem), 800px);
+}
+
+#instruction_footer {
+    height: 35px;
+    padding: 5px;
+}
+
+#instructions_vertical_layout {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Instructions content */
+
+#instruction_scroll_content {
+    padding-right: 1rem;
+    overflow-y: auto;
+    border-bottom: 1px solid black;
+}
+
+#instructions_header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#hoka {
+    font-family: "Rock Salt";
+    margin: 0;
+    font-size: 36px;
+}
+#instructions_header div:last-child {
+    display: flex;
+    gap: 10px;
+}
+#instructions_header img {
+    height: 50px;
+}
+
+/* text-img-flex is a class for divs containing two elements,
+a p tag and an img or div containing an img. It puts the image
+nicely to the right of the text, or below the text on small screens */
+.text-img-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0 1rem 0;
+    width: 100%;
+}
+.text-img-flex p {
+    margin: 0;
+    flex-basis: 350px;
+    flex-grow: 1;
+}
+.text-img-flex img {
+    display: block;
+    margin: auto;
+    width: 200px;
+    align-self: flex-start; /* For some reason preserves image aspect ratios */
+    border: 1px solid black;
+}
+.text-img-flex .caption {
+    margin-top: 5px;
+    text-align: center;
+}
+#instructions .highlight {
+    background-color: var(--accent-color);
+    padding: 1rem;
+    width: calc(100% - 2rem);
+}
+
+/* Close instructions button at the bottom */
+
+#close_instructions {
+    display: block;
+    margin: auto;
+    padding: 0;
+    cursor: pointer;
+    font-family: "Open Sans";
+    position: relative;
+
+    width: fit-content;
+    border: none;
+    background-color: transparent;
+}
+
+#close_instructions > div {
+    position: absolute;
+    inset: 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+#close_instructions > img {
+    height: 30px;
+    display: block;
+}
+
+
+/* Download dialog */
+
+#download_modal p {
+    margin-top: 0;
+}
+#download_modal .radio_row {
+    margin-bottom: 12px;
+}
+#download_modal .radio_row * {
+    cursor: pointer;
+}
+#download_modal #start_download {
+    cursor: pointer;
+    margin-top: 1rem;
+    background-color: var(--accent-color);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: black;
+    font-size: 1rem;
+}
+#download_modal #close_download_modal {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-right: 0.3rem;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}

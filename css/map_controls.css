@@ -1,0 +1,117 @@
+/* map controls */
+
+.custom_map_control {
+    padding: 3px;
+    box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    border-radius: 2px;
+    background-color: white;
+    margin: 10px;
+}
+
+#legend input, #legend label {
+    cursor: pointer;
+}
+
+#legend_toggle_archived {
+    margin: 1px;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 10px;
+    color: gray;
+}
+
+#download_control {
+    cursor: pointer;
+    text-align: center;
+    margin-top: 0;
+}
+#download_control:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+#change_location {
+    cursor: pointer;
+    margin: 10px;
+    margin-left: 0;
+    position: absolute; /*for z-index shenanigans*/
+    z-index: 0;
+}
+#change_location > button {
+    /* copying the google maps dropdown css for consistency */
+    padding: 8px 17px;
+    position: relative;
+    user-select: none;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-family: Roboto, Arial, sans-serif;
+    font-weight: 500;
+    color: black;
+}
+#change_location > button:hover {
+    background-color: rgb(235, 235, 235);
+}
+#change_location > button > span {
+    position: relative;
+    right: 3px;
+}
+#change_location img {
+    user-select: none;
+    margin: -2px 0 0;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    width: 7px;
+    height: 4px;
+}
+#locations {
+    /* copying the google maps dropdown css for consistency */
+    list-style: none;
+    margin: 0;
+    padding: 2px;
+    position: absolute;
+    top: 100%;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 30%) 0px 1px 4px -1px;
+    z-index: -1;
+    display: none;
+}
+#locations li {
+    padding: 5px;
+    user-select: none;
+    font-size: 18px;
+    color: rgb(86, 86, 86);
+}
+#locations li:hover {
+    color: black;
+    background-color:rgb(235, 235, 235);
+}
+
+#info_control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 30px;
+    font-weight: bold;
+    font-style: italic;
+    font-family: serif;
+    color: white;
+    background-color: royalblue;
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    margin-top: 0;
+    margin-right: 12px; /* center with the street view control */
+
+    user-select: none;
+    cursor: pointer;
+}
+#info_control:hover {
+    background-color: #3e3ed5;
+}
