@@ -155,6 +155,9 @@ Overview of firebase
 
 Link to firebase console
 
+JSON data format
+- include date string format, etc.
+
 ## Syntax to Read/Write to the Database
 
 ## Backing Up the Database

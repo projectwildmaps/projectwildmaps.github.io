@@ -130,7 +130,10 @@ function setDataInfoWindowContent(div, feature) {
             new_comment.querySelector(".name").innerText = c.name;
             new_comment.querySelector(".date").innerText = c.date;
             new_comment.querySelector(".text").innerText = c.text;
+
             new_comment.querySelector(".delete_comment").dataset.comment_key = key; //used to tell which comment was deleted in event listener
+            if(c.deleted){new_comment.querySelector(".delete_comment").style.visibility = "hidden";} //don't allow deleting deleted comments
+
             div.querySelector(".comments").appendChild(new_comment);
         }
     }
