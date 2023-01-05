@@ -67,8 +67,10 @@
 					<u class='set_archived action'>{archived ? "Unarchive" : "Archive"}</u>
 				</div>
 				<div class="comments">
-					<div class="comments_header"> <!-- not shown if no comments, via CSS :last-child -->
-						<hr><b>Comments:</b>
+					<div class="comments_header">
+						<hr>
+						<b>Comments:</b><br>
+						<u class="toggle_deleted_comments action">(show deleted)</u>
 					</div>
 				</div>
 				<div class="new_comment">
@@ -87,6 +89,7 @@
 			<div class="comment">
 				<div class="comment_title"> <!-- styled as a flexbox with justify-content: space-between; -->
 					<div>
+						<b><i class="deleted"></i></b>
 						<u class="name"></u>
 						<i class="date"></i>
 					</div>

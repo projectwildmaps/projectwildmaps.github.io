@@ -79,9 +79,6 @@ dialog::backdrop {
     flex-direction: column;
     gap: 0.5rem;
 }
-.comments_header:last-child {
-    display: none; /* Don't display the comments header if there aren't any comments */
-}
 .comment_title {
     display: flex;
     justify-content: space-between;
