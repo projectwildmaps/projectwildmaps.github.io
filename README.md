@@ -1,7 +1,7 @@
 ## Table of Contents
 1. [Overview](#overview)
-2. [How the Code Works](#how-the-code-works)
-3. [Making Edits](#making-edits)
+2. [Making Edits](#making-edits)
+3. [How the Code Works](#how-the-code-works)
 4. [The Database](#the-database)
 5. [The Google Maps API](#the-google-maps-api)
 
@@ -26,9 +26,6 @@ Login info
 index.html
 * The main HTML file. This contains the HTML and the core javascript used to make the app work.
 See the index.html section below for more information on how this file is organized.
-
-style.css
-* stuff
 
 map_definitions.js
 * Stuff
@@ -84,6 +81,12 @@ OLD_PMAPS_v6.html
 
 ## Directories
 
+css/
+* stuff
+
+js/
+* stuff (will describe in more detail below)
+
 natGeo/, usgsTiff/, u1s11g1s/, usgsStolen/
 * These contain the images used for the maps. I believe many of these were generated with MapTiler, in case you want to regenerate them. The images are organized by map_folder/zoom_level/x_coord/y_coord.png (or .jpg).
 
@@ -91,34 +94,9 @@ trails/
 * Contains the trail vector data.
 
 
-# How the Code Works
-
-## \<head\> Tag
-
-## \<body\> HTML
-
-## \<body\> Scripts
-
-Include description of global vars (and use of the categories variable)
-- how to add new categories
-
-Include description of the script module, and explanation of why this is necessary (firebase). Also its limitations in terms of global scoping, and the use of window.varname if needed. Functions not needing to access the database should not be in here because of dealing with the scoping thing.
-
-Also explain that the module code has to be in the HTML file for local testing to work, because of CORS security stuff if not running on a server.
-
-Description of the init() and saveData() functions
-
-Description of which maps are used / not
-
-How data is displayed (markers object, marker layer etc), how the legend works, how archived points are handled (added / removed from the markerLayer)
-- Note that the legend uses override/revert style so that it works with and plays nice with showing/hiding archived points. For controlling visibility, only one thing should be using override/revert style, and only one thing should be adding/removing points. Two ways of doing the same thing that don't interfere with each other.
-- Ok actually we should be doing styling by setting properties only used for styling, and only showing the point if both properties are true
-
-
-
 # Making Edits
 
-Here are some common things you may want to change, and how to change them.
+Here are some common things you may want to change, and how to change them. It is still recommended to read  [How the Code Works](#how-the-code-works), but this section should be enough for making simple changes.
 
 ### Add a new category
 
@@ -137,6 +115,33 @@ In index.html, the first script tag contains a list of locations as a global con
 Making yourself a collaborator on github (or adding an SSH key to the projectwildmaps GitHub to authenticate your computer), cloning, pushing, automatic deployment via GitHub pages, etc.
 Appcheck and localhost
 Mobile responsiveness blah blah, here's how to test it with Chrome
+
+
+# How the Code Works
+
+## index.html
+
+## CSS
+
+## JavaScript Files
+
+(describe javascript files' functions and functionality one by one)
+
+Include description of global vars (and use of the categories variable)
+- how to add new categories
+
+Include description of the script module, and explanation of why this is necessary (firebase). Also its limitations in terms of global scoping, and the use of window.varname if needed. Functions not needing to access the database should not be in here because of dealing with the scoping thing.
+
+Also explain that the module code has to be in the HTML file for local testing to work, because of CORS security stuff if not running on a server.
+
+Description of the init() and saveData() functions
+
+Description of which maps are used / not
+
+How data is displayed (markers object, marker layer etc), how the legend works, how archived points are handled (added / removed from the markerLayer)
+- Note that the legend uses override/revert style so that it works with and plays nice with showing/hiding archived points. For controlling visibility, only one thing should be using override/revert style, and only one thing should be adding/removing points. Two ways of doing the same thing that don't interfere with each other.
+- Ok actually we should be doing styling by setting properties only used for styling, and only showing the point if both properties are true
+
 
 # The Database
 

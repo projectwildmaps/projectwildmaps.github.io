@@ -8,14 +8,11 @@ Priority
     - VISA gift card??
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
-- Better dynamic HTML
-    - Sanitize outputs with innerText
-    - Make it look pretty, no overflow clipping on mobile for the input info window
 - Add password protection
 - SVG for archived points
+- Filter by date
 
 Non-priority
-- Filter by date
 - Trails display
 - Pictures?
 - Data validation for new points added - not really necessary
@@ -55,3 +52,6 @@ Done
 - Option to download all data, unarchived data, archived data (dialog modal)
 - Remove need for JS detect mobile
 - Deleted comments can be toggled visible
+- Better dynamic HTML
+    - Sanitize outputs with innerText
+    - Make it look pretty, no overflow clipping on mobile for the input info window
