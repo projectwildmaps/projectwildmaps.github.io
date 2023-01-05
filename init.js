@@ -159,7 +159,6 @@ function init() {
 
         //if data info window is open for this point, update it's displayed information
         let content_div = document.querySelector("div[data-key = '" + snapshot.key + "']");
-        console.log(snapshot.key)
         if (content_div) {
             setDataInfoWindowHTML(content_div, markers[snapshot.key]); //dataInfoWindow.js
             autoPan(content_div);

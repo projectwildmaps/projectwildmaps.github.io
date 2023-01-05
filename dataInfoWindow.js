@@ -63,13 +63,18 @@ function openDataInfoWindow(feature) {
             }
         }
         else if (e.target.classList.contains("delete_comment")) {
-            let yes_confirm = confirm("Are you sure you really want to delete this comment? You won't be able to get it back, though a backup will still be stored in the database.");
-            if (!yes_confirm) { }
-            else {
+            let yes_confirm = confirm("Are you sure you really want to delete this comment? You won't be able to undo this action.\n\nNote that deleted comments can still be seen by clicking 'show deleted'.");
+            if (yes_confirm){
                 let comment_key = e.target.dataset.comment_key;
                 let ref = child(feature.getProperty('ref'), "comments/" + comment_key);
                 update(ref, { deleted: true }); //triggers onChildChanged, which triggers recreating the info window content
             }
+        }
+        else if (e.target.classList.contains("toggle_deleted_comments")){
+            //use a class on this element to indicate deleted, setDataInfoWindowHTML will pick up on it
+            e.target.classList.toggle("show_deleted");
+            setDataInfoWindowHTML(content, feature);
+            autoPan(content);
         }
     });
 
@@ -101,17 +106,27 @@ function setDataInfoWindowHTML(div, feature) {
     div.querySelector(".set_archived").innerText = archived ? "Unarchive" : "Archive";
 
     //comments
-    
-    let comments = feature.getProperty('comments');
+
     //clear comments from last time
     div.querySelectorAll(".comment").forEach(el => el.parentElement.removeChild(el));
-    //add non-deleted comments
+
+    //get comments
+    let comments = feature.getProperty('comments');
+
+    //show header if any comments exist, deleted or not, and update deleted toggle's text appropriately
+    let deleted_toggle = div.querySelector(".toggle_deleted_comments");
+    let show_deleted = deleted_toggle.classList.contains("show_deleted");
+    div.querySelector(".comments_header").style.display = comments ? "block" : "none";
+    deleted_toggle.innerText = show_deleted ? "(hide deleted)" : "(show deleted)";
+
+    //add comments
     if(comments){
         for(let key in comments){
             let c = comments[key];
-            if(c.deleted) continue;
+            if(c.deleted && !show_deleted) continue;
 
             let new_comment = document.getElementById("comment_template").content.cloneNode(true);
+            new_comment.querySelector(".deleted").innerText = c.deleted ? "[DELETED]" : "";
             new_comment.querySelector(".name").innerText = c.name;
             new_comment.querySelector(".date").innerText = c.date;
             new_comment.querySelector(".text").innerText = c.text;
