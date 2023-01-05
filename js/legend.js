@@ -65,7 +65,8 @@ function initLegend() {
     });
 
     //Add show/hide archived button
-    let toggle_archived = document.createElement("div");
+    let toggle_archived = document.createElement("button");
+    toggle_archived.className = "no-style";
     toggle_archived.id = "legend_toggle_archived";
     toggle_archived.textContent = "show archived pts";
     toggle_archived.addEventListener("click", function(){

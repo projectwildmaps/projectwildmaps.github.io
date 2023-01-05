@@ -1,15 +1,10 @@
 /* Info Window Stuff */
 
-textarea, input {
+.info_window_content textarea, .info_window_content input {
     font-family: 'Roboto', Arial, sans-serif; /*What Google uses for info windows, use for consistency*/
     max-width: 90%;
     border: 1px solid #777; /*specifying border b/c if don't, sometimes get weird display glitches*/
     border-radius: 4px;
-}
-textarea {
-    resize: none;
-    min-height: 6rem;
-    width: 20rem;
 }
 
 .action { /* meant for info windows */
@@ -18,6 +13,8 @@ textarea {
     cursor: pointer;
     font-size: 10px;
     margin-right: 5px;
+    text-decoration: underline;
+    display: inline;
 }
 
 #inputInfoWindow_content > div {
