@@ -133,7 +133,7 @@ function saveData() { //What to do when the user hits the "submit" button on the
 
     var pos = usersMarker.getPosition();
     var d = new Date();
-    var dateString = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
+    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
 
     // Adds the data to the database
     push(ref(database), {
