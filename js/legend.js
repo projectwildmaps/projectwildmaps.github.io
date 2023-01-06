@@ -58,7 +58,7 @@ function initLegend() {
         let label = document.createElement("label");
         label.htmlFor = checkbox.id;
         let display_name = (category == "VAM (View Appreciation Moment)") ? "VAM" : category; //shorten long VAM description
-        label.innerHTML = '<img src="' + getDot(category) + '"> ' + display_name;
+        label.innerHTML = '<img src="' + getIcon(category).url + '"> ' + display_name;
         legend_entry.appendChild(label);
 
         legend.appendChild(legend_entry);
