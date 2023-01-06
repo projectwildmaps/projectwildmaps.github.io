@@ -46,8 +46,7 @@ function openDataInfoWindow(feature) {
 
             //push comment to the database
             if (good_to_push) {
-                let d = new Date();
-                let dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+                let dateString = new Date().toLocaleDateString("en-us"); // month/day/year
                 let comment = {
                     name: name,
                     text: text,
