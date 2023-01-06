@@ -31,33 +31,6 @@ index.html
 * The main HTML file. This contains the HTML and the core javascript used to make the app work.
 See the index.html section below for more information on how this file is organized.
 
-map_definitions.js
-* Stuff
-
-init.js
-* stuff
-
-legend.js
-* stuff
-
-getDot.js
-* stuff
-
-dataInfoWindow.js
-* stuff
-
-newPoint.js
-* stuff
-
-autopan.js
-* stuff
-
-detect_mobile.js
-* stuff
-
-trails.js
-* stuff
-
 PMAPS Data Backup \[date\].json
 * Contains the most recent backup made of the database. A new backup can be made by clicking the "Download Data" button while viewing PMAPS. If for some reason that isn't working, you can log into the Firebase console and export the data as a JSON file from there.
 

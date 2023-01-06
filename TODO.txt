@@ -10,7 +10,6 @@ Priority
 - Set up PMAPS email to forward to the PWILD duke email, document this
 - Add password protection
 - SVG for archived points
-- Filter by date
 
 Non-priority
 - Trails display
@@ -55,3 +54,4 @@ Done
 - Better dynamic HTML
     - Sanitize outputs with innerText
     - Make it look pretty, no overflow clipping on mobile for the input info window
+- Filter by date

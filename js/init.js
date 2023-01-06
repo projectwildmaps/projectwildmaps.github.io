@@ -129,21 +129,8 @@ function init() {
             visible = false;
         }
 
-        //icon is an object that will follow the google.maps.Icon interface
-        let center_coord = dot_radius + dot_padding + 1; //see getDot.js
-        let icon = {
-            url: getDot(feature.getProperty('category'), dot_padding), //dot_padding is global config var
-            anchor: new google.maps.Point(center_coord, center_coord)
-        }
-        if (feature.getProperty('archived')) {
-            icon = {
-                url: "archived.png",
-                anchor: new google.maps.Point(6, 6) //center point, image is 12x12 px
-            }
-        }
-
         return {
-            icon: icon,
+            icon: getIcon(feature.getProperty('category'), dot_padding, feature.getProperty('archived')), //dot_padding is a global config var
             title: feature.getProperty('description'),
             visible: visible
         };
