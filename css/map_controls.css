@@ -83,7 +83,7 @@
     cursor: pointer;
 }
 #legend input {
-    margin-left: 2px;
+    margin-left: 1px;
 }
 #legend_toggle_archived {
     margin: 1px;
