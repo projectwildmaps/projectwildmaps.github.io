@@ -94,6 +94,8 @@ function init() {
         var new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
         markers[snapshot.key] = new_feature; //markers is a global variable
         markerLayer.add(new_feature);
+
+        updateMinDate(data.date); //see dateFilter.js
     }));
     // Handle points being modified (archive/unarchive, comments)
     onChildChanged(ref(database), (snapshot => {
