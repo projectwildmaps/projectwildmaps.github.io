@@ -9,6 +9,8 @@ Priority
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
 - Add password protection
+- Deal with the email spam from security rule allowing full read access
+- Maybe move autopan config into the main config area
 
 Non-priority
 - Trails display

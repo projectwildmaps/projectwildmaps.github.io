@@ -19,7 +19,7 @@ function initInputInfoWindow() {
         option.value = category;
         category_datalist.appendChild(option);
     });
-    inputInfoWindow.setContent(document.getElementById("inputInfoWindow_content")); //beginning of body tag
+    inputInfoWindow.setContent(document.getElementById("inputInfoWindow_content")); //in hidden HTML section
     document.querySelector("#inputInfoWindow_content #submit").addEventListener("click", saveData);
 
     // Makes a big red pin, used for inputting data
