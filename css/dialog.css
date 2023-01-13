@@ -15,6 +15,9 @@ dialog::backdrop {
     height: calc(100vh - 4rem);
     width: min(calc(100vw - 4rem), 800px);
 }
+#instructions p {
+    line-height: 1.6;
+}
 
 #instruction_footer {
     height: 35px;
