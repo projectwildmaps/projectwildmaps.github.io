@@ -26,6 +26,7 @@ function init() {
         center: center_coords, //see top of function
         zoom: zoom, //see top of function
         zoomControl: false,
+        scaleControl: true,
         mapTypeControlOptions: {
             mapTypeIds: [
                 'USGS 2013', 'USGS TIFF', 'Nat Geo', 'USGS',

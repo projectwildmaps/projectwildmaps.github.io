@@ -14,7 +14,8 @@
 
 	<!-- these scripts should load before the ones at the end of the body do -->
 	<!-- Google APIs -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U"></script>
+	<!-- note: callback=console.log is a hack, the maps API wants a callback but we're loading this synchronously (so we don't have to wrap all the later JS in a callback function) -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U&callback=console.log"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
 		google.load('visualization', '1', { packages: ["map", "table"] });
