@@ -7,7 +7,7 @@ function initDownloadButton(){
     let download_button = document.getElementById("start_download");
     download_button.addEventListener("click", function(){
         // we use the get function to get a fresh and correct copy of the data from the database, in case we messed up tracking data in the markers object upon onChildChanged etc.
-        get(ref(database)).then((snapshot) => {
+        get(ref(database, "points")).then((snapshot) => {
             const all_data = snapshot.val();
             
             //figure out what points to download
@@ -25,6 +25,9 @@ function initDownloadButton(){
                     }
                 }
             }
+
+            //nest inside "points", for consistency with the database (can't read root because of security rules stuff, see the README - database permissions)
+            data = {points: data};
 
             //convert to JSON and download
             const data_string = JSON.stringify(data, null, 4); // use 4 spaces as whitespace indent

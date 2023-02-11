@@ -73,7 +73,7 @@ function init() {
 
     // Add everything in the firebase database to the data layer and markers reference object
     // This callback triggers once for each point, and then again for new points added
-    onChildAdded(ref(database), (snapshot => {
+    onChildAdded(ref(database, "points"), (snapshot => {
         let data = snapshot.val()
         var geowanted = new google.maps.Data.Point({ lat: data.lat, lng: data.lon });
         var propswanted = {
@@ -99,7 +99,7 @@ function init() {
         updateMinDate(data.date); //see dateFilter.js
     }));
     // Handle points being modified (archive/unarchive, comments)
-    onChildChanged(ref(database), (snapshot => {
+    onChildChanged(ref(database, "points"), (snapshot => {
         //update archived
         markers[snapshot.key].setProperty('archived', snapshot.val().archived); //triggers style recompute
 
@@ -115,7 +115,7 @@ function init() {
     }));
     // Handle points being removed. This will only happen if someone deletes a point from the firebase console.
     // We're not allowing clients to delete points, only archive them.
-    onChildRemoved(ref(database), (snapshot => {
+    onChildRemoved(ref(database, "points"), (snapshot => {
         console.log("Removing: ", snapshot.val());
         markerLayer.remove(markers[snapshot.key]);
         delete markers[snapshot.key];

@@ -1,6 +1,8 @@
 function autoPan(info_window_content){
     /*Function to replace google's auto panning when we open an info window, so we can pan
-    to avoid our legend, which is fatter than the default controls
+    to avoid our legend, which is fatter than the default controls.
+
+    See autopan_margin config values in globals_and_config.js
 
     To use, pass a div element that's in the info window. Call the function after
     waiting about 10ms past when the info window is opened, so the browser has time

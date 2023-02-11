@@ -135,7 +135,7 @@ function saveData() { //What to do when the user hits the "submit" button on the
     var dateString = new Date().toLocaleDateString("en-us"); // month/day/year
 
     // Adds the data to the database
-    push(ref(database), {
+    push(ref(database, "points"), {
         lat: pos.lat(),
         lon: pos.lng(),
         name: name,

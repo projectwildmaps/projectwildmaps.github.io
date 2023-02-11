@@ -179,6 +179,8 @@ JSON data format
 
 ## Permissions (Database Rules)
 
+Mention the thing where it complains if you allow reading root, so we just nest the whole database in a field called "points" and allow read to that.
+
 ## Free Version Limits
 
 ## App Check
