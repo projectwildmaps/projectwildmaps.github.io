@@ -210,6 +210,14 @@
         "-NGp7YL7ZvyQJK6HIDHz": {
             "archived": false,
             "category": "Campsite",
+            "comments": {
+                "-NOQuSs7tjv8hkMngaIP": {
+                    "date": "2/16/2023",
+                    "deleted": false,
+                    "name": "Brennan",
+                    "text": "Yes, definitely dank-ass\nSuper protected campsite in a clearing with a great view. Water is a little difficult to get to"
+                }
+            },
             "date": "3/16/2014",
             "description": "Dank-ass (aka good) campsite a couple switchbacks up from Glocester down to your left as you head up to Pilot. Hidden behind a big rock, has an epic view.",
             "lat": 35.2687984427547,
@@ -1025,7 +1033,7 @@
             "name": "Dusty H"
         },
         "-NGp7YMuEiV523jp6UQn": {
-            "archived": false,
+            "archived": true,
             "category": "Pro-Tip!",
             "date": "11/13/2022",
             "description": "ur mom",
@@ -1126,6 +1134,14 @@
         "-NJJ0ofey77dIok0w5Cj": {
             "archived": false,
             "category": "Campsite",
+            "comments": {
+                "-NOQu7YxaP-NSY0rmVuw": {
+                    "date": "2/16/2023",
+                    "deleted": false,
+                    "name": "Brennan",
+                    "text": "Great campsite hear next to a stream with lots of water"
+                }
+            },
             "date": "12/14/2022",
             "description": "I heard that there's a great campsite just off the trail at this intersection.",
             "lat": 35.27776775742902,
@@ -1364,6 +1380,51 @@
             "lat": 35.24928066184053,
             "lon": -82.81895312158203,
             "name": "Klaudia Cabinles"
+        },
+        "-NP0-yPfahksZJDx3J_V": {
+            "archived": false,
+            "category": "Campsite",
+            "date": "2/23/2023",
+            "description": "Had to set up our tent at a moderate impact site right next to the trail in March 2022 to get out of a downpour. The tent was right next to the trail, and we had to walk a bit off trail to get to water.",
+            "lat": 35.27506458901867,
+            "lon": -82.74645148094167,
+            "name": "Brennan"
+        },
+        "-NP00BbARJkHEB068dN-": {
+            "archived": false,
+            "category": "Waterfall",
+            "date": "2/23/2023",
+            "description": "Beautiful waterfall that was full after rains!",
+            "lat": 35.26959884868744,
+            "lon": -82.80927805289726,
+            "name": "Brennan"
+        },
+        "-NP00QaK0FNusRbWpfNR": {
+            "archived": false,
+            "category": "VAM (View Appreciation Moment)",
+            "date": "2/23/2023",
+            "description": "Steep hill to walk up (from Low Gap), but this has a great VAM and is also a nice place to eat lunch",
+            "lat": 35.26153971270442,
+            "lon": -82.82275347098808,
+            "name": "Brennan"
+        },
+        "-NP00vVA78rrBy1If5j4": {
+            "archived": false,
+            "category": "VAM (View Appreciation Moment)",
+            "date": "2/23/2023",
+            "description": "Beautiful VAM's along the hike up to the BRP!",
+            "lat": 35.299816546412195,
+            "lon": -82.87534062441512,
+            "name": "Brennan"
+        },
+        "-NP01C5xeHkREq54QiVl": {
+            "archived": false,
+            "category": "Safety",
+            "date": "2/23/2023",
+            "description": "Bridge over the creek here was washed out or not put out during March 2022. Had to jump between stones to get across.",
+            "lat": 35.28350500430666,
+            "lon": -82.7866707746791,
+            "name": "Brennan"
         }
     }
 }

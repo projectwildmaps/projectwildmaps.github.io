@@ -114,15 +114,19 @@ function setDataInfoWindowContent(div, feature) {
 
     //show header if any comments exist, deleted or not, and update deleted toggle's text appropriately
     let deleted_toggle = div.querySelector(".toggle_deleted_comments");
-    let show_deleted = deleted_toggle.classList.contains("show_deleted");
+    let show_deleted = deleted_toggle.classList.contains("show_deleted"); //flag used when showing comments below
     div.querySelector(".comments_header").style.display = comments ? "block" : "none";
     deleted_toggle.innerText = show_deleted ? "(hide deleted)" : "(show deleted)";
 
     //add comments
+    let deleted_comment_exists = false; //if false, will hide the deleted comments toggle - confusing if it's present when no deleted comments
     if(comments){
         for(let key in comments){
             let c = comments[key];
-            if(c.deleted && !show_deleted) continue;
+            if(c.deleted){
+                deleted_comment_exists = true;
+                if(!show_deleted) continue;
+            }
 
             let new_comment = document.getElementById("comment_template").content.cloneNode(true);
             new_comment.querySelector(".deleted").innerText = c.deleted ? "[DELETED]" : "";
@@ -136,4 +140,5 @@ function setDataInfoWindowContent(div, feature) {
             div.querySelector(".comments").appendChild(new_comment);
         }
     }
+    deleted_toggle.style.display = deleted_comment_exists ? "block" : "none";
 }
