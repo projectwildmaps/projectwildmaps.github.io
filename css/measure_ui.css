@@ -11,7 +11,7 @@
     background-color: white;
 
     position: absolute;
-    bottom: 24px;
+    bottom: 12px;
 
     /* avoid the controls on the right, and position centrally with a margin of 10px */
     left: 10px;

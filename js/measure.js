@@ -385,7 +385,7 @@ function indicateTrajectoryLocation(fraction) {
             // overwrite default autopan margins, to avoid the measure UI as well
             let autopan_margin_overwrite = {};
             Object.assign(autopan_margin_overwrite, autopan_margin);
-            autopan_margin_overwrite.bottom = 154;
+            autopan_margin_overwrite.bottom = map_rect.bottom - document.getElementById("measure_ui").getBoundingClientRect().top;
 
             autoPan(undefined, rect, autopan_margin_overwrite);
 
