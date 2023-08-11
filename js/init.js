@@ -125,7 +125,7 @@ function init() {
     // Color the data layer based on the category of the data, and give each point roll over text
     markerLayer.setStyle(function (feature) {
         let visible = feature.getProperty('my_category_visible') &&
-                        feature.getProperty('my_date_visible');
+            feature.getProperty('my_date_visible');
         if (feature.getProperty('archived') && !feature.getProperty('archived_visible')) {
             visible = false;
         }
@@ -156,50 +156,24 @@ function init() {
 
     // TRAIL STUFF -----------------------------------------------------------------------------
 
-    /*
-        var trailDataLayer = new google.maps.Data();
-        trailDataLayer.loadGeoJson('trails/srw_data.geojson');
-        trailDataLayer.loadGeoJson('trails/graveyard.geojson');
-        trailDataLayer.loadGeoJson('trails/davidson.geojson');
-        trailDataLayer.loadGeoJson('trails/blueRidge.geojson');
-        trailDataLayer.loadGeoJson('trails/blackBalsam.geojson');
-        trailDataLayer.loadGeoJson('trails/mills.geojson');
-        trailDataLayer.loadGeoJson('trails/farlow.geojson');
-        trailDataLayer.loadGeoJson('trails/mount2sea.geojson');
+    initDistanceMeasurement();
+
+    // map.addListener("click", e => {
+    //     readElevation(e.latLng.lat(), e.latLng.lng());
+    // });
+
+    // trailLayer = new google.maps.Data();
+    // trailLayer.loadGeoJson('trails/srw_data.geojson');
+    // trailLayer.loadGeoJson('trails/graveyard.geojson');
+    // trailLayer.loadGeoJson('trails/davidson.geojson');
+    // trailLayer.loadGeoJson('trails/blueRidge.geojson');
+    // trailLayer.loadGeoJson('trails/blackBalsam.geojson');
+    // trailLayer.loadGeoJson('trails/mills.geojson');
+    // trailLayer.loadGeoJson('trails/farlow.geojson');
+    // trailLayer.loadGeoJson('trails/mount2sea.geojson');
+    // trailLayer.setStyle({
+    //     strokeColor: 'red'
+    // })
     
-        trailDataLayer.addListener('click', function(event) {
-            var content = "<div class='googft-info-window'>"+
-                            "<h1>"+event.feature.getProperty('name')+"</h1>"+
-                            "<i>"+event.feature.getProperty('segment')+"</i>"+
-                            "</div>";
-            infowindow.setContent(content);
-            infowindow.setPosition(event.feature.getGeometry().get()); //This doesn't work. This would be right if it were points, not trails.
-            infowindow.open(map);
-        });
-        trailDataLayer.setMap(map);
-    */
-
-
-    /*trailLayer = new google.maps.FusionTablesLayer({
-        query: {
-            select: 'ns1:coordinates',
-            from: '1Rk-HToZ45a3mpLbWfBf9sY_5cmaVP0ibBFVk_GA',
-            where: 'id3 > 1'
-        },
-        map: null,
-        suppressInfoWindows: true,
-        styles: [{
-            polylineOptions: {
-                strokeWeight: 1
-            }
-        }]
-    });
-    google.maps.event.addListener(trailLayer, 'click', function (e) {
-        windowControlTrail(e, infoWindow, map);
-    });
-    var trailControlDiv = document.createElement('div');
-    var trailControl = new TrailControl(trailControlDiv, map);
-    trailControlDiv.index = 1;
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(trailControlDiv);
-    */
+    // trailLayer.setMap(map);
 }

@@ -164,3 +164,23 @@ button#date_filter_header {
 #info_control:hover {
     background-color: #3e3ed5;
 }
+
+
+/* measure control */
+
+#measure_control {
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    margin-bottom: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#measure_control img {
+    width: 80%;
+}
+#measure_control:hover {
+    background-color: rgb(235, 235, 235);
+}

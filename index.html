@@ -11,8 +11,10 @@
 	<link rel="stylesheet" href="css/info_window.css">
 	<link rel="stylesheet" href="css/map_controls.css">
 	<link rel="stylesheet" href="css/dialog.css">
+	<link rel="stylesheet" href="css/measure_ui.css">
 
 	<!-- these scripts should load before the ones at the end of the body do -->
+
 	<!-- Google APIs -->
 	<!-- note: callback=console.log is a hack, the maps API wants a callback but we're loading this synchronously (so we don't have to wrap all the later JS in a callback function) -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U&callback=console.log"></script>
@@ -20,6 +22,9 @@
 	<script type="text/javascript">
 		google.load('visualization', '1', { packages: ["map", "table"] });
 	</script>
+	
+	<!-- geotiff.js library -->
+	<script src="https://cdn.jsdelivr.net/npm/geotiff"></script>
 </head>
 
 <body>
@@ -30,7 +35,7 @@
 	<!-- div to hold HTML for custom map controls, and templates, that will be referenced / moved but shouldn't display at first -->
 	<div style="display: none;">
 
-		<!-- custom map controls -->
+		<!-- custom map controls, these are set up when init() is called (init.js, called at bottom of this HTML) -->
 		<div id="legend" class="custom_map_control"> <!-- populated in legend.js initLegend() -->
 			<b>Legend</b>
 		</div>
@@ -47,11 +52,14 @@
 				<input id="end_date" type="date">
 			</div>
 		</div>
-		<button id="download_control" class="custom_map_control no-style"> <!-- this is set up in init.js -->
+		<button id="download_control" class="custom_map_control no-style">
 			Download<br>
 			Data
 		</button>
-		<div id="change_location"> <!-- This is set up in init.js. Styling copied from google's dropdown -->
+		<button id="measure_control" class="custom_map_control no-style">
+			<img src="images/ruler.png" alt="ruler">
+		</button>
+		<div id="change_location">
 			<button id="change_location_button">
 				<span>Location</span>
 				<img src="https://maps.gstatic.com/mapfiles/arrow-down.png">
@@ -128,6 +136,26 @@
 
 	</div>
 
+
+
+	<!-- distance measurement ui -->
+
+	<div id="measure_ui">
+		<button id="close_measure_ui">&#10006;</button>
+		<p id="measure_instructions">Click on the map multiple times to create a path to measure</p>
+		<div id="measure_results">
+			<p id="length_measure_p"><b>Length: <span id="length_measurement"></span> miles</b></p>
+			<div id="elevation_results" style="display: none;">
+				<p>Elevation Change: ⇧ <span>0</span> ft&nbsp;&nbsp;⇩ <span>0</span> ft</p>
+				<canvas width="300" height="30"></canvas>
+			</div>
+			<p>Elevation Data Unavailable</p>
+			<button id="undo_polyline_point">UNDO
+			</button>
+		</div>
+	</div>
+
+
 	<!-- dialogs -->
 
 	<dialog id="download_modal">
@@ -154,9 +182,9 @@
 				<div id="instructions_header">
 					<h1 id="hoka">Hoka Hey!</h1>
 					<div>
-						<img src="instructions_images/backpacker.png" alt="">
-						<img src="instructions_images/mountain.png" alt="">
-						<img src="instructions_images/compass3.png" alt="">
+						<img src="images/backpacker.png" alt="">
+						<img src="images/mountain.png" alt="">
+						<img src="images/compass3.png" alt="">
 					</div>
 				</div>
 
@@ -170,7 +198,7 @@
 					<p><b>Note:</b> You can come back to these instructions at any time by clicking the info icon at the
 						right of the map.</p>
 					<div>
-						<img style="width: 50px;" src="instructions_images/info_icon.png"
+						<img style="width: 50px;" src="images/info_icon.png"
 							alt="screenshot of the info icon">
 						<p class="caption"><b>The info icon</b></p>
 					</div>
@@ -183,7 +211,7 @@
 						name and your comment.</p>
 
 					<div>
-						<img src="instructions_images/point_info.png" alt="screenshot of a data point's information">
+						<img src="images/point_info.png" alt="screenshot of a data point's information">
 						<p class="caption"><b>Figure 1</b></p>
 					</div>
 				</div>
@@ -198,7 +226,7 @@
 						info icon at the right of the map.
 					</p>
 					<div>
-						<img src="instructions_images/input_form.png" alt="screenshot of the input form">
+						<img src="images/input_form.png" alt="screenshot of the input form">
 						<p class="caption"><b>Figure 2</b></p>
 					</div>
 				</div>
@@ -225,7 +253,7 @@
 
 			</div>
 			<button id="close_instructions" class="no-style" onclick="document.getElementById('instructions').close()">
-				<img src="instructions_images/wood_sign.png">
+				<img src="images/wood_sign.png">
 				<div>LET'S GO!</div>
 			</button>
 		</div>
@@ -248,6 +276,7 @@
 	<script src="js/legend.js"></script>
 	<script src="js/dateFilter.js"></script>
 	<script src="js/download.js"></script>
+	<script src="js/measureDistance.js"></script>
 
 	<script src="js/trails.js"></script>
 

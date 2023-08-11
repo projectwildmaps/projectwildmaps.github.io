@@ -8,7 +8,6 @@ Priority
     - VISA gift card??
 - Write documentation for future users
 - Set up PMAPS email to forward to the PWILD duke email, document this
-- Deal with the email spam from security rule allowing full read access
 
 Non-priority
 - Trails display
@@ -17,6 +16,7 @@ Non-priority
 - Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't spam the email
 
 Done
+- Deal with the email spam from security rule allowing full read access
 - Show category in infowindow
 - Legend for point colors (or different symbols)
 - Store previous points with unique keys, instead of incrementing counter

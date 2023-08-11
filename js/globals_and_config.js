@@ -72,6 +72,12 @@ const autopan_margin = { //min px margin from the info window
 // google's default margins are ish {left:61, right:79, top:61, bottom:83}
 
 
+const pisgah_elevation_filename = "USGS_1_n36w083_20220512.tif";
+// metadata info: https://www.sciencebase.gov/catalog/item/627f3783d34e3bef0c9a317e
+// this file is in NAD83 geographic coordinates, and elevation in meters
+// this is the 1 arc second version, which has a resolution of roughly 30m
+// google maps uses WGS84 for latitude / longitude, which is typically within 1m of NAD83, so reprojection won't be necessary for us
+
 
 
 // GLOBALS (not config, only code should mess with these)
@@ -85,4 +91,6 @@ var archived_visible = false; //legend.js and archive button use this
     dataInfoWindow - see dataInfoWindow.js
     inputInfoWindow - see newPoint.js
     usersMarker - see newPoint.js
+    polyline - see measureDistance.js
+    polyline_coords - see measureDistance.js
 */
