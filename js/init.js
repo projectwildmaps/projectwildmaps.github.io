@@ -156,11 +156,7 @@ function init() {
 
     // TRAIL STUFF -----------------------------------------------------------------------------
 
-    initDistanceMeasurement();
-
-    // map.addListener("click", e => {
-    //     readElevation(e.latLng.lat(), e.latLng.lng());
-    // });
+    initMeasurementFeature();
 
     // trailLayer = new google.maps.Data();
     // trailLayer.loadGeoJson('trails/srw_data.geojson');

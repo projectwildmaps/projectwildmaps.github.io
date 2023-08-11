@@ -17,12 +17,13 @@
 
 	<!-- Google APIs -->
 	<!-- note: callback=console.log is a hack, the maps API wants a callback but we're loading this synchronously (so we don't have to wrap all the later JS in a callback function) -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U&callback=console.log"></script>
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfSBibzyTDahkTrbF19v4Ch9sP_96gb-U&callback=console.log"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
 		google.load('visualization', '1', { packages: ["map", "table"] });
 	</script>
-	
+
 	<!-- geotiff.js library -->
 	<script src="https://cdn.jsdelivr.net/npm/geotiff"></script>
 </head>
@@ -40,10 +41,12 @@
 			<b>Legend</b>
 		</div>
 		<div id="date_filter" class="custom_map_control">
-			<button id="date_filter_header" class="no-style"><b>Date Filter</b><img class="arrow" src="https://maps.gstatic.com/mapfiles/arrow-down.png" alt="open_date_filter"></button>
+			<button id="date_filter_header" class="no-style"><b>Date Filter</b><img class="arrow"
+					src="https://maps.gstatic.com/mapfiles/arrow-down.png" alt="open_date_filter"></button>
 			<div id="date_filter_content"> <!-- hidden unless the parent has the "open" attribute -->
 				<div class="flex">
-					<label for="start_date">From:</label><button id="reset_start_date" class="reset no-style">reset</button>
+					<label for="start_date">From:</label><button id="reset_start_date"
+						class="reset no-style">reset</button>
 				</div>
 				<input id="start_date" type="date">
 				<div class="flex">
@@ -66,7 +69,8 @@
 			</button>
 			<ul id="locations"></ul>
 		</div>
-		<button id="info_control" class="custom_map_control no-style">i</button> <!-- see init.js, opens the instructions panel -->
+		<button id="info_control" class="custom_map_control no-style">i</button>
+		<!-- see init.js, opens the instructions panel -->
 
 		<!-- content of the inputInfoWindow (will be moved to the info window), see newPoint.js -->
 		<div id="inputInfoWindow_content" class="info_window_content">
@@ -134,26 +138,35 @@
 			</div>
 		</template>
 
-	</div>
 
+		<!-- distance measurement ui, gets inserted inside the map div so it will display in fullscreen  -->
 
-
-	<!-- distance measurement ui -->
-
-	<div id="measure_ui">
-		<button id="close_measure_ui">&#10006;</button>
-		<p id="measure_instructions">Click on the map multiple times to create a path to measure</p>
-		<div id="measure_results">
-			<p id="length_measure_p"><b>Length: <span id="length_measurement"></span> miles</b></p>
-			<div id="elevation_results" style="display: none;">
-				<p>Elevation Change: ⇧ <span>0</span> ft&nbsp;&nbsp;⇩ <span>0</span> ft</p>
-				<canvas width="300" height="30"></canvas>
+		<div id="measure_ui">
+			<button id="close_measure_ui">&#10006;</button>
+			<p id="measure_instructions">Click on the map multiple times to create a path to measure</p>
+			<div id="measure_results">
+				<p id="length_measure_p"><b>Length: <span id="length_measurement"></span> miles</b></p>
+				<div id="elevation_results" style="display: none;">
+					<p>Elevation:
+						<span id="uphill_arrow">⇧</span>
+						<span id="elevation_gain">0</span> ft
+						&nbsp;
+						<span id="downhill_arrow">⇩</span>
+						<span id="elevation_loss">0</span> ft
+					</p>
+					<canvas id="elevation_trajectory_canvas" width="280" height="76"></canvas>
+				</div>
+				<p id="elevation_unavailable">Elevation Data Unavailable</p>
+				<button id="undo_polyline_point">UNDO
+				</button>
 			</div>
-			<p>Elevation Data Unavailable</p>
-			<button id="undo_polyline_point">UNDO
-			</button>
 		</div>
+
 	</div>
+
+
+
+
 
 
 	<!-- dialogs -->
@@ -198,8 +211,7 @@
 					<p><b>Note:</b> You can come back to these instructions at any time by clicking the info icon at the
 						right of the map.</p>
 					<div>
-						<img style="width: 50px;" src="images/info_icon.png"
-							alt="screenshot of the info icon">
+						<img style="width: 50px;" src="images/info_icon.png" alt="screenshot of the info icon">
 						<p class="caption"><b>The info icon</b></p>
 					</div>
 				</div>
@@ -244,7 +256,8 @@
 				<p><b>Archiving Points - </b>Archiving a point hides it from view by default. This is used if you want
 					to remove a point for any reason (e.g. if a point is outdated / no longer accurate). To archive a
 					point, click on it and then click "Archive." To unarchive a point, click "show archived points" in
-					the legend, click the point (it will be displayed as a colored circle with an x through it), then click
+					the legend, click the point (it will be displayed as a colored circle with an x through it), then
+					click
 					"Unarchive."</p>
 
 				<p><b>Editing Points - </b>There is currently no way to edit a submitted point directly, since this app
@@ -276,7 +289,7 @@
 	<script src="js/legend.js"></script>
 	<script src="js/dateFilter.js"></script>
 	<script src="js/download.js"></script>
-	<script src="js/measureDistance.js"></script>
+	<script src="js/measure.js"></script>
 
 	<script src="js/trails.js"></script>
 

@@ -78,19 +78,24 @@ const pisgah_elevation_filename = "USGS_1_n36w083_20220512.tif";
 // this is the 1 arc second version, which has a resolution of roughly 30m
 // google maps uses WGS84 for latitude / longitude, which is typically within 1m of NAD83, so reprojection won't be necessary for us
 
+const pisgah_bbox = [-83.0016, 35.1030, -82.4610, 35.5230]; //only read part of the geotiff file to save time - format: min lng, min lat, max lng, max lat
+const elevation_sampling_interval_miles = 0.05; // Around 80m, compared to the raster's approx resolution of 30m. Seems to work well in practice
+const uphill_color = "orange";
+const downhill_color = "green";
 
 
 // GLOBALS (not config, only code should mess with these)
-var map;
-var markers = {}; //stores the marker features, format "database_key": Feature object. Allows getting a marker by the database key for when we need to modify it.
-var markerLayer; //global because legend.js needs to see this
-var trailLayer;
-var archived_visible = false; //legend.js and archive button use this
+let map;
+let markers = {}; //stores the marker features, format "database_key": Feature object. Allows getting a marker by the database key for when we need to modify it.
+let markerLayer; //global because legend.js needs to see this
+let trailLayer;
+let archived_visible = false; //legend.js and archive button use this
 
 /*other globals defined in more relevant scripts
     dataInfoWindow - see dataInfoWindow.js
     inputInfoWindow - see newPoint.js
     usersMarker - see newPoint.js
-    polyline - see measureDistance.js
-    polyline_coords - see measureDistance.js
+    polyline - see measure.js
+    polyline_coords - see measure.js
+    elevation_data - see measure.js
 */
