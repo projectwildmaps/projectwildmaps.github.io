@@ -3,6 +3,15 @@ let polyline;
 let elevation_data;
 let pisgah_bbox_pixel_width;
 let pisgah_bbox_pixel_height;
+let elevation_trajectory = [];
+let trajectory_location_marker = new google.maps.Marker({
+    position: { lat: 0, lng: 0 },
+    icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 6,
+        strokeWeight: 2
+    }
+});
 
 
 function initMeasurementFeature() {
@@ -40,6 +49,11 @@ function initMeasurementFeature() {
     // elevation setup
     document.getElementById("uphill_arrow").style.color = uphill_color;
     document.getElementById("downhill_arrow").style.color = downhill_color;
+    let canvas = document.getElementById("elevation_trajectory_canvas")
+    canvas.addEventListener("mousemove", handleElevationTrajectoryMousemove);
+    canvas.addEventListener("touchmove", handleElevationTrajectoryTouchmove);
+    canvas.addEventListener("mouseleave", e => { clearTrajectoryLocation() });
+    canvas.addEventListener("touchend", e => { clearTrajectoryLocation() });
     loadPisgahElevation();
 }
 
@@ -69,6 +83,7 @@ function openMeasureUI() {
     map.setOptions({ draggableCursor: 'default' });
 }
 
+
 function closeMeasureUI() {
     if (!document.querySelector("#measure_ui.show")) return;    // prevent weird Escape key behavior and excess event listeners
 
@@ -80,6 +95,7 @@ function closeMeasureUI() {
         document.getElementById("measure_results").style.display = "none";
         polyline_coords = [];
         updatePolyline();
+        trajectory_location_marker.setMap(null);
     }, { once: true });
 
     markerLayer.setMap(map);
@@ -97,7 +113,7 @@ function updatePolyline() {
 
     // calculate distance and elevation along the path
     let total_miles = 0;
-    let elevation_trajectory = [];
+    elevation_trajectory = [];
     let missing_elevation_data = false;
     for (let i = 1; i < polyline_coords.length; i++) {
         let segment_elevations = getElevationsAlongSegment(polyline_coords[i - 1], polyline_coords[i]);
@@ -121,7 +137,7 @@ function updatePolyline() {
     }
     document.getElementById("elevation_gain").textContent = Math.round(cumulative_elevation_gain / 10) * 10;
     document.getElementById("elevation_loss").textContent = Math.round(cumulative_elevation_loss / 10) * 10;
-    plotElevationTrajectory(elevation_trajectory);
+    plotElevationTrajectory();
 
     if (polyline_coords.length >= 2) {
         document.getElementById("measure_instructions").style.display = "none";
@@ -152,7 +168,6 @@ function haversine_distance(latlng1, latlng2) {
     var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
     return d;
 }
-
 
 
 
@@ -233,7 +248,7 @@ function getElevationsAlongSegment(latlng1, latlng2) {
 }
 
 
-function plotElevationTrajectory(elevation_trajectory) {
+function plotElevationTrajectory() {
     const canvas = document.getElementById("elevation_trajectory_canvas");
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -307,4 +322,71 @@ function plotElevationTrajectory(elevation_trajectory) {
         const x = mile * px_per_mile
         ctx.fillText(mile + "mi", x + 1, canvas.height);
     }
+}
+
+
+
+function handleElevationTrajectoryMousemove(e) {
+    indicateTrajectoryLocation(e.offsetX / document.getElementById("elevation_trajectory_canvas").width);
+}
+function handleElevationTrajectoryTouchmove(e) {
+    const canvas = document.getElementById("elevation_trajectory_canvas");
+    const offset = e.touches[0].clientX - canvas.getBoundingClientRect().x
+    const fraction = Math.max(0, Math.min(1, offset / canvas.width));
+    indicateTrajectoryLocation(fraction);
+}
+function indicateTrajectoryLocation(fraction) {
+    // draw indicator on canvas
+    plotElevationTrajectory();
+    const ctx = document.getElementById("elevation_trajectory_canvas").getContext("2d");
+    ctx.beginPath();
+    ctx.moveTo(fraction * ctx.canvas.width, 0);
+    ctx.lineTo(fraction * ctx.canvas.width, ctx.canvas.height);
+    ctx.closePath();
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+
+    // determine lat / lng
+    const total_miles = elevation_trajectory[elevation_trajectory.length - 1].miles_from_start;
+    for (let i = 1; i < elevation_trajectory.length; i++) {
+        if (elevation_trajectory[i].miles_from_start > fraction * total_miles) {
+            // interploate between this point and the previous
+            const segment_miles = elevation_trajectory[i].miles_from_start - elevation_trajectory[i - 1].miles_from_start;
+            const fraction_of_segment = (fraction * total_miles - elevation_trajectory[i - 1].miles_from_start) / segment_miles;
+            const lat = (1 - fraction_of_segment) * elevation_trajectory[i - 1].lat + fraction_of_segment * elevation_trajectory[i].lat;
+            const lng = (1 - fraction_of_segment) * elevation_trajectory[i - 1].lng + fraction_of_segment * elevation_trajectory[i].lng;
+            trajectory_location_marker.setPosition({ lat: lat, lng: lng });
+            trajectory_location_marker.setMap(map);
+
+            // auto pan, need the approx client rect of the marker for this
+            // borrowing fromLatLngToPixel() from newPoint.js
+            const map_rect = map.getDiv().getBoundingClientRect();
+            const map_left_px = fromLatLngToPixel(map.getBounds().getSouthWest()).x;
+            const map_top_px = fromLatLngToPixel(map.getBounds().getNorthEast()).y;
+            const marker_center_px = fromLatLngToPixel(trajectory_location_marker.getPosition());
+            let rect = {
+                x: map_rect.x + (marker_center_px.x - 15 - map_left_px),
+                y: map_rect.y + (marker_center_px.y - 15 - map_top_px),
+                width: 30,
+                height: 30
+            }
+            rect.top = rect.y;
+            rect.left = rect.x;
+            rect.right = rect.x + rect.width;
+            rect.bottom = rect.y + rect.height;
+
+            // overwrite default autopan margins, to avoid the measure UI as well
+            let autopan_margin_overwrite = {};
+            Object.assign(autopan_margin_overwrite, autopan_margin);
+            autopan_margin_overwrite.bottom = 154;
+
+            autoPan(undefined, rect, autopan_margin_overwrite);
+
+            break;
+        }
+    }
+}
+function clearTrajectoryLocation() {
+    plotElevationTrajectory();
+    trajectory_location_marker.setMap(null);
 }
