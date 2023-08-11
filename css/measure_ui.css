@@ -12,12 +12,7 @@
 
     position: absolute;
     bottom: 12px;
-
-    /* avoid the controls on the right, and position centrally with a margin of 10px */
-    left: 10px;
-    right: 60px;
-    margin: auto;
-    max-width: calc(100vw - 70px);
+    right: 60px; /* avoid the controls on the right */
 
     z-index: 50;
 }
