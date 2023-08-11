@@ -32,6 +32,13 @@
     font-weight: 500;
     color: black;
 }
+/* hacky way of detecting mobile and matching google maps' different styling for mobile */
+@media (hover: none) {
+    #change_location > button {
+        padding: 11px 23px;
+    }
+}
+
 #change_location > button:hover {
     background-color: rgb(235, 235, 235);
 }
