@@ -174,6 +174,13 @@ function haversine_distance(latlng1, latlng2) {
 // ELEVATION STUFF ----------------------------------------------------------------
 
 async function loadPisgahElevation() {
+    // don't do this if we're running the file: protocol, CORS will block it
+    const url = new URL(window.location.href);
+    if(url.protocol == "file:"){
+        console.warn("Elevation data loading is disabled because you are using the 'file:' protocol. Attempting to load the elevation TIF with this protocol would cause a CORS error.");
+        return;
+    }
+
     const tiff = await GeoTIFF.fromUrl(pisgah_elevation_filename);
     const image = await tiff.getImage();
     const bbox = image.getBoundingBox();
