@@ -49,11 +49,11 @@ function initMeasurementFeature() {
     // elevation setup
     document.getElementById("uphill_arrow").style.color = uphill_color;
     document.getElementById("downhill_arrow").style.color = downhill_color;
-    let canvas = document.getElementById("elevation_trajectory_canvas")
+    let canvas = document.getElementById("elevation_trajectory_canvas");
     canvas.addEventListener("mousemove", handleElevationTrajectoryMousemove);
     canvas.addEventListener("touchmove", handleElevationTrajectoryTouchmove);
-    canvas.addEventListener("mouseleave", e => { clearTrajectoryLocation() });
-    canvas.addEventListener("touchend", e => { clearTrajectoryLocation() });
+    canvas.addEventListener("mouseleave", e => { clearTrajectoryLocation(); });
+    canvas.addEventListener("touchend", e => { e.preventDefault(); clearTrajectoryLocation(); });   // prevent default in case this would otherwise also trigger mouse events
     loadPisgahElevation();
 }
 
@@ -176,7 +176,7 @@ function haversine_distance(latlng1, latlng2) {
 async function loadPisgahElevation() {
     // don't do this if we're running the file: protocol, CORS will block it
     const url = new URL(window.location.href);
-    if(url.protocol == "file:"){
+    if (url.protocol == "file:") {
         console.warn("Elevation data loading is disabled because you are using the 'file:' protocol. Attempting to load the elevation TIF with this protocol would cause a CORS error.");
         return;
     }
@@ -337,6 +337,7 @@ function handleElevationTrajectoryMousemove(e) {
     indicateTrajectoryLocation(e.offsetX / document.getElementById("elevation_trajectory_canvas").width);
 }
 function handleElevationTrajectoryTouchmove(e) {
+    e.preventDefault(); // stop mousemove from firing as well
     const canvas = document.getElementById("elevation_trajectory_canvas");
     const offset = e.touches[0].clientX - canvas.getBoundingClientRect().x
     const fraction = Math.max(0, Math.min(1, offset / canvas.width));
