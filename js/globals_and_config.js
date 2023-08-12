@@ -95,7 +95,6 @@ let archived_visible = false; //legend.js and archive button use this
     dataInfoWindow - see dataInfoWindow.js
     inputInfoWindow - see newPoint.js
     usersMarker - see newPoint.js
-    polyline - see measure.js
-    polyline_coords - see measure.js
-    elevation_data - see measure.js
+    polyline_coords, polyline, trajectory_location_marker, polyline_location_marker  - see measure.js
+    elevation_data, pisgah_bbox_pixel_width, pisgah_bbox_pixel_height, elevation_trajectory - see measure.js
 */

@@ -1,17 +1,13 @@
 let polyline_coords = []    // list of LatLng objects
 let polyline;
+let trajectory_location_marker;
+let polyline_start_marker;
+
 let elevation_data;
 let pisgah_bbox_pixel_width;
 let pisgah_bbox_pixel_height;
-let elevation_trajectory = [];
-let trajectory_location_marker = new google.maps.Marker({
-    position: { lat: 0, lng: 0 },
-    icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 6,
-        strokeWeight: 2
-    }
-});
+let elevation_trajectory = [];  // list of objects returned by getElevationsAlongSegment()
+
 
 
 function initMeasurementFeature() {
@@ -26,16 +22,32 @@ function initMeasurementFeature() {
     document.addEventListener("keydown", e => { if (e.key == "Escape") closeMeasureUI() });
     document.getElementById("close_measure_ui").addEventListener("click", closeMeasureUI);
 
-    // init the polyline, we will use polyline.setPath() to mess with it
+    // init the polyline and associated markers, we will use polyline.setPath() to update the polyline
     polyline = new google.maps.Polyline({
         path: polyline_coords,
+        map: map,
         geodesic: true,
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
+        strokeColor: "red",
         strokeWeight: 4,
         clickable: false
     });
-    polyline.setMap(map);
+    trajectory_location_marker = new google.maps.Marker({
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 6,
+            strokeWeight: 2
+        }
+    });
+    polyline_start_marker = new google.maps.Marker({
+        clickable: false,
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 4,
+            strokeWeight: 3,
+            strokeColor: "red"
+        }
+    });
+
 
     // creating and removing points
     map.addListener("click", e => {
@@ -109,7 +121,14 @@ function closeMeasureUI() {
 
 function updatePolyline() {
 
+    // update polyline display
     polyline.setPath(polyline_coords);
+
+    if (polyline_coords.length == 1) {
+        polyline_start_marker.setPosition(polyline_coords[0]);
+        polyline_start_marker.setMap(map);
+    }
+    else { polyline_start_marker.setMap(null); }
 
     // calculate distance and elevation along the path
     let total_miles = 0;
