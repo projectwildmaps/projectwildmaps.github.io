@@ -29,7 +29,7 @@ function init() {
         scaleControl: true,
         mapTypeControlOptions: {
             mapTypeIds: [
-                'USGS 2013', 'USGS TIFF', 'Nat Geo', 'USGS',
+                'Nat Geo', 'Open Street Map', 'USGS', 
                 google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE,
                 google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN
             ],
@@ -39,10 +39,9 @@ function init() {
     map = new google.maps.Map(document.getElementById("map"), opts);
 
     // add maps defined in map_definitions.js to the map
-    map.mapTypes.set('USGS 2013', usgs2013);
-    map.mapTypes.set('USGS TIFF', usgsTiff);
     map.mapTypes.set('Nat Geo', natGeo);
-    //map.mapTypes.set('USGS', usgsStolen); // basically the same as USGS TIFF but worse quality
+    map.mapTypes.set('Open Street Map', openStreetMap);
+    map.mapTypes.set('USGS', usgsTiff);
 
 
     // CUSTOM MAP CONTROLS ----------------------------------
@@ -65,6 +64,15 @@ function init() {
         instructions.showModal();
     });
 
+    // copyright notice for open street map
+    let osm_copyright_control = document.getElementById("osm_copyright_control");
+    map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(osm_copyright_control);
+    let updateOSMCopyright = () => {
+        let osm_open = map.getMapTypeId() == 'Open Street Map';
+        osm_copyright_control.style.display = osm_open ? "block" : "none";
+    }
+    google.maps.event.addListener(map, "maptypeid_changed", updateOSMCopyright);
+    updateOSMCopyright();
 
     // DATA STUFF ------------------------------------------------------------------------------------
 

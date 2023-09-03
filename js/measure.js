@@ -196,7 +196,7 @@ async function loadPisgahElevation() {
     // don't do this if we're running the file: protocol, CORS will block it
     const url = new URL(window.location.href);
     if (url.protocol == "file:") {
-        console.warn("Elevation data loading is disabled because you are using the 'file:' protocol. Attempting to load the elevation TIF with this protocol would cause a CORS error.");
+        console.warn("Elevation data loading is disabled because you are using the 'file:' protocol. Attempting to load the elevation GeoTIFF with this protocol would cause a CORS error.");
         return;
     }
 

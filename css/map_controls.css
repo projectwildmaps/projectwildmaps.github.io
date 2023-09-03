@@ -191,3 +191,25 @@ button#date_filter_header {
 #measure_control:hover {
     background-color: rgb(235, 235, 235);
 }
+
+
+
+/* OSM copyright control */
+
+#osm_copyright_control {
+    font: 400 10px Roboto, Arial, sans-serif;
+    user-select: none;
+    position: relative;
+    height: 14px;
+    width: 150px;
+    text-align: center;
+    line-height: 14px;
+    background-color: rgba(245, 245, 245, 0.7);
+    z-index: 1000001; /* same value as the other stuff at the bottom */
+}
+
+@media (max-width: 600px) {
+    #osm_copyright_control {
+        transform: translate(100%, -100%);
+    }
+}
