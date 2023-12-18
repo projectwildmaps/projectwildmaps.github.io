@@ -66,8 +66,8 @@ css/
 js/
 * This contains all the JavaScript files. We use multiple JavaScript files for easier code maintenance / organization.
 
-natGeo/, usgsTiff/, u1s11g1s/, usgsStolen/
-* These contain the image tiles used for the maps. I believe many of these were generated with MapTiler, in case you want to regenerate them. The images are organized by map_folder/zoom_level/x_coord/y_coord.png (or .jpg). See map_definitions.js for the code that references these files.
+natGeo/, usgsTiff/
+* These contain the image tiles used for some of the maps. I believe many of these were generated with MapTiler? The images are organized by map_folder/zoom_level/x_coord/y_coord.png (or .jpg). See map_definitions.js for the code that references these files.
 
 trails/
 * Contains the trail vector data. This is unused as of 1/13/2023.
