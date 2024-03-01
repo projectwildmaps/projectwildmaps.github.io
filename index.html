@@ -2,10 +2,11 @@
 <html>
 
 <head>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<title>PMAPS: PWILD Marking/Annotating Pisgah Systematically</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rock+Salt">
+	<link rel="manifest" href="manifest.json" /> <!-- for progressive web app functionality -->
 
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/info_window.css">
@@ -200,7 +201,7 @@
 					<div>
 						<img src="images/backpacker.png" alt="">
 						<img src="images/mountain.png" alt="">
-						<img src="images/compass3.png" alt="">
+						<img src="images/compass.png" alt="">
 					</div>
 				</div>
 
@@ -256,8 +257,10 @@
 				</p>
 				<div class="text-img-flex highlight">
 					<p>
-						<b>Note: </b>The Open Street Map (OSM) layer has more accurate/detailed trail intersections than the Nat Geo.
-						It is a good idea to look at this for confusing intersections (and perhaps take a screenshot for reference when hiking).
+						<b>Note: </b>The Open Street Map (OSM) layer has more accurate/detailed trail intersections than
+						the Nat Geo.
+						It is a good idea to look at this for confusing intersections (and perhaps take a screenshot for
+						reference when hiking).
 						The OSM layer also has many campsites and waterfalls marked.
 					</p>
 				</div>
@@ -268,11 +271,16 @@
 
 				<div class="text-img-flex">
 					<p>
-						<b>Measuring Routes - </b>Click on the ruler icon at the bottom right of the map to start measuring.
-						Click once to choose a route's starting location, and then click multiple more times to specify the
-						route. An info box will appear with the route's length (see Figure 3). If the route is in Pisgah,
-						the elevation profile will also be shown, along with cumulative elevation gain and loss. Hovering
-						over the elevation profile will indicate the corresponding location on the route with a black circle.
+						<b>Measuring Routes - </b>Click on the ruler icon at the bottom right of the map to start
+						measuring.
+						Click once to choose a route's starting location, and then click multiple more times to specify
+						the
+						route. An info box will appear with the route's length (see Figure 3). If the route is in
+						Pisgah,
+						the elevation profile will also be shown, along with cumulative elevation gain and loss.
+						Hovering
+						over the elevation profile will indicate the corresponding location on the route with a black
+						circle.
 					</p>
 
 					<div>
@@ -364,6 +372,22 @@
 		window.get = get;
 
 		window.database = database;
+	</script>
+
+	<script>
+		// Service worker registration - for offline PWA functionality
+		// See service-worker.js (in root directory)
+		if ("serviceWorker" in navigator) {
+			// wait for the window to load to not interrupt anything
+			window.addEventListener('load', async () => {
+				try {
+					await navigator.serviceWorker.register("/service-worker.js");
+					console.log("Service worker registration succeeded!");
+				} catch (err) {
+					console.log("Service worker registration failed: ", err);
+				}
+			});
+		}
 	</script>
 
 	<script src="js/init.js"></script>
