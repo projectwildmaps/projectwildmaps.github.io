@@ -1,4 +1,4 @@
-var dataInfoWindow;
+let dataInfoWindow;
 
 function initDataInfoWindow() {
     dataInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
@@ -32,8 +32,8 @@ function openDataInfoWindow(feature) {
             content.querySelector(".new_comment").style.display = "none";
         }
         else if (e.target.classList.contains("submit_comment")) {
-            let name = content.querySelector(".comment_name").value;
-            let text = content.querySelector(".comment_text").value;
+            const name = content.querySelector(".comment_name").value;
+            const text = content.querySelector(".comment_text").value;
 
             //do checks for if we have valid values
             let good_to_push = true;
@@ -48,17 +48,19 @@ function openDataInfoWindow(feature) {
 
             //push comment to the database
             if (good_to_push) {
-                let dateString = new Date().toLocaleDateString("en-us"); // month/day/year
-                let comment = {
+                const comment = {
                     name: name,
                     text: text,
-                    date: dateString,
+                    timestamp: Timestamp.now(),
                     deleted: false //when "deleting" a comment, we only change this value to true so it doesn't display, don't actually delete it
                 };
-                let comments_ref = child(feature.getProperty('ref'), "comments");
-                push(comments_ref, comment);
-                // the push triggers onChildChanged, which will refresh the HTML, clearing the input form
-                // and displaying the new comment
+                const comments = feature.getProperty('comments');
+                comments.push(comment);
+
+                const ref = feature.getProperty('ref');
+                setDoc(ref, { comments: comments }, { merge: true });
+                // this triggers a realtime update, which will refresh the HTML,
+                // clearing the input form and displaying the new comment
 
                 content.querySelector(".new_comment").style.display = "none";
             }

@@ -29,12 +29,29 @@ self.addEventListener("activate", (event) => {
 });
 
 
+// copied from https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching
+async function networkFirst(request) {
+    try {
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+            console.log("storing in cache", request)
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    } catch (error) {
+        const cachedResponse = await caches.match(request);
+        return cachedResponse || Response.error();
+    }
+}
+
+
 async function cacheFirst(request) {
     // First try to get the resource from the cache.
-    // const response_from_cache = await caches.match(request);
-    // if (response_from_cache) {
-    //     return response_from_cache;
-    // }
+    const response_from_cache = await caches.match(request);
+    if (response_from_cache) {
+        return response_from_cache;
+    }
 
     // If the response was not found in the cache,
     // try to get the resource from the network.
@@ -46,7 +63,7 @@ async function cacheFirst(request) {
         // - return the original to the app
         // Cloning is needed because a response can only be consumed once.
         // Only do this for http / https, because schemes like chrome-extension:// causes errors
-        
+
         // if (request.url.startsWith("http://") || request.url.startsWith("https://")) {
         //     const response_clone = response_from_network.clone();
         //     caches.open(CACHE_NAME).then((cache) => {
@@ -83,5 +100,5 @@ async function cacheFirst(request) {
 
 
 self.addEventListener("fetch", (event) => {
-    event.respondWith(cacheFirst(event.request));
+    event.respondWith(networkFirst(event.request));
 });

@@ -377,7 +377,18 @@
 	<!-- Firestore Database Setup -->
 	<script type="module">
 		import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js'
-		import { getFirestore, collection, onSnapshot, doc, addDoc, setDoc, query, Timestamp, GeoPoint } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
+		import {
+			initializeFirestore,
+			persistentLocalCache,
+			collection,
+			onSnapshot,
+			doc,
+			addDoc,
+			setDoc,
+			query,
+			Timestamp,
+			GeoPoint
+		} from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
 
 		const firebaseConfig = {
 			apiKey: "AIzaSyBB0sKq5KVASNFDmL9mxk2ZNXIcAevAwy8",
@@ -392,8 +403,8 @@
 		// Initialize Firebase
 		const app = initializeApp(firebaseConfig);
 
-		// Initialize Cloud Firestore and 
-		const database = getFirestore(app);
+		// Initialize Cloud Firestore (with local cache to allow offline access)
+		const database = initializeFirestore(app, {localCache: persistentLocalCache(/*settings*/{})});
 		const points_collection = collection(database, "points");
 
 		// Old app check setup for realtime database, not sure if works for firestore
@@ -430,7 +441,8 @@
 		// 	if("comments" in point_data){
 		// 		for(let comment_id in point_data["comments"]){
 		// 			const comment = point_data["comments"][comment_id];
-		// 			comment.date = Timestamp.fromDate(new Date(comment.date))
+		// 			comment.timestamp = Timestamp.fromDate(new Date(comment.date));
+		// 			delete comment["date"];
 		// 			comments_list.push(comment);
 		// 		}
 		// 	}
