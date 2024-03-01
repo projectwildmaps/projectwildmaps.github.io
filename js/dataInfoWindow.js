@@ -1,6 +1,6 @@
 var dataInfoWindow;
 
-function initDataInfoWindow(){
+function initDataInfoWindow() {
     dataInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
 }
 
@@ -8,15 +8,17 @@ function openDataInfoWindow(feature) {
     //feature is the Feature object of the point we clicked on
 
     //create a new content div (because we need event listeners specific to this feature)
-    let template = document.getElementById("dataInfoWindow_template");
-    let content = template.content.cloneNode(true).firstElementChild;
-    content.dataset.key = feature.getProperty('key'); //data attribute, used for updating comments in onChildChanged
+    const template = document.getElementById("dataInfoWindow_template");
+    const content = template.content.cloneNode(true).firstElementChild;
+    content.dataset.id = feature.getProperty('id'); //data attribute, used for updating comments
 
+    //one event handler for all click events
     content.addEventListener("click", function (e) {
         if (e.target.classList.contains("set_archived")) {
             //toggle archived state of this point
-            let ref = feature.getProperty('ref');
-            update(ref, { 'archived': !feature.getProperty('archived') }); //triggers onChildChanged -> updates HTML of content
+            const ref = feature.getProperty('ref');
+            setDoc(ref, { 'archived': !feature.getProperty('archived') }, { merge: true });
+            //triggers realtime update -> updates HTML of content
         }
         else if (e.target.classList.contains("add_comment")) {
             // clear previous content and display the add comment HTML
@@ -63,13 +65,13 @@ function openDataInfoWindow(feature) {
         }
         else if (e.target.classList.contains("delete_comment")) {
             let yes_confirm = confirm("Are you sure you really want to delete this comment? You won't be able to undo this action.\n\nNote that deleted comments can still be seen by clicking 'show deleted'.");
-            if (yes_confirm){
+            if (yes_confirm) {
                 let comment_key = e.target.dataset.comment_key;
                 let ref = child(feature.getProperty('ref'), "comments/" + comment_key);
                 update(ref, { deleted: true }); //triggers onChildChanged, which triggers recreating the info window content
             }
         }
-        else if (e.target.classList.contains("toggle_deleted_comments")){
+        else if (e.target.classList.contains("toggle_deleted_comments")) {
             //use a class on this element to indicate deleted, setDataInfoWindowContent will pick up on it
             e.target.classList.toggle("show_deleted");
             setDataInfoWindowContent(content, feature);
@@ -120,12 +122,12 @@ function setDataInfoWindowContent(div, feature) {
 
     //add comments
     let deleted_comment_exists = false; //if false, will hide the deleted comments toggle - confusing if it's present when no deleted comments
-    if(comments){
-        for(let key in comments){
+    if (comments) {
+        for (let key in comments) {
             let c = comments[key];
-            if(c.deleted){
+            if (c.deleted) {
                 deleted_comment_exists = true;
-                if(!show_deleted) continue;
+                if (!show_deleted) continue;
             }
 
             let new_comment = document.getElementById("comment_template").content.cloneNode(true);
@@ -135,7 +137,7 @@ function setDataInfoWindowContent(div, feature) {
             new_comment.querySelector(".text").innerText = c.text;
 
             new_comment.querySelector(".delete_comment").dataset.comment_key = key; //used to tell which comment was deleted in event listener
-            if(c.deleted){new_comment.querySelector(".delete_comment").style.visibility = "hidden";} //don't allow deleting deleted comments
+            if (c.deleted) { new_comment.querySelector(".delete_comment").style.visibility = "hidden"; } //don't allow deleting deleted comments
 
             div.querySelector(".comments").appendChild(new_comment);
         }

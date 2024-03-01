@@ -31,10 +31,10 @@ self.addEventListener("activate", (event) => {
 
 async function cacheFirst(request) {
     // First try to get the resource from the cache.
-    const response_from_cache = await caches.match(request);
-    if (response_from_cache) {
-        return response_from_cache;
-    }
+    // const response_from_cache = await caches.match(request);
+    // if (response_from_cache) {
+    //     return response_from_cache;
+    // }
 
     // If the response was not found in the cache,
     // try to get the resource from the network.
@@ -46,16 +46,17 @@ async function cacheFirst(request) {
         // - return the original to the app
         // Cloning is needed because a response can only be consumed once.
         // Only do this for http / https, because schemes like chrome-extension:// causes errors
-        if (request.url.startsWith("http://") || request.url.startsWith("https://")) {
-            const response_clone = response_from_network.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-                cache.put(request, response_clone)
-                    .catch((error) => {
-                        console.log("Error adding to cache:", request, response_clone);
-                        throw error;
-                    });
-            });
-        }
+        
+        // if (request.url.startsWith("http://") || request.url.startsWith("https://")) {
+        //     const response_clone = response_from_network.clone();
+        //     caches.open(CACHE_NAME).then((cache) => {
+        //         cache.put(request, response_clone)
+        //             .catch((error) => {
+        //                 console.log("Error adding to cache:", request, response_clone);
+        //                 throw error;
+        //             });
+        //     });
+        // }
 
         return response_from_network;
 

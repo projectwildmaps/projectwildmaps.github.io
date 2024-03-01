@@ -69,13 +69,14 @@ function US_date_to_yyyy_mm_dd(input){
 
 
 let min_date;
-function updateMinDate(date_string){
+function updateMinDate(timestamp){
     //This function gets called by onChildAdded (see init.js) whenever a new data point is added
     //It sets the min date for the date filter inputs to the earliest date in the database
     //This helps with the user experience of using the date inputs
-    let formatted = US_date_to_yyyy_mm_dd(date_string);
-    if(!min_date || formatted < min_date){
-        min_date = formatted;
+    const date = timestamp.toDate(); //firestore Timestamp object
+    const yyyy_mm_dd = date.toISOString().substring(0, 10);
+    if(!min_date || yyyy_mm_dd < min_date){
+        min_date = yyyy_mm_dd;
         document.querySelector("#start_date").min = min_date;
         document.querySelector("#end_date").min = min_date;
     }

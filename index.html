@@ -332,7 +332,7 @@
 
 	<!--Firebase is module-based, so need a module script tag (in the HTML file). Note that js treats
 		module scripts as their own scope, so nothing declared in here is in the global scope.-->
-	<script type="module">
+	<!-- <script type="module">
 		//SET UP FIREBASE DATABASE ---------------------------------------------------
 
 		// Import the functions you need from the SDKs you need
@@ -372,6 +372,75 @@
 		window.get = get;
 
 		window.database = database;
+	</script> -->
+
+	<!-- Firestore Database Setup -->
+	<script type="module">
+		import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js'
+		import { getFirestore, collection, onSnapshot, doc, addDoc, setDoc, query, Timestamp, GeoPoint } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
+
+		const firebaseConfig = {
+			apiKey: "AIzaSyBB0sKq5KVASNFDmL9mxk2ZNXIcAevAwy8",
+			authDomain: "pmaps-9b073.firebaseapp.com",
+			projectId: "pmaps-9b073",
+			storageBucket: "pmaps-9b073.appspot.com",
+			messagingSenderId: "359127963683",
+			appId: "1:359127963683:web:0dd617799d832f5b77f996",
+			measurementId: "G-JKPFPGX204"
+		};
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+
+		// Initialize Cloud Firestore and 
+		const database = getFirestore(app);
+		const points_collection = collection(database, "points");
+
+		// Old app check setup for realtime database, not sure if works for firestore
+		/*const appCheck = initializeAppCheck(app, {
+				provider: new ReCaptchaV3Provider('6Lc-dTUjAAAAAOQFOlQaN6w81vK1Eso4oflV1sZk'),
+			isTokenAutoRefreshEnabled: true
+		});*/
+
+		// Exposing certain functions and variables to the global scope that I want to use outside this script tag,
+		// since module script tags don't operate in the global scope
+		window.database = database;
+		window.query = query;
+		window.onSnapshot = onSnapshot;
+		window.doc = doc;
+		window.addDoc = addDoc;
+		window.setDoc = setDoc;
+		window.Timestamp = Timestamp;
+		window.GeoPoint = GeoPoint;
+		window.points_collection = points_collection;
+
+		// // add points from old database
+		// import pmaps_data from "./PMAPS Data Backup 2-29-2024.json" assert { type: 'json' };
+		// for (let key_name in pmaps_data["points"]) {
+
+		// 	let point_data = pmaps_data["points"][key_name];
+
+		// 	point_data.timestamp = Timestamp.fromDate(new Date(point_data.date));
+		// 	delete point_data["date"];
+		// 	point_data.location = new GeoPoint(point_data.lat, point_data.lon);
+		// 	delete point_data["lat"];
+		// 	delete point_data["lon"];
+
+		// 	const comments_list = [];
+		// 	if("comments" in point_data){
+		// 		for(let comment_id in point_data["comments"]){
+		// 			const comment = point_data["comments"][comment_id];
+		// 			comment.date = Timestamp.fromDate(new Date(comment.date))
+		// 			comments_list.push(comment);
+		// 		}
+		// 	}
+		// 	point_data.comments = comments_list;
+
+		// 	console.log(point_data)
+
+		// 	const docRef = await addDoc(collection(database, "points"), point_data);
+		// 	console.log("Document written with ID: ", docRef.id);
+		// }
 	</script>
 
 	<script>
