@@ -29,12 +29,11 @@ self.addEventListener("activate", (event) => {
 });
 
 
-// copied from https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching
+// adopted from https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching
 async function networkFirst(request) {
     try {
         const networkResponse = await fetch(request);
-        if (networkResponse.ok) {
-            console.log("storing in cache", request)
+        if (request.method === "GET" && networkResponse.ok) {
             const cache = await caches.open(CACHE_NAME);
             cache.put(request, networkResponse.clone());
         }

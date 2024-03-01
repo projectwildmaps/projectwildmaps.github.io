@@ -59,18 +59,21 @@ function openDataInfoWindow(feature) {
 
                 const ref = feature.getProperty('ref');
                 setDoc(ref, { comments: comments }, { merge: true });
-                // this triggers a realtime update, which will refresh the HTML,
-                // clearing the input form and displaying the new comment
-
+                // this triggers a realtime update, which will refresh the HTML, displaying the new comment
+                
+                // hide input form (not done by HTML refresh in case it was someone else refreshing the HTML)
                 content.querySelector(".new_comment").style.display = "none";
             }
         }
         else if (e.target.classList.contains("delete_comment")) {
             let yes_confirm = confirm("Are you sure you really want to delete this comment? You won't be able to undo this action.\n\nNote that deleted comments can still be seen by clicking 'show deleted'.");
             if (yes_confirm) {
-                let comment_key = e.target.dataset.comment_key;
-                let ref = child(feature.getProperty('ref'), "comments/" + comment_key);
-                update(ref, { deleted: true }); //triggers onChildChanged, which triggers recreating the info window content
+                const comments = feature.getProperty('comments');
+                const comment_index = e.target.dataset.comment_index;
+                comments[comment_index].deleted = true;
+
+                const ref = feature.getProperty('ref');
+                setDoc(ref, { comments: comments }, { merge: true });
             }
         }
         else if (e.target.classList.contains("toggle_deleted_comments")) {
@@ -82,30 +85,32 @@ function openDataInfoWindow(feature) {
     });
 
     setDataInfoWindowContent(content, feature); //see below in this file
-    dataInfoWindow.setContent(content);
+    dataInfoWindow.setContent(content); //overwrites old content div
     dataInfoWindow.setPosition(feature.getGeometry().get());
     dataInfoWindow.open(map);
 
-    //auto pan (timeout is to wait for the element to be displayed so we can get bounding boxes)
+    //auto pan - use setTimeout to add this to the event queue,
+    //to wait for the element to be displayed first so we can get bounding boxes
     window.setTimeout(function () {
         autoPan(content)
-    }, 10);
+    }, 0);
 }
 
 function setDataInfoWindowContent(div, feature) {
     //div is the content div for the data info window
     //feature is the Feature object of the point we clicked on
-    //this function is separate because we call it in onChildChanged (see init()), to update the HTML if the point's data changes
+    //this function is separate because we call it during realtime updates (see init()),
+    //to update the HTML if the point's data changes
 
     //NOTE: we use templates and .innerText instead of an innerHTML string to avoid XSS vulnerabilities
 
-    let archived = feature.getProperty("archived");
+    const archived = feature.getProperty("archived");
 
     div.querySelector(".archived").innerText = archived ? "[ARCHIVED]\n" : "";
     div.querySelector(".category").innerText = feature.getProperty("category");
     div.querySelector(".description").innerText = feature.getProperty("description");
     div.querySelector(".name").innerText = feature.getProperty("name");
-    div.querySelector(".date").innerText = feature.getProperty("date");
+    div.querySelector(".date").innerText = feature.getProperty("timestamp").toDate().toLocaleDateString();
     div.querySelector(".set_archived").innerText = archived ? "Unarchive" : "Archive";
 
     //comments
@@ -114,19 +119,19 @@ function setDataInfoWindowContent(div, feature) {
     div.querySelectorAll(".comment").forEach(el => el.parentElement.removeChild(el));
 
     //get comments
-    let comments = feature.getProperty('comments');
+    const comments = feature.getProperty('comments');
 
     //show header if any comments exist, deleted or not, and update deleted toggle's text appropriately
-    let deleted_toggle = div.querySelector(".toggle_deleted_comments");
-    let show_deleted = deleted_toggle.classList.contains("show_deleted"); //flag used when showing comments below
-    div.querySelector(".comments_header").style.display = comments ? "block" : "none";
+    const deleted_toggle = div.querySelector(".toggle_deleted_comments");
+    const show_deleted = deleted_toggle.classList.contains("show_deleted"); //flag used when showing comments below
+    div.querySelector(".comments_header").style.display = comments.length > 0 ? "block" : "none";
     deleted_toggle.innerText = show_deleted ? "(hide deleted)" : "(show deleted)";
 
     //add comments
     let deleted_comment_exists = false; //if false, will hide the deleted comments toggle - confusing if it's present when no deleted comments
     if (comments) {
-        for (let key in comments) {
-            let c = comments[key];
+        for (let i=0; i<comments.length; i++) {
+            let c = comments[i];
             if (c.deleted) {
                 deleted_comment_exists = true;
                 if (!show_deleted) continue;
@@ -135,10 +140,10 @@ function setDataInfoWindowContent(div, feature) {
             let new_comment = document.getElementById("comment_template").content.cloneNode(true);
             new_comment.querySelector(".deleted").innerText = c.deleted ? "[DELETED]" : "";
             new_comment.querySelector(".name").innerText = c.name;
-            new_comment.querySelector(".date").innerText = c.date;
+            new_comment.querySelector(".date").innerText = c.timestamp.toDate().toLocaleDateString();
             new_comment.querySelector(".text").innerText = c.text;
 
-            new_comment.querySelector(".delete_comment").dataset.comment_key = key; //used to tell which comment was deleted in event listener
+            new_comment.querySelector(".delete_comment").dataset.comment_index = i; //used to tell which comment was deleted in event listener
             if (c.deleted) { new_comment.querySelector(".delete_comment").style.visibility = "hidden"; } //don't allow deleting deleted comments
 
             div.querySelector(".comments").appendChild(new_comment);
