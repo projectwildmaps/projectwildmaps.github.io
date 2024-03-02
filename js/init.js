@@ -104,7 +104,7 @@ function init() {
                     my_date_visible: true, //see dateFilter.js, set to true even if category not visible, so users have confirmation their new point was created successfully
                     //database attributes
                     id: change.doc.id, //document id in database
-                    ref: doc(database, "points", change.doc.id) //database reference object
+                    ref: change.doc.ref //database reference object
                 };
                 const new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
                 markers[change.doc.id] = new_feature; //markers is a global variable
@@ -126,7 +126,7 @@ function init() {
                     autoPan(content_div);
                 }
             }
-            
+
             if (change.type === "removed") {
                 console.log("Removed point: ", change.doc);
                 markerLayer.remove(markers[change.doc.id]);

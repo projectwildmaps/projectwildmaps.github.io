@@ -2,7 +2,7 @@ var inputInfoWindow;
 var usersMarker;
 
 //function to animate the big red pin when the instructions close or the map location changes, to draw attention to it
-function animateUsersMarker(){
+function animateUsersMarker() {
     usersMarker.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(() => {
         usersMarker.setAnimation(null);
@@ -10,7 +10,8 @@ function animateUsersMarker(){
 }
 
 function initInputInfoWindow() {
-    inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true }); //assigned to global var
+    // initialize inputInfoWindow global var
+    inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
 
     // Fill category options and make an info window for showing the data input form.
     var category_datalist = document.getElementById("category_names");
@@ -30,7 +31,7 @@ function initInputInfoWindow() {
         draggable: true,
         anchorPoint: new google.maps.Point(0, -30)
     });
-    // Animate the pin when we close the instructions
+    // Animate the pin when we close the instructions dialog, so people see it
     document.getElementById("instructions").addEventListener("close", animateUsersMarker); //see function at top of file
 
     // When the user clicks on the big red pin, open up the form for data input.
@@ -54,11 +55,11 @@ function initInputInfoWindow() {
     //When the user pans or resizes the screen, make sure the big red pin is still visible
     //Don't do this if the user is dragging the marker, since sometime that can pan the screen too
     let dragging = false;
-    usersMarker.addListener("dragstart", function(){dragging = true;});
-    usersMarker.addListener("dragend", function(){dragging = false;});
+    usersMarker.addListener("dragstart", function () { dragging = true; });
+    usersMarker.addListener("dragend", function () { dragging = false; });
     map.addListener("bounds_changed", function (event) {
-        if(dragging) return;
-        
+        if (dragging) return;
+
         //get map bounds NE and SW points
         //convert those to pixel coordinates
         //convert marker position to pixel coordinates
@@ -77,29 +78,29 @@ function initInputInfoWindow() {
             y: clamp(ne_px.y + m.top, marker_px.y, sw_px.y - m.bottom)
         }
         let new_latlng = fromPixelToLatLng(new_marker_px);
-        if(!usersMarker.getPosition().equals(new_latlng)){
+        if (!usersMarker.getPosition().equals(new_latlng)) {
             usersMarker.setPosition(new_latlng);
         }
     });
 }
 
-function clamp(min, value, max){
+function clamp(min, value, max) {
     return Math.max(Math.min(value, max), min);
 }
 
 //functions to convert between LatLng and pixel coordinates (from the top left of the world)
 //see this documentation: https://developers.google.com/maps/documentation/javascript/coordinates
-function fromLatLngToPixel(latlng){
+function fromLatLngToPixel(latlng) {
     let world_coords = map.getProjection().fromLatLngToPoint(latlng);
-    let scale = 2**(map.getZoom());
+    let scale = 2 ** (map.getZoom());
     return {
         x: world_coords.x * scale,
         y: world_coords.y * scale
     };
 }
-function fromPixelToLatLng(pixel_coords){
+function fromPixelToLatLng(pixel_coords) {
     //pixel coords should have properties x and y
-    let scale = 2**(map.getZoom());
+    let scale = 2 ** (map.getZoom());
     let world_coord = {
         x: pixel_coords.x / scale,
         y: pixel_coords.y / scale
@@ -110,9 +111,9 @@ function fromPixelToLatLng(pixel_coords){
 
 function saveData() { //What to do when the user hits the "submit" button on the user input form.
     // Awkwardly pulls what the user wrote on the input form
-    var name = document.getElementById("name").value;
-    var description = document.getElementById("markerDescription").value;
-    var category = document.getElementById("categories").value;
+    let name = document.getElementById("name").value;
+    const description = document.getElementById("markerDescription").value;
+    let category = document.getElementById("categories").value;
 
     if (description.length == 0) {
         alert("Please input a description.");
@@ -131,17 +132,17 @@ function saveData() { //What to do when the user hits the "submit" button on the
         category = "Other";
     }
 
-    var pos = usersMarker.getPosition();
-    var dateString = new Date().toLocaleDateString("en-us"); // month/day/year
+    const pos = usersMarker.getPosition();
+    const geopoint = new GeoPoint(pos.lat(), pos.lng());
 
     // Adds the data to the database
-    push(ref(database, "points"), {
-        lat: pos.lat(),
-        lon: pos.lng(),
+    addDoc(points_collection, {
+        location: geopoint,
         name: name,
         description: description,
         category: category,
-        date: dateString,
+        comments: [],
+        timestamp: Timestamp.now(),
         archived: false
     });
 

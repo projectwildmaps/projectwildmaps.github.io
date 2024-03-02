@@ -74,6 +74,7 @@ function openDataInfoWindow(feature) {
 
                 const ref = feature.getProperty('ref');
                 setDoc(ref, { comments: comments }, { merge: true });
+                // this triggers a realtime update, refreshing the HTML
             }
         }
         else if (e.target.classList.contains("toggle_deleted_comments")) {
@@ -124,7 +125,7 @@ function setDataInfoWindowContent(div, feature) {
     //show header if any comments exist, deleted or not, and update deleted toggle's text appropriately
     const deleted_toggle = div.querySelector(".toggle_deleted_comments");
     const show_deleted = deleted_toggle.classList.contains("show_deleted"); //flag used when showing comments below
-    div.querySelector(".comments_header").style.display = comments.length > 0 ? "block" : "none";
+    div.querySelector(".comments_header").style.display = comments?.length > 0 ? "block" : "none";
     deleted_toggle.innerText = show_deleted ? "(hide deleted)" : "(show deleted)";
 
     //add comments
