@@ -6,7 +6,7 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rock+Salt">
-	<link rel="manifest" href="manifest.json" /> <!-- for progressive web app functionality -->
+	<link rel="manifest" href="manifest.json" crossorigin="use-credentials" /> <!-- for progressive web app functionality -->
 
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/info_window.css">
@@ -332,49 +332,6 @@
 
 	<!--Firebase is module-based, so need a module script tag (in the HTML file). Note that js treats
 		module scripts as their own scope, so nothing declared in here is in the global scope.-->
-	<!-- <script type="module">
-		//SET UP FIREBASE DATABASE ---------------------------------------------------
-
-		// Import the functions you need from the SDKs you need
-		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
-		import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app-check.js"
-		import { getDatabase, ref, child, onChildAdded, onChildChanged, onChildRemoved, update, push, get } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
-
-		// Your web app's Firebase configuration
-		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-		const firebaseConfig = {
-			apiKey: "AIzaSyBB0sKq5KVASNFDmL9mxk2ZNXIcAevAwy8",
-			authDomain: "pmaps-9b073.firebaseapp.com",
-			projectId: "pmaps-9b073",
-			storageBucket: "pmaps-9b073.appspot.com",
-			messagingSenderId: "359127963683",
-			appId: "1:359127963683:web:0dd617799d832f5b77f996",
-			measurementId: "G-JKPFPGX204"
-		};
-
-		// Initialize Firebase
-		const app = initializeApp(firebaseConfig);
-		const database = getDatabase(app);
-		/*const appCheck = initializeAppCheck(app, {
-				provider: new ReCaptchaV3Provider('6Lc-dTUjAAAAAOQFOlQaN6w81vK1Eso4oflV1sZk'),
-			isTokenAutoRefreshEnabled: true
-		});*/
-
-		// Exposing certain functions and variables to the global scope that I want to use outside this script tag,
-		// since module script tags don't operate in the global scope
-		window.ref = ref;
-		window.child = child;
-		window.onChildAdded = onChildAdded;
-		window.onChildChanged = onChildChanged;
-		window.onChildRemoved = onChildRemoved;
-		window.update = update;
-		window.push = push;
-		window.get = get;
-
-		window.database = database;
-	</script> -->
-
-	<!-- Firestore Database Setup -->
 	<script type="module">
 		import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js'
 		import {
@@ -385,7 +342,9 @@
 			doc,
 			addDoc,
 			setDoc,
+			getDocs,
 			query,
+			where,
 			Timestamp,
 			GeoPoint
 		} from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
@@ -417,10 +376,12 @@
 		// since module script tags don't operate in the global scope
 		window.database = database;
 		window.query = query;
+		window.where = where;
 		window.onSnapshot = onSnapshot;
 		window.doc = doc;
 		window.addDoc = addDoc;
 		window.setDoc = setDoc;
+		window.getDocs = getDocs;
 		window.Timestamp = Timestamp;
 		window.GeoPoint = GeoPoint;
 		window.points_collection = points_collection;
