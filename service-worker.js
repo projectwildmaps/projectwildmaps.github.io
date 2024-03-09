@@ -11,11 +11,6 @@ const precache_resources = [
     "/css/dialog.css"
 ];
 
-async function putInCache(request, response) {
-    const cache = await caches.open(CACHE_NAME);
-    await cache.put(request, response);
-};
-
 // When the service worker is installing, open the cache and add the precache resources to it
 self.addEventListener("install", (event) => {
     console.log("Service worker install event");

@@ -13,7 +13,7 @@ const locations = {
     },
     "Duke": {
         coords: new google.maps.LatLng(36.001046, -78.938461),
-        mapTypeId: "roadmap",
+        mapTypeId: "Open Street Map",
         zoom: 13
     },
     "Camp Raven Knob": {
