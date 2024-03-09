@@ -204,17 +204,20 @@
 			onclick="document.querySelector('#offline_settings').close()">&#10006;</button>
 		<p class="modal_title">Offline Settings</p>
 		<p>Download Offline Maps of Pisgah</p>
-		<div class="map_download_row">
-			<div>
-				<button class="download_map_button no-style"data-map-name="Nat Geo">DOWNLOAD</button>
-				<button class="delete_map_button no-style" data-map-name="Nat Geo">REMOVE</button>
+
+		<div data-map-name="Nat Geo" data-state="not_downloaded" class="map_download_row">
+			<div class="center_content">
+				<div class="loader" aria-label="loader"></div>
+				<button class="download_map_button no-style">DOWNLOAD</button>
+				<button class="delete_map_button no-style">REMOVE</button>
 			</div>
 			<p>Nat Geo Map (22.8 MB)</p>
 		</div>
-		<div class="map_download_row">
-			<div>
-				<button class="download_map_button no-style" data-map-name="USGS">DOWNLOAD</button>
-				<button class="delete_map_button no-style" data-map-name="USGS">REMOVE</button>
+		<div data-map-name="USGS" data-state="not_downloaded" class="map_download_row">
+			<div class="center_content">
+				<div class="loader" aria-label="loader"></div>
+				<button class="download_map_button no-style">DOWNLOAD</button>
+				<button class="delete_map_button no-style">REMOVE</button>
 			</div>
 			<p>USGS Map (38.4 MB)</p>
 		</div>
@@ -442,22 +445,6 @@
 		// 	const docRef = await addDoc(collection(database, "points"), point_data);
 		// 	console.log("Document written with ID: ", docRef.id);
 		// }
-	</script>
-
-	<script>
-		// Service worker registration - for offline PWA functionality
-		// See service-worker.js (in root directory)
-		if ("serviceWorker" in navigator) {
-			// wait for the window to load to not interrupt anything
-			window.addEventListener('load', async () => {
-				try {
-					await navigator.serviceWorker.register("/service-worker.js");
-					console.log("Service worker registration succeeded!");
-				} catch (err) {
-					console.log("Service worker registration failed: ", err);
-				}
-			});
-		}
 	</script>
 
 	<script src="js/init.js"></script>

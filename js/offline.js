@@ -7,24 +7,29 @@ function initOfflineSettings() {
     });
 
     // event listeners for downloading / un-downloading maps
-    document.querySelectorAll(".download_map_button").forEach(button => {
-        button.addEventListener("click", () => {
-            downloadMap(button.dataset.mapName);
+    document.querySelectorAll(".map_download_row").forEach(div => {
+        div.querySelector(".download_map_button").addEventListener("click", () => {
+            div.dataset.state = "loading";
+            downloadMap(div.dataset.mapName, () => {div.dataset.state = "downloaded"});
+        });
+        div.querySelector(".delete_map_button").addEventListener("click", () => {
+            div.dataset.state = "loading";
+            deleteMap(div.dataset.mapName, () => {div.dataset.state = "not_downloaded"});
         });
     });
-    document.querySelectorAll(".delete_map_button").forEach(button => {
-        button.addEventListener("click", () => {
-            deleteMap(button.dataset.mapName);
-        });
-    });
+
+    // set up service worker - see service-worker.js
+    // note - window will have loaded by this point
+    setUpServiceWorker(); // see below
+
 }
 
 
 // at zoom level 12, x and y ranges for pisgah tiles
-const pisgah_z12_x_range = [1104, 1108]; //exclusive end index
+const pisgah_z12_x_range = [1104, 1108]; //exclusive end index (makes changing zoom level easier)
 const pisgah_z12_y_range = [1616, 1620];
 
-// function to loop through pisgah at a certain zoom based on above config at zoom level 12
+// function to loop through pisgah at a certain zoom, based on region defined at zoom level 12
 function getPisgahTileUrls(zoom, getTileUrl) {
     //getTileUrl is a function taking args x,y,z
 
@@ -67,23 +72,29 @@ function getUsgsUrls() {
 }
 
 
-async function downloadMap(mapName) {
+async function downloadMap(mapName, callback=undefined) {
     if (mapName === "Nat Geo") {
         const urls_to_download = getNatGeoUrls();
-        sendToServiceWorker({ type: "save_to_cache", urls: urls_to_download });
+        sendToServiceWorker({ type: "save_to_cache", urls: urls_to_download }, callback);
     }
     if (mapName === "USGS") {
         const urls_to_download = getUsgsUrls();
         // download bit by bit to not overwhelm the service worker
-        for (let i = 0; i < urls_to_download.length; i += 256) {
-            sendToServiceWorker({ type: "save_to_cache", urls: urls_to_download.slice(i, i + 256) });
+        const chunk_size = 256;
+        for (let i = 0; i < urls_to_download.length; i += chunk_size) {
+            //only send callback if this is the last chunk
+            const callback_to_send = i + chunk_size < urls_to_download.length ? undefined : callback;
+            sendToServiceWorker({
+                type: "save_to_cache",
+                urls: urls_to_download.slice(i, i + chunk_size)
+            }, callback_to_send);
             await new Promise(resolve => setTimeout(() => { resolve() }, 500))
         }
     }
 }
 
 
-function deleteMap(mapName) {
+function deleteMap(mapName, callback=undefined) {
     let urls_to_delete = [];
     if (mapName === "Nat Geo") {
         urls_to_delete = getNatGeoUrls();
@@ -91,14 +102,44 @@ function deleteMap(mapName) {
     if (mapName === "USGS") {
         urls_to_delete = getUsgsUrls();
     }
-    for(let url of urls_to_delete){
-        sendToServiceWorker({type: "delete_from_cache", url: url})
-    }
+    sendToServiceWorker({ type: "delete_from_cache", urls: urls_to_delete }, callback);
 }
 
 
-function sendToServiceWorker(data) {
+
+// service worker stuff
+
+let serviceWorkerMsgId = 0; // increments, used to identify a service worker action so we can execute the correct callback when it finishes
+const serviceWorkerCallbacks = {}; // key = msgId, value = callback function
+
+async function setUpServiceWorker() {
+    if ("serviceWorker" in navigator) {
+        try {
+            await navigator.serviceWorker.register("/service-worker.js");
+            console.log("Service worker registration succeeded!");
+            // set up receiving messages
+            navigator.serviceWorker.addEventListener("message", (event) => {
+                if("msgId" in event.data && event.data.msgId in serviceWorkerCallbacks){
+                    // do the callback and then remove it to save memory
+                    serviceWorkerCallbacks[event.data.msgId]();
+                    delete serviceWorkerCallbacks[event.data.msgId];
+                }
+            });
+        } catch (err) {
+            console.log("Service worker registration failed: ", err);
+        }
+    }
+}
+
+function sendToServiceWorker(message, callback=undefined) {
     navigator.serviceWorker.ready.then(registration => {
+        // add identifier to the message so the service worker can tell us when it finished
+        const data = {msgId: serviceWorkerMsgId, message: message};
+        if(callback){
+            // see setUpServiceWorker() for how the callback gets called
+            serviceWorkerCallbacks[serviceWorkerMsgId] = callback;
+        }
         registration.active.postMessage(data);
+        serviceWorkerMsgId++;
     });
 }

@@ -115,13 +115,30 @@ async function handleFetch(request) {
 
 self.addEventListener("message", async (event) => {
     console.log("service worker received message:", event.data);
+    // data should have format {msgId: int, message: ___}
+    const message = event.data.message;
 
-    if(event.data.type === "save_to_cache" && Array.isArray(event.data.urls)) {
+    if (message.type === "check_if_in_cache" && Array.isArray(message.urls)) {
         const cache = await caches.open(CACHE_NAME);
-        await cache.addAll(event.data.urls);
+        
     }
-    else if(event.data.type === "delete_from_cache") {
+    if (message.type === "save_to_cache" && Array.isArray(message.urls)) {
         const cache = await caches.open(CACHE_NAME);
-        await cache.delete(event.data.url);
+        await cache.addAll(message.urls);
+        // tell the client we finished
+        if (event.source) {
+            event.source.postMessage({ type: "finished", msgId: event.data.msgId });
+        }
     }
+    else if (message.type === "delete_from_cache" && Array.isArray(message.urls)) {
+        const cache = await caches.open(CACHE_NAME);
+        for (let url of message.urls) {
+            await cache.delete(url);
+        }
+        // tell the client we finished
+        if (event.source) {
+            event.source.postMessage({ type: "finished", msgId: event.data.msgId });
+        }
+    }
+
 });

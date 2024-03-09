@@ -160,16 +160,46 @@ nicely to the right of the text, or below the text on small screens */
     gap: 10px;
 }
 
+.map_download_row .center_content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .map_download_row button {
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
 }
 
+.loader {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 1rem;
+    border: 3px solid var(--accent-color);
+    border-color: transparent var(--accent-color) var(--accent-color) var(--accent-color);
+    animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
 .download_map_button {
+    display: none;
     background-color: var(--accent-color);
 }
-
 .delete_map_button {
+    display: none;
     border: 1px solid var(--accent-color);
+}
+
+.map_download_row[data-state="loading"] .loader {
+    display: block;
+}
+.map_download_row[data-state="not_downloaded"] .download_map_button {
+    display: block;
+}
+.map_download_row[data-state="downloaded"] .delete_map_button {
+    display: block;
 }
