@@ -136,12 +136,12 @@ button#date_filter_header {
 
 /* download button */
 
-#download_control {
+#download_control, #offline_settings_control {
     cursor: pointer;
     text-align: center;
     margin-top: 0;
 }
-#download_control:hover {
+#download_control:hover, #offline_settings_control:hover {
     background-color: rgb(235, 235, 235);
 }
 

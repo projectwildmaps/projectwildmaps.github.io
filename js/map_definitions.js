@@ -7,7 +7,7 @@ const mapBoundsUSGSTiff = new google.maps.LatLngBounds(
 
 
 const usgsTiff = new google.maps.ImageMapType({
-    minZoom: 11,
+    minZoom: 12,  // technically can do 11 but can't see anything
     maxZoom: 15,
     getTileUrl: function (coord, zoom) {
         const proj = map.getProjection();

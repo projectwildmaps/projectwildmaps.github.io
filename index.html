@@ -6,7 +6,8 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rock+Salt">
-	<link rel="manifest" href="manifest.json" crossorigin="use-credentials" /> <!-- for progressive web app functionality -->
+	<link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
+	<!-- for progressive web app functionality -->
 
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/info_window.css">
@@ -59,6 +60,10 @@
 		<button id="download_control" class="custom_map_control no-style">
 			Download<br>
 			Data
+		</button>
+		<button id="offline_settings_control" class="custom_map_control no-style">
+			Offline<br>
+			Settings
 		</button>
 		<button id="measure_control" class="custom_map_control no-style">
 			<img src="images/ruler.png" alt="ruler">
@@ -176,8 +181,9 @@
 	<!-- dialogs -->
 
 	<dialog id="download_modal">
-		<button id="close_download_modal" onclick="document.querySelector('#download_modal').close()">&#10006;</button>
-		<p><b>Choose Download Option:</b></p>
+		<button id="close_download_modal" class="close_dialog"
+			onclick="document.querySelector('#download_modal').close()">&#10006;</button>
+		<p class="modal_title"><b>Choose Download Option:</b></p>
 		<div class="radio_row">
 			<input type="radio" name="download_option" id="all" value="All" checked autofocus>
 			<label for="all">All Data</label>
@@ -191,6 +197,27 @@
 			<label for="archived">Archived Data Only (removed points)</label>
 		</div>
 		<button id="start_download">Download</button>
+	</dialog>
+
+	<dialog id="offline_settings">
+		<button id="close_offline_settings" class="close_dialog"
+			onclick="document.querySelector('#offline_settings').close()">&#10006;</button>
+		<p class="modal_title">Offline Settings</p>
+		<p>Download Offline Maps of Pisgah</p>
+		<div class="map_download_row">
+			<div>
+				<button class="download_map_button no-style"data-map-name="Nat Geo">DOWNLOAD</button>
+				<button class="delete_map_button no-style" data-map-name="Nat Geo">REMOVE</button>
+			</div>
+			<p>Nat Geo Map (22.8 MB)</p>
+		</div>
+		<div class="map_download_row">
+			<div>
+				<button class="download_map_button no-style" data-map-name="USGS">DOWNLOAD</button>
+				<button class="delete_map_button no-style" data-map-name="USGS">REMOVE</button>
+			</div>
+			<p>USGS Map (38.4 MB)</p>
+		</div>
 	</dialog>
 
 	<dialog id="instructions">
@@ -327,6 +354,7 @@
 	<script src="js/dateFilter.js"></script>
 	<script src="js/download.js"></script>
 	<script src="js/measure.js"></script>
+	<script src="js/offline.js"></script>
 
 	<script src="js/trails.js"></script>
 
@@ -363,7 +391,7 @@
 		const app = initializeApp(firebaseConfig);
 
 		// Initialize Cloud Firestore (with local cache to allow offline access)
-		const database = initializeFirestore(app, {localCache: persistentLocalCache(/*settings*/{})});
+		const database = initializeFirestore(app, { localCache: persistentLocalCache(/*settings*/{}) });
 		const points_collection = collection(database, "points");
 
 		// Old app check setup for realtime database, not sure if works for firestore
@@ -386,8 +414,8 @@
 		window.GeoPoint = GeoPoint;
 		window.points_collection = points_collection;
 
-		// // add points from old database
-		// import pmaps_data from "./PMAPS Data Backup 2-29-2024.json" assert { type: 'json' };
+		// add points from old database
+		// import pmaps_data from "./PMAPS Data Backup 3-8-2024.json" assert { type: 'json' };
 		// for (let key_name in pmaps_data["points"]) {
 
 		// 	let point_data = pmaps_data["points"][key_name];

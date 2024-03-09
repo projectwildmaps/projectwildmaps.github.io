@@ -27,6 +27,7 @@ function init() {
         zoom: zoom, //see top of function
         zoomControl: false,
         scaleControl: true,
+        fullscreenControl: false,
         mapTypeControlOptions: {
             mapTypeIds: [
                 'Nat Geo', 'Open Street Map', 'USGS',
@@ -55,6 +56,9 @@ function init() {
 
     //Init the map control that lets you download the data
     initDownloadButton(); //download.js
+
+    // set up offline settings control
+    initOfflineSettings(); //offline.js
 
     // set up info control to open the instructions panel
     const info_control = document.getElementById("info_control");
@@ -135,55 +139,6 @@ function init() {
         });
     });
 
-    /*
-    onChildAdded(ref(database, "points"), (snapshot => {
-        let data = snapshot.val()
-        var geowanted = new google.maps.Data.Point({ lat: data.lat, lng: data.lon });
-        var propswanted = {
-            //data attributes
-            name: data.name,
-            description: data.description,
-            category: data.category,
-            date: data.date,
-            archived: data.archived,
-            comments: data.comments,
-            //styling attributes
-            archived_visible: archived_visible, //see legend.js
-            my_category_visible: true, //see legend.js, set to true even if category not visible, so users have confirmation their new point was created successfully
-            my_date_visible: true, //see dateFilter.js, set to true even if category not visible, so users have confirmation their new point was created successfully
-            //database attributes
-            ref: snapshot.ref, //database reference object
-            key: snapshot.key //data location in database
-        };
-        var new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
-        markers[snapshot.key] = new_feature; //markers is a global variable
-        markerLayer.add(new_feature);
-
-        updateMinDate(data.date); //see dateFilter.js
-    }));
-    // Handle points being modified (archive/unarchive, comments)
-    onChildChanged(ref(database, "points"), (snapshot => {
-        //update archived
-        markers[snapshot.key].setProperty('archived', snapshot.val().archived); //triggers style recompute
-
-        //update comments
-        markers[snapshot.key].setProperty('comments', snapshot.val().comments);
-
-        //if data info window is open for this point, update its displayed information
-        let content_div = document.querySelector("div[data-key = '" + snapshot.key + "']");
-        if (content_div) {
-            setDataInfoWindowContent(content_div, markers[snapshot.key]); //dataInfoWindow.js
-            autoPan(content_div);
-        }
-    }));
-    // Handle points being removed. This will only happen if someone deletes a point from the firebase console.
-    // We're not allowing clients to delete points, only archive them.
-    onChildRemoved(ref(database, "points"), (snapshot => {
-        console.log("Removing: ", snapshot.val());
-        markerLayer.remove(markers[snapshot.key]);
-        delete markers[snapshot.key];
-    }));
-    */
 
     // Color the data layer based on the category of the data, and give each point roll over text
     markerLayer.setStyle(function (feature) {

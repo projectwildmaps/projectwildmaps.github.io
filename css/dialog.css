@@ -7,6 +7,21 @@ dialog {
 dialog::backdrop {
     background-color: rgba(0 0 0 / .5);
 }
+.close_dialog {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-right: 0.3rem;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}
+.modal_title {
+    margin-top: 0;
+    font-weight: bold;
+}
 
 
 /* General instruction dialog layout */
@@ -118,9 +133,6 @@ nicely to the right of the text, or below the text on small screens */
 
 /* Download dialog */
 
-#download_modal p {
-    margin-top: 0;
-}
 #download_modal .radio_row {
     margin-bottom: 12px;
 }
@@ -137,14 +149,27 @@ nicely to the right of the text, or below the text on small screens */
     color: black;
     font-size: 1rem;
 }
-#download_modal #close_download_modal {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin-right: 0.3rem;
-    font-size: 1.5rem;
-    position: absolute;
-    right: 0;
-    top: 0;
+
+
+/* Offline settings dialog */
+
+
+.map_download_row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px;
+}
+
+.map_download_row button {
+    border-radius: 5px;
+    padding: 5px;
     cursor: pointer;
+}
+
+.download_map_button {
+    background-color: var(--accent-color);
+}
+
+.delete_map_button {
+    border: 1px solid var(--accent-color);
 }

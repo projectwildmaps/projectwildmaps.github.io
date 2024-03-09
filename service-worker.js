@@ -6,9 +6,7 @@
 const CACHE_NAME = "pmaps_cache";
 const precache_resources = [
     "/",
-    "/index.html",
-    "/css/main.css",
-    "/css/dialog.css"
+    "/index.html"
 ];
 
 // When the service worker is installing, open the cache and add the precache resources to it
@@ -94,5 +92,36 @@ async function cacheFirst(request) {
 
 
 self.addEventListener("fetch", (event) => {
-    event.respondWith(networkFirst(event.request));
+    event.respondWith(handleFetch(event.request));
+});
+
+
+async function handleFetch(request) {
+    try {
+        const networkResponse = await fetch(request);
+        if (request.method === "GET" && networkResponse.ok && !request.url.includes("natGeo") && !request.url.includes("openstreetmap")) {
+            // add to cache
+            const cache = await caches.open(CACHE_NAME);
+            cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+    } catch (error) {
+        const cachedResponse = await caches.match(request);
+        return cachedResponse || Response.error();
+    }
+}
+
+
+
+self.addEventListener("message", async (event) => {
+    console.log("service worker received message:", event.data);
+
+    if(event.data.type === "save_to_cache" && Array.isArray(event.data.urls)) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.addAll(event.data.urls);
+    }
+    else if(event.data.type === "delete_from_cache") {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.delete(event.data.url);
+    }
 });

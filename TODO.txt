@@ -4,6 +4,7 @@ Priority
 - Figure out geotiff caching / 206 status situation
 - Autopan doesn't work the first time you open the data info window
 - AppCheck for Firestore
+- Clean up Nat Geo map holes / missing bits
 - Get a google maps API key owned by PWILD, not whoever used to own PMAPS
     "Usage costs are tracked by Project and are charged to the linked Cloud Billing account.
     Important: Projects that are not linked to an active Cloud Billing account cannot use
