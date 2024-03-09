@@ -3,7 +3,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation
 // https://developers.google.com/codelabs/pwa-training/pwa03--going-offline#3
 
-const CACHE_NAME = "pmaps_cache";
+const CACHE_NAME = "pmaps_cache"; // match cache name in offline.js
 const precache_resources = [
     "/",
     "/index.html"
@@ -117,28 +117,4 @@ self.addEventListener("message", async (event) => {
     console.log("service worker received message:", event.data);
     // data should have format {msgId: int, message: ___}
     const message = event.data.message;
-
-    if (message.type === "check_if_in_cache" && Array.isArray(message.urls)) {
-        const cache = await caches.open(CACHE_NAME);
-        
-    }
-    if (message.type === "save_to_cache" && Array.isArray(message.urls)) {
-        const cache = await caches.open(CACHE_NAME);
-        await cache.addAll(message.urls);
-        // tell the client we finished
-        if (event.source) {
-            event.source.postMessage({ type: "finished", msgId: event.data.msgId });
-        }
-    }
-    else if (message.type === "delete_from_cache" && Array.isArray(message.urls)) {
-        const cache = await caches.open(CACHE_NAME);
-        for (let url of message.urls) {
-            await cache.delete(url);
-        }
-        // tell the client we finished
-        if (event.source) {
-            event.source.postMessage({ type: "finished", msgId: event.data.msgId });
-        }
-    }
-
 });

@@ -1,3 +1,5 @@
+const CACHE_NAME = "pmaps_cache"; // match cache name in service-worker.js
+
 function initOfflineSettings() {
     // set up map control to open modal
     const offline_settings_control = document.getElementById("offline_settings_control");
@@ -7,7 +9,7 @@ function initOfflineSettings() {
     });
 
     // event listeners for downloading / un-downloading maps
-    document.querySelectorAll(".map_download_row").forEach(div => {
+    document.querySelectorAll(".map_download_row").forEach(async (div) => {
         div.querySelector(".download_map_button").addEventListener("click", () => {
             div.dataset.state = "loading";
             downloadMap(div.dataset.mapName, () => {div.dataset.state = "downloaded"});
@@ -16,6 +18,20 @@ function initOfflineSettings() {
             div.dataset.state = "loading";
             deleteMap(div.dataset.mapName, () => {div.dataset.state = "not_downloaded"});
         });
+
+        // div state starts as loading
+        // check if map was previously downloaded so we can set the state
+        // and thus display the correct button
+        const urls = getMapUrls(div.dataset.mapName);
+        const cache = await caches.open(CACHE_NAME);
+        let everything_downloaded = true; //assume so until find otherwise
+        for(let url of urls){
+            if((await cache.keys(url)).length === 0) {
+                everything_downloaded = false;
+                break;
+            }
+        }
+        div.dataset.state = everything_downloaded ? "downloaded" : "not_downloaded";
     });
 
     // set up service worker - see service-worker.js
@@ -61,7 +77,6 @@ function getNatGeoUrls() {
     return urls;
 }
 
-
 function getUsgsUrls() {
     let urls = [];
     for (let zoom of [12, 13, 14, 15]) {
@@ -71,38 +86,34 @@ function getUsgsUrls() {
     return urls;
 }
 
+function getMapUrls(mapName){
+    let urls = [];
+    if(mapName === "Nat Geo") urls = getNatGeoUrls();
+    if(mapName === "USGS") urls = getUsgsUrls();
+    return urls;
+}
 
 async function downloadMap(mapName, callback=undefined) {
-    if (mapName === "Nat Geo") {
-        const urls_to_download = getNatGeoUrls();
-        sendToServiceWorker({ type: "save_to_cache", urls: urls_to_download }, callback);
+    let urls_to_download = getMapUrls(mapName);
+
+    // download bit by bit to not overwhelm the service worker
+    const cache = await caches.open(CACHE_NAME);
+    const chunk_size = 256;
+    for (let i = 0; i < urls_to_download.length; i += chunk_size) {
+        await cache.addAll(urls_to_download.slice(i, i + chunk_size));
     }
-    if (mapName === "USGS") {
-        const urls_to_download = getUsgsUrls();
-        // download bit by bit to not overwhelm the service worker
-        const chunk_size = 256;
-        for (let i = 0; i < urls_to_download.length; i += chunk_size) {
-            //only send callback if this is the last chunk
-            const callback_to_send = i + chunk_size < urls_to_download.length ? undefined : callback;
-            sendToServiceWorker({
-                type: "save_to_cache",
-                urls: urls_to_download.slice(i, i + chunk_size)
-            }, callback_to_send);
-            await new Promise(resolve => setTimeout(() => { resolve() }, 500))
-        }
-    }
+    if(callback) callback();
 }
 
 
-function deleteMap(mapName, callback=undefined) {
-    let urls_to_delete = [];
-    if (mapName === "Nat Geo") {
-        urls_to_delete = getNatGeoUrls();
+async function deleteMap(mapName, callback=undefined) {
+    let urls_to_delete = getMapUrls(mapName);
+
+    const cache = await caches.open(CACHE_NAME);
+    for(let url of urls_to_delete){
+        await cache.delete(url);
     }
-    if (mapName === "USGS") {
-        urls_to_delete = getUsgsUrls();
-    }
-    sendToServiceWorker({ type: "delete_from_cache", urls: urls_to_delete }, callback);
+    if(callback) callback();
 }
 
 
