@@ -24,6 +24,7 @@ caches.open("pmaps_cache").then(cache => cache.keys()).then(keys => {
 
 const precache_resources = [
     "./",
+    "./app_icon.png",
     "./css/dialog.css",
     "./css/info_window.css",
     "./css/main.css",
@@ -34,10 +35,12 @@ const precache_resources = [
     "./images/compass.png",
     "./images/info_icon.png",
     "./images/input_form.png",
+    "./images/install_icon.png",
     "./images/measuring_example.png",
     "./images/mountain.png",
     "./images/point_info.png",
     "./images/ruler.png",
+    "./images/share.png",
     "./images/wood_sign.png",
     "./index.html",
     "./js/autopan.js",
@@ -63,6 +66,7 @@ const precache_resources = [
     "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2",
     "https://fonts.gstatic.com/s/rocksalt/v22/MwQ0bhv11fWD6QsAVOZrt0M6.woff2",
     "https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true",
+    "https://maps.gstatic.com/mapfiles/arrow-up.png",
     "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js",
     "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"
 ]
