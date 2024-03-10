@@ -141,16 +141,3 @@ async function setUpServiceWorker() {
         }
     }
 }
-
-function sendToServiceWorker(message, callback=undefined) {
-    navigator.serviceWorker.ready.then(registration => {
-        // add identifier to the message so the service worker can tell us when it finished
-        const data = {msgId: serviceWorkerMsgId, message: message};
-        if(callback){
-            // see setUpServiceWorker() for how the callback gets called
-            serviceWorkerCallbacks[serviceWorkerMsgId] = callback;
-        }
-        registration.active.postMessage(data);
-        serviceWorkerMsgId++;
-    });
-}

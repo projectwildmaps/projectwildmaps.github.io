@@ -85,59 +85,59 @@ function init() {
 
     // Add everything in the firebase database to the data layer and markers reference object
     // Use realtime listeners, so stuff updates cleanly to match the database
-    // onSnapshot(query(points_collection), (snapshot) => {
-    //     snapshot.docChanges().forEach((change) => {
+    onSnapshot(query(points_collection), (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
 
-    //         if (change.type === "added") {
-    //             const data = change.doc.data();
-    //             const geowanted = new google.maps.Data.Point({
-    //                 lat: data.location.latitude,
-    //                 lng: data.location.longitude
-    //             });
-    //             const propswanted = {
-    //                 //data attributes
-    //                 name: data.name,
-    //                 description: data.description,
-    //                 category: data.category,
-    //                 timestamp: data.timestamp,
-    //                 archived: data.archived,
-    //                 comments: data.comments,
-    //                 //styling attributes
-    //                 archived_visible: archived_visible, //see legend.js and globals_and_config.js
-    //                 my_category_visible: true, //see legend.js, set to true even if category not visible, so users have confirmation their new point was created successfully
-    //                 my_date_visible: true, //see dateFilter.js, set to true even if category not visible, so users have confirmation their new point was created successfully
-    //                 //database attributes
-    //                 id: change.doc.id, //document id in database
-    //                 ref: change.doc.ref //database reference object
-    //             };
-    //             const new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
-    //             markers[change.doc.id] = new_feature; //markers is a global variable
-    //             markerLayer.add(new_feature);
+            if (change.type === "added") {
+                const data = change.doc.data();
+                const geowanted = new google.maps.Data.Point({
+                    lat: data.location.latitude,
+                    lng: data.location.longitude
+                });
+                const propswanted = {
+                    //data attributes
+                    name: data.name,
+                    description: data.description,
+                    category: data.category,
+                    timestamp: data.timestamp,
+                    archived: data.archived,
+                    comments: data.comments,
+                    //styling attributes
+                    archived_visible: archived_visible, //see legend.js and globals_and_config.js
+                    my_category_visible: true, //see legend.js, set to true even if category not visible, so users have confirmation their new point was created successfully
+                    my_date_visible: true, //see dateFilter.js, set to true even if category not visible, so users have confirmation their new point was created successfully
+                    //database attributes
+                    id: change.doc.id, //document id in database
+                    ref: change.doc.ref //database reference object
+                };
+                const new_feature = new google.maps.Data.Feature({ geometry: geowanted, properties: propswanted });
+                markers[change.doc.id] = new_feature; //markers is a global variable
+                markerLayer.add(new_feature);
 
-    //             updateMinDate(data.timestamp); //see dateFilter.js
-    //         }
+                updateMinDate(data.timestamp); //see dateFilter.js
+            }
 
-    //         if (change.type === "modified") {
-    //             console.log("Modified point: ", change.doc);
-    //             //update archived
-    //             markers[change.doc.id].setProperty('archived', change.doc.data().archived); //triggers style recompute
-    //             //update comments
-    //             markers[change.doc.id].setProperty('comments', change.doc.data().comments);
-    //             //if data info window is open for this point, update its displayed information
-    //             const content_div = document.querySelector("div[data-id = '" + change.doc.id + "']");
-    //             if (content_div) {
-    //                 setDataInfoWindowContent(content_div, markers[change.doc.id]); //dataInfoWindow.js
-    //                 autoPan(content_div);
-    //             }
-    //         }
+            if (change.type === "modified") {
+                console.log("Modified point: ", change.doc);
+                //update archived
+                markers[change.doc.id].setProperty('archived', change.doc.data().archived); //triggers style recompute
+                //update comments
+                markers[change.doc.id].setProperty('comments', change.doc.data().comments);
+                //if data info window is open for this point, update its displayed information
+                const content_div = document.querySelector("div[data-id = '" + change.doc.id + "']");
+                if (content_div) {
+                    setDataInfoWindowContent(content_div, markers[change.doc.id]); //dataInfoWindow.js
+                    autoPan(content_div);
+                }
+            }
 
-    //         if (change.type === "removed") {
-    //             console.log("Removed point: ", change.doc);
-    //             markerLayer.remove(markers[change.doc.id]);
-    //             delete markers[change.doc.id];
-    //         }
-    //     });
-    // });
+            if (change.type === "removed") {
+                console.log("Removed point: ", change.doc);
+                markerLayer.remove(markers[change.doc.id]);
+                delete markers[change.doc.id];
+            }
+        });
+    });
 
 
     // Color the data layer based on the category of the data, and give each point roll over text

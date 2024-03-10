@@ -3,11 +3,69 @@
 // https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation
 // https://developers.google.com/codelabs/pwa-training/pwa03--going-offline#3
 
+
 const CACHE_NAME = "pmaps_cache"; // match cache name in offline.js
+
+// precache resources - put in cache without user needing to refresh to use the service worker to do that
+// better user experience to be able to use offline mode without requiring a refresh
+
+/*
+if you reload after downloading the service worker and use the app enough so that all the resources get cached,
+you can use something like the below script run in the browser's console to update this list of precache resources
+
+caches.open("pmaps_cache").then(cache => cache.keys()).then(keys => {
+    keys = keys.map(req => req.url)
+    keys = keys.map(k => k.replace(/http:\/\/localhost:\d+/, "."))
+    keys = keys.filter(k => !k.includes("firestore.googleapis.com"))
+    keys.sort()
+    console.log(JSON.stringify(keys, null, 4))
+})
+*/
+
 const precache_resources = [
-    "/",
-    "/index.html"
-];
+    "./",
+    "./css/dialog.css",
+    "./css/info_window.css",
+    "./css/main.css",
+    "./css/map_controls.css",
+    "./css/measure_ui.css",
+    "./favicon.ico",
+    "./images/backpacker.png",
+    "./images/compass.png",
+    "./images/info_icon.png",
+    "./images/input_form.png",
+    "./images/measuring_example.png",
+    "./images/mountain.png",
+    "./images/point_info.png",
+    "./images/ruler.png",
+    "./images/wood_sign.png",
+    "./index.html",
+    "./js/autopan.js",
+    "./js/dataInfoWindow.js",
+    "./js/dateFilter.js",
+    "./js/download.js",
+    "./js/getIcon.js",
+    "./js/globals_and_config.js",
+    "./js/init.js",
+    "./js/legend.js",
+    "./js/locationChange.js",
+    "./js/map_definitions.js",
+    "./js/measure.js",
+    "./js/newPoint.js",
+    "./js/offline.js",
+    "./js/trails.js",
+    "./manifest.json",
+    "./none.png",
+    "https://fonts.gstatic.com/s/opensans/v40/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0B4gaVI.woff2",
+    "https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff2",
+    "https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmSU5fBBc4.woff2",
+    "https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmWUlfBBc4.woff2",
+    "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2",
+    "https://fonts.gstatic.com/s/rocksalt/v22/MwQ0bhv11fWD6QsAVOZrt0M6.woff2",
+    "https://maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true",
+    "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js",
+    "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"
+]
 
 // When the service worker is installing, open the cache and add the precache resources to it
 self.addEventListener("install", (event) => {
@@ -22,99 +80,23 @@ self.addEventListener("activate", (event) => {
 });
 
 
-// adopted from https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching
-async function networkFirst(request) {
-    try {
-        const networkResponse = await fetch(request);
-        if (request.method === "GET" && networkResponse.ok) {
-            const cache = await caches.open(CACHE_NAME);
-            cache.put(request, networkResponse.clone());
-        }
-        return networkResponse;
-    } catch (error) {
-        const cachedResponse = await caches.match(request);
-        return cachedResponse || Response.error();
-    }
-}
-
-
-async function cacheFirst(request) {
-    // First try to get the resource from the cache.
-    const response_from_cache = await caches.match(request);
-    if (response_from_cache) {
-        return response_from_cache;
-    }
-
-    // If the response was not found in the cache,
-    // try to get the resource from the network.
-    try {
-        const response_from_network = await fetch(request);
-
-        // If the network request succeeded, clone the response:
-        // - put one copy in the cache, for the next time
-        // - return the original to the app
-        // Cloning is needed because a response can only be consumed once.
-        // Only do this for http / https, because schemes like chrome-extension:// causes errors
-
-        // if (request.url.startsWith("http://") || request.url.startsWith("https://")) {
-        //     const response_clone = response_from_network.clone();
-        //     caches.open(CACHE_NAME).then((cache) => {
-        //         cache.put(request, response_clone)
-        //             .catch((error) => {
-        //                 console.log("Error adding to cache:", request, response_clone);
-        //                 throw error;
-        //             });
-        //     });
-        // }
-
-        return response_from_network;
-
-    } catch (error) {
-        console.log("Cache and network requests failed", request);
-
-        // If the network request failed,
-        // get the fallback response from the cache.
-
-        // const fallbackResponse = await caches.match(fallbackUrl);
-        // if (fallbackResponse) {
-        //     return fallbackResponse;
-        // }
-
-        // When even the fallback response is not available,
-        // there is nothing we can do, but we must always
-        // return a Response object.
-        return new Response("Network error happened", {
-            status: 408,
-            headers: { "Content-Type": "text/plain" },
-        });
-    }
-};
-
-
 self.addEventListener("fetch", (event) => {
-    event.respondWith(handleFetch(event.request));
+    event.respondWith(cacheFirstWithRefresh(event.request));
 });
 
-
-async function handleFetch(request) {
-    try {
-        const networkResponse = await fetch(request);
+// from: https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Caching
+async function cacheFirstWithRefresh(request) {
+    // fetch from network, but don't wait for it to finish
+    const fetchResponsePromise = fetch(request).then(async (networkResponse) => {
         if (request.method === "GET" && networkResponse.ok && !request.url.includes("natGeo") && !request.url.includes("openstreetmap")) {
-            // add to cache
             const cache = await caches.open(CACHE_NAME);
             cache.put(request, networkResponse.clone());
         }
         return networkResponse;
-    } catch (error) {
-        const cachedResponse = await caches.match(request);
-        return cachedResponse || Response.error();
-    }
+    }).catch(() => {
+        return Response.error()
+    });
+
+    // return network answer if cache miss
+    return (await caches.match(request)) || (await fetchResponsePromise);
 }
-
-
-
-self.addEventListener("message", async (event) => {
-    console.log("service worker received message:", event.data);
-    // data should have format {msgId: int, message: ___}
-    const message = event.data.message;
-});

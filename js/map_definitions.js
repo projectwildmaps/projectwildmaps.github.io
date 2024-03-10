@@ -1,10 +1,9 @@
 const mapBoundsUSGSTiff = new google.maps.LatLngBounds(
     new google.maps.LatLng(35.10503944154214, -83.01039847222899),
     new google.maps.LatLng(35.50779134029307, -82.61437567559813));
-    const mapBoundsNatGeo = new google.maps.LatLngBounds(
+const mapBoundsNatGeo = new google.maps.LatLngBounds(
     new google.maps.LatLng(35, -84),
     new google.maps.LatLng(35.81772435462227, -81.97995814172361));
-
 
 const usgsTiff = new google.maps.ImageMapType({
     minZoom: 12,  // technically can do 11 but can't see anything
