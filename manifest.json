@@ -4,8 +4,8 @@
     "display": "fullscreen",
     "icons": [
         {
-            "src": "images/compass.png",
-            "sizes": "410x410"
+            "src": "app_icon.png",
+            "sizes": "200x200"
         }
     ],
     "background_color": "#f6f6ee",
