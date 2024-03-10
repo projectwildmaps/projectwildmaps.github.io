@@ -88,7 +88,8 @@ self.addEventListener("fetch", (event) => {
 async function cacheFirstWithRefresh(request) {
     // fetch from network, but don't wait for it to finish
     const fetchResponsePromise = fetch(request).then(async (networkResponse) => {
-        if (request.method === "GET" && networkResponse.ok && !request.url.includes("natGeo") && !request.url.includes("openstreetmap")) {
+        // if successful GET, and not a map (to avoid storing too much if the user doesn't want to), put in cache
+        if (request.method === "GET" && networkResponse.ok && !/natGeo|usgsTiff|openstreetmap/.test(request.url)) {
             const cache = await caches.open(CACHE_NAME);
             cache.put(request, networkResponse.clone());
         }
