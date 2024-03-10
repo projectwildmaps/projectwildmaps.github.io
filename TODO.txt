@@ -1,4 +1,10 @@
 Priority
+- Firebase rules / validation (requires comments to be a subcollection)
+- Figure out map caching
+- Figure out geotiff caching / 206 status situation
+- Autopan doesn't work the first time you open the data info window
+- AppCheck for Firestore
+- Clean up Nat Geo map holes / missing bits
 - Get a google maps API key owned by PWILD, not whoever used to own PMAPS
     "Usage costs are tracked by Project and are charged to the linked Cloud Billing account.
     Important: Projects that are not linked to an active Cloud Billing account cannot use
@@ -7,7 +13,6 @@ Priority
     https://cloud.google.com/billing/docs/how-to/manage-billing-account?_ga=2.99013150.-1698826392.1668412686
     - VISA gift card??
 - Write documentation for future users
-- Set up PMAPS email to forward to the PWILD duke email, document this
 
 Non-priority
 - Trails display
@@ -16,6 +21,7 @@ Non-priority
 - Automatic backups sent to Git?? Non-priority stretch goal. If do this, make sure it doesn't spam the email
 
 Done
+- Set up PMAPS email to forward to the PWILD duke email, document this
 - Deal with the email spam from security rule allowing full read access
 - Show category in infowindow
 - Legend for point colors (or different symbols)

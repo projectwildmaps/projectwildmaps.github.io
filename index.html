@@ -2,10 +2,12 @@
 <html>
 
 <head>
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<title>PMAPS: PWILD Marking/Annotating Pisgah Systematically</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Rock+Salt">
+	<link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
+	<!-- for progressive web app functionality -->
 
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/info_window.css">
@@ -58,6 +60,10 @@
 		<button id="download_control" class="custom_map_control no-style">
 			Download<br>
 			Data
+		</button>
+		<button id="offline_settings_control" class="custom_map_control no-style">
+			Offline<br>
+			Settings
 		</button>
 		<button id="measure_control" class="custom_map_control no-style">
 			<img src="images/ruler.png" alt="ruler">
@@ -175,8 +181,9 @@
 	<!-- dialogs -->
 
 	<dialog id="download_modal">
-		<button id="close_download_modal" onclick="document.querySelector('#download_modal').close()">&#10006;</button>
-		<p><b>Choose Download Option:</b></p>
+		<button id="close_download_modal" class="close_dialog"
+			onclick="document.querySelector('#download_modal').close()">&#10006;</button>
+		<p class="modal_title"><b>Choose Download Option:</b></p>
 		<div class="radio_row">
 			<input type="radio" name="download_option" id="all" value="All" checked autofocus>
 			<label for="all">All Data</label>
@@ -192,6 +199,30 @@
 		<button id="start_download">Download</button>
 	</dialog>
 
+	<dialog id="offline_settings">
+		<button id="close_offline_settings" class="close_dialog"
+			onclick="document.querySelector('#offline_settings').close()">&#10006;</button>
+		<p class="modal_title">Offline Settings</p>
+		<p>Download Offline Maps of Pisgah</p>
+
+		<div data-map-name="Nat Geo" data-state="loading" class="map_download_row">
+			<div class="center_content">
+				<div class="loader" aria-label="loader"></div>
+				<button class="download_map_button no-style">DOWNLOAD</button>
+				<button class="delete_map_button no-style">REMOVE</button>
+			</div>
+			<p>Nat Geo Map (22.8 MB)</p>
+		</div>
+		<div data-map-name="USGS" data-state="loading" class="map_download_row">
+			<div class="center_content">
+				<div class="loader" aria-label="loader"></div>
+				<button class="download_map_button no-style">DOWNLOAD</button>
+				<button class="delete_map_button no-style">REMOVE</button>
+			</div>
+			<p>USGS Map (38.4 MB)</p>
+		</div>
+	</dialog>
+
 	<dialog id="instructions">
 		<div id="instructions_vertical_layout">
 			<div id="instruction_scroll_content">
@@ -200,7 +231,7 @@
 					<div>
 						<img src="images/backpacker.png" alt="">
 						<img src="images/mountain.png" alt="">
-						<img src="images/compass3.png" alt="">
+						<img src="images/compass.png" alt="">
 					</div>
 				</div>
 
@@ -256,8 +287,10 @@
 				</p>
 				<div class="text-img-flex highlight">
 					<p>
-						<b>Note: </b>The Open Street Map (OSM) layer has more accurate/detailed trail intersections than the Nat Geo.
-						It is a good idea to look at this for confusing intersections (and perhaps take a screenshot for reference when hiking).
+						<b>Note: </b>The Open Street Map (OSM) layer has more accurate/detailed trail intersections than
+						the Nat Geo.
+						It is a good idea to look at this for confusing intersections (and perhaps take a screenshot for
+						reference when hiking).
 						The OSM layer also has many campsites and waterfalls marked.
 					</p>
 				</div>
@@ -268,11 +301,16 @@
 
 				<div class="text-img-flex">
 					<p>
-						<b>Measuring Routes - </b>Click on the ruler icon at the bottom right of the map to start measuring.
-						Click once to choose a route's starting location, and then click multiple more times to specify the
-						route. An info box will appear with the route's length (see Figure 3). If the route is in Pisgah,
-						the elevation profile will also be shown, along with cumulative elevation gain and loss. Hovering
-						over the elevation profile will indicate the corresponding location on the route with a black circle.
+						<b>Measuring Routes - </b>Click on the ruler icon at the bottom right of the map to start
+						measuring.
+						Click once to choose a route's starting location, and then click multiple more times to specify
+						the
+						route. An info box will appear with the route's length (see Figure 3). If the route is in
+						Pisgah,
+						the elevation profile will also be shown, along with cumulative elevation gain and loss.
+						Hovering
+						over the elevation profile will indicate the corresponding location on the route with a black
+						circle.
 					</p>
 
 					<div>
@@ -319,21 +357,29 @@
 	<script src="js/dateFilter.js"></script>
 	<script src="js/download.js"></script>
 	<script src="js/measure.js"></script>
+	<script src="js/offline.js"></script>
 
 	<script src="js/trails.js"></script>
 
 	<!--Firebase is module-based, so need a module script tag (in the HTML file). Note that js treats
 		module scripts as their own scope, so nothing declared in here is in the global scope.-->
 	<script type="module">
-		//SET UP FIREBASE DATABASE ---------------------------------------------------
+		import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js'
+		import {
+			initializeFirestore,
+			persistentLocalCache,
+			collection,
+			onSnapshot,
+			doc,
+			addDoc,
+			setDoc,
+			getDocs,
+			query,
+			where,
+			Timestamp,
+			GeoPoint
+		} from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js'
 
-		// Import the functions you need from the SDKs you need
-		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
-		import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app-check.js"
-		import { getDatabase, ref, child, onChildAdded, onChildChanged, onChildRemoved, update, push, get } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
-
-		// Your web app's Firebase configuration
-		// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 		const firebaseConfig = {
 			apiKey: "AIzaSyBB0sKq5KVASNFDmL9mxk2ZNXIcAevAwy8",
 			authDomain: "pmaps-9b073.firebaseapp.com",
@@ -346,7 +392,12 @@
 
 		// Initialize Firebase
 		const app = initializeApp(firebaseConfig);
-		const database = getDatabase(app);
+
+		// Initialize Cloud Firestore (with local cache to allow offline access)
+		const database = initializeFirestore(app, { localCache: persistentLocalCache(/*settings*/{}) });
+		const points_collection = collection(database, "points");
+
+		// Old app check setup for realtime database, not sure if works for firestore
 		/*const appCheck = initializeAppCheck(app, {
 				provider: new ReCaptchaV3Provider('6Lc-dTUjAAAAAOQFOlQaN6w81vK1Eso4oflV1sZk'),
 			isTokenAutoRefreshEnabled: true
@@ -354,16 +405,46 @@
 
 		// Exposing certain functions and variables to the global scope that I want to use outside this script tag,
 		// since module script tags don't operate in the global scope
-		window.ref = ref;
-		window.child = child;
-		window.onChildAdded = onChildAdded;
-		window.onChildChanged = onChildChanged;
-		window.onChildRemoved = onChildRemoved;
-		window.update = update;
-		window.push = push;
-		window.get = get;
-
 		window.database = database;
+		window.query = query;
+		window.where = where;
+		window.onSnapshot = onSnapshot;
+		window.doc = doc;
+		window.addDoc = addDoc;
+		window.setDoc = setDoc;
+		window.getDocs = getDocs;
+		window.Timestamp = Timestamp;
+		window.GeoPoint = GeoPoint;
+		window.points_collection = points_collection;
+
+		// add points from old database
+		// import pmaps_data from "./PMAPS Data Backup 3-8-2024.json" assert { type: 'json' };
+		// for (let key_name in pmaps_data["points"]) {
+
+		// 	let point_data = pmaps_data["points"][key_name];
+
+		// 	point_data.timestamp = Timestamp.fromDate(new Date(point_data.date));
+		// 	delete point_data["date"];
+		// 	point_data.location = new GeoPoint(point_data.lat, point_data.lon);
+		// 	delete point_data["lat"];
+		// 	delete point_data["lon"];
+
+		// 	const comments_list = [];
+		// 	if("comments" in point_data){
+		// 		for(let comment_id in point_data["comments"]){
+		// 			const comment = point_data["comments"][comment_id];
+		// 			comment.timestamp = Timestamp.fromDate(new Date(comment.date));
+		// 			delete comment["date"];
+		// 			comments_list.push(comment);
+		// 		}
+		// 	}
+		// 	point_data.comments = comments_list;
+
+		// 	console.log(point_data)
+
+		// 	const docRef = await addDoc(collection(database, "points"), point_data);
+		// 	console.log("Document written with ID: ", docRef.id);
+		// }
 	</script>
 
 	<script src="js/init.js"></script>

@@ -1,5 +1,5 @@
 function initDateFilter(){
-    var date_filter = document.getElementById("date_filter");
+    const date_filter = document.getElementById("date_filter");
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(date_filter);
 
     //toggle visibility of the filter when user clicks on the header
@@ -10,21 +10,21 @@ function initDateFilter(){
         if(open) date_filter.setAttribute("open", "");
         else date_filter.removeAttribute("open");
 
-        //update arrow image
+        //update arrow image, borrow a google icon
         date_filter.querySelector(".arrow").src = "https://maps.gstatic.com/mapfiles/arrow-" + (open ? "up" : "down") + ".png";
 
         //trigger map control layout recalculation by adding and removing a div
         //layout recalculation doesn't happen by default, which is annoying
-        let updater = document.createElement("div");
+        const updater = document.createElement("div");
         map.controls[google.maps.ControlPosition.RIGHT_TOP].push(updater);
         updater.parentElement.removeChild(updater);
     });
 
-    let start_date = date_filter.querySelector("#start_date");
-    let end_date = date_filter.querySelector("#end_date");
+    const start_date = date_filter.querySelector("#start_date");
+    const end_date = date_filter.querySelector("#end_date");
 
     //set max date to today
-    let today = US_date_to_yyyy_mm_dd(new Date().toLocaleDateString("en-us"));
+    const today = new Date().toISOString().substring(0, 10);
     start_date.max = today;
     end_date.max = today;
 
@@ -46,36 +46,30 @@ function initDateFilter(){
 
 function filterByDate(){
     //get start and end dates from the date filter control
-    let start = document.querySelector("#start_date").value; // yyyy-mm-dd
-    let end = document.querySelector("#end_date").value;
+    const start = document.querySelector("#start_date").value; // yyyy-mm-dd
+    const end = document.querySelector("#end_date").value;
 
     markerLayer.forEach(marker => {
         //get yyyy-mm-dd representation so we can compare with start and end
-        let date = US_date_to_yyyy_mm_dd(marker.getProperty("date"));
+        const yyyy_mm_dd = marker.getProperty("timestamp").toDate().toISOString().substring(0, 10);
 
-        let after_start = start.length == 0 || date >= start; //if no start date specified, length is 0, always consider true
-        let before_end = end.length == 0 || date <= end;
+        //compare date - if no bound set for start or end, length will be zero
+        const after_start = start.length == 0 || yyyy_mm_dd >= start;
+        const before_end = end.length == 0 || yyyy_mm_dd <= end;
         marker.setProperty("my_date_visible", after_start && before_end);
     });
 }
 
-function US_date_to_yyyy_mm_dd(input){
-    let date_components = input.split("/"); //month, day, year
-    let month = date_components[0].padStart(2, "0");
-    let day = date_components[1].padStart(2, "0");
-    let year = date_components[2];
-    return year + "-" + month + "-" + day;
-}
-
 
 let min_date;
-function updateMinDate(date_string){
-    //This function gets called by onChildAdded (see init.js) whenever a new data point is added
+function updateMinDate(timestamp){
+    //This function gets called when points are added (see init.js)
     //It sets the min date for the date filter inputs to the earliest date in the database
     //This helps with the user experience of using the date inputs
-    let formatted = US_date_to_yyyy_mm_dd(date_string);
-    if(!min_date || formatted < min_date){
-        min_date = formatted;
+    const date = timestamp.toDate(); //firestore Timestamp object
+    const yyyy_mm_dd = date.toISOString().substring(0, 10);
+    if(!min_date || yyyy_mm_dd < min_date){
+        min_date = yyyy_mm_dd;
         document.querySelector("#start_date").min = min_date;
         document.querySelector("#end_date").min = min_date;
     }
