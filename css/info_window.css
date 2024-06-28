@@ -7,6 +7,15 @@
     border-radius: 4px;
 }
 
+.info_window_content .archived {
+    background-color: yellow;
+    font-style: italic;
+}
+
+.info_window_content .description {
+    margin-top: 0;
+}
+
 .action { /* meant for info windows */
     color: gray;
     margin: 0;

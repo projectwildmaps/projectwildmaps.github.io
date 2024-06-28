@@ -85,6 +85,11 @@ function openDataInfoWindow(feature) {
         }
     });
 
+
+    const header = document.createElement("h3");
+    header.textContent = feature.getProperty("category");
+    header.style.margin = 0;
+    dataInfoWindow.setHeaderContent(header);
     setDataInfoWindowContent(content, feature); //see below in this file
     dataInfoWindow.setContent(content); //overwrites old content div
     dataInfoWindow.setPosition(feature.getGeometry().get());
@@ -107,8 +112,7 @@ function setDataInfoWindowContent(div, feature) {
 
     const archived = feature.getProperty("archived");
 
-    div.querySelector(".archived").innerText = archived ? "[ARCHIVED]\n" : "";
-    div.querySelector(".category").innerText = feature.getProperty("category");
+    div.querySelector(".archived").innerText = archived ? "ARCHIVED\n\n" : "";
     div.querySelector(".description").innerText = feature.getProperty("description");
     div.querySelector(".name").innerText = feature.getProperty("name");
     div.querySelector(".date").innerText = feature.getProperty("timestamp").toDate().toLocaleDateString();
