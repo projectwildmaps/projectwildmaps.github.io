@@ -28,6 +28,7 @@ function init() {
         zoomControl: false,
         scaleControl: true,
         fullscreenControl: false,
+        tilt: 0,
         mapTypeControlOptions: {
             mapTypeIds: [
                 'Nat Geo', 'Open Street Map', 'USGS',
