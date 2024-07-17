@@ -11,7 +11,10 @@ function animateUsersMarker() {
 
 function initInputInfoWindow() {
     // initialize inputInfoWindow global var
-    inputInfoWindow = new google.maps.InfoWindow({ disableAutoPan: true });
+    const header = document.createElement("h3");
+    header.textContent = "Add New Point";
+    header.style.margin = 0;
+    inputInfoWindow = new google.maps.InfoWindow({ headerContent: header, disableAutoPan: true });
 
     // Fill category options and make an info window for showing the data input form.
     var category_datalist = document.getElementById("category_names");
